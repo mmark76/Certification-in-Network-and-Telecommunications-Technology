@@ -7,6 +7,9 @@
   <meta name="theme-color" content="#0b5fff">
   <title>Network & Telecommunications Technician | Προετοιμασία Πιστοποίησης</title>
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/fixed-layout.css">
+  <link rel="stylesheet" href="assets/interface-overrides.css">
+  <script src="assets/curriculum-data.js" defer></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body>
@@ -29,8 +32,19 @@
         <a href="practice-binary.html">Εξάσκηση</a>
         <a href="https://github.com/mmark76/Certification-in-Network-and-Telecommunications-Technology">GitHub</a>
       </nav>
+      <div class="header-controls">
+        <span class="header-action language-indicator" aria-label="Γλώσσα: Ελληνικά">EL</span>
+        <button class="header-action settings-button" type="button" aria-haspopup="dialog" aria-controls="settings-dialog">Ρυθμίσεις</button>
+      </div>
     </div>
   </header>
+
+  <aside class="pilot-notice" aria-label="Κατάσταση Pilot / Early Access">
+    <div class="container">
+      <strong>Pilot / Early Access · διαθέσιμη ύλη: 1 από 16 ενότητες.</strong>
+      <p>Η επίσημη αντιστοίχιση βρίσκεται σε εξέλιξη. Το έργο είναι ανεξάρτητο εκπαιδευτικό βοήθημα, δεν αποτελεί επίσημο υλικό του ΕΟΠΠΕΠ και δεν πρέπει ακόμη να χρησιμοποιείται ως μοναδικό βοήθημα πιστοποίησης.</p>
+    </div>
+  </aside>
 
   <main id="main">
     <section class="hero">
@@ -55,7 +69,7 @@
             <span>Η διαδρομή σου</span>
             <strong id="home-progress-label">0%</strong>
           </div>
-          <div class="progress" aria-hidden="true"><span id="home-progress-bar"></span></div>
+          <div class="progress" role="progressbar" aria-label="Συνολική πρόοδος" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="home-progress-bar"></span></div>
           <ol class="learning-cycle">
             <li><span>1</span><div><strong>Κατανόηση</strong><small>Σύντομη και ακριβής θεωρία</small></div></li>
             <li><span>2</span><div><strong>Ανάκληση</strong><small>Ερωτήσεις χωρίς βοήθεια</small></div></li>
@@ -151,7 +165,7 @@
       <div class="container cta-card">
         <div>
           <p class="eyebrow">Έτοιμος για εκκίνηση;</p>
-          <h2>Κάνε σήμερα την πρώτη ολοκληρωμένη ενότητα.</h2>
+          <h2>Δοκίμασε σήμερα την πρώτη πιλοτική ενότητα.</h2>
         </div>
         <a class="button light" href="lesson-digital-logic.html">Έναρξη μαθήματος</a>
       </div>
@@ -159,10 +173,39 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div><strong>Network & Telecommunications Technician</strong><p>Ανεξάρτητο εκπαιδευτικό εργαλείο. Δεν αποτελεί επίσημο υλικό του ΕΟΠΠΕΠ.</p></div>
-      <div><a href="curriculum.html">Ύλη</a><a href="lesson-digital-logic.html">Μαθήματα</a><a href="practice-binary.html">Εξάσκηση</a></div>
+    <div class="container footer-layout">
+      <p class="footer-disclaimer"><strong>Pilot:</strong> ανεξάρτητο εκπαιδευτικό βοήθημα· δεν αποτελεί επίσημο υλικό του ΕΟΠΠΕΠ ούτε μοναδικό βοήθημα πιστοποίησης.</p>
+      <nav class="footer-links" aria-label="Πηγές και repository">
+        <a href="https://github.com/mmark76/Certification-in-Network-and-Telecommunications-Technology">GitHub repository</a>
+        <a href="https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf" target="_blank" rel="noopener noreferrer">Βοήθημα προετοιμασίας ΔΕΛΤΑ 360 (PDF)</a>
+      </nav>
+      <span class="footer-status" aria-label="Κατάσταση έκδοσης: Pilot">Pilot</span>
     </div>
   </footer>
+
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title" aria-describedby="settings-intro">
+    <header class="settings-dialog__header">
+      <div>
+        <h2 id="settings-title">Ρυθμίσεις εμφάνισης</h2>
+        <p id="settings-intro">Προσάρμοσε την ανάγνωση και τη διάταξη του εκπαιδευτικού εργαλείου.</p>
+      </div>
+      <button class="settings-close" type="button" data-dialog-close aria-label="Κλείσιμο ρυθμίσεων">×</button>
+    </header>
+    <form class="settings-form" method="dialog">
+      <div class="settings-fields">
+        <label class="settings-row" for="setting-theme"><span class="settings-row__label"><strong>Θέμα</strong><small>Αυτόματο, φωτεινό ή σκοτεινό.</small></span><select id="setting-theme" name="theme" data-setting="theme"><option value="system">Σύστημα</option><option value="light">Φωτεινό</option><option value="dark">Σκοτεινό</option></select></label>
+        <label class="settings-row" for="setting-accent"><span class="settings-row__label"><strong>Χρώμα έμφασης</strong><small>Κύρια χρωματική ταυτότητα.</small></span><select id="setting-accent" name="accent" data-setting="accent"><option value="steel">Steel</option><option value="teal">Teal</option><option value="blue">Blue</option><option value="indigo">Indigo</option><option value="green">Green</option></select></label>
+        <label class="settings-row" for="setting-font"><span class="settings-row__label"><strong>Γραμματοσειρά</strong><small>Τύπος γραμματοσειράς ανάγνωσης.</small></span><select id="setting-font" name="font" data-setting="font"><option value="sans">Sans serif</option><option value="serif">Serif</option><option value="system">System UI</option><option value="mono">Monospace</option></select></label>
+        <label class="settings-row" for="setting-text-size"><span class="settings-row__label"><strong>Μέγεθος κειμένου</strong><small>Γενική κλίμακα γραμματοσειράς.</small></span><select id="setting-text-size" name="textSize" data-setting="textSize"><option value="small">Μικρό</option><option value="default">Κανονικό</option><option value="large">Μεγάλο</option><option value="xlarge">Πολύ μεγάλο</option></select></label>
+        <label class="settings-row" for="setting-content-width"><span class="settings-row__label"><strong>Πλάτος περιεχομένου</strong><small>Στενό για ανάγνωση ή ευρύ για πίνακες.</small></span><select id="setting-content-width" name="contentWidth" data-setting="contentWidth"><option value="narrow">Στενό</option><option value="standard">Κανονικό</option><option value="wide">Ευρύ</option></select></label>
+        <label class="settings-row" for="setting-spacing"><span class="settings-row__label"><strong>Πυκνότητα διάταξης</strong><small>Από συμπαγή έως πιο άνετη.</small></span><select id="setting-spacing" name="spacing" data-setting="spacing"><option value="compact">Συμπαγής</option><option value="comfortable">Άνετη</option><option value="spacious">Ευρύχωρη</option></select></label>
+        <label class="settings-row" for="setting-contrast"><span class="settings-row__label"><strong>Αντίθεση</strong><small>Ενισχυμένη αντίθεση για καλύτερη ανάγνωση.</small></span><select id="setting-contrast" name="contrast" data-setting="contrast"><option value="standard">Κανονική</option><option value="high">Υψηλή</option></select></label>
+        <label class="settings-row" for="setting-motion"><span class="settings-row__label"><strong>Κίνηση</strong><small>Περιορισμός animations και ομαλής κύλισης.</small></span><select id="setting-motion" name="motion" data-setting="motion"><option value="standard">Κανονική</option><option value="reduced">Μειωμένη</option></select></label>
+        <label class="settings-row" for="setting-sidebar"><span class="settings-row__label"><strong>Πλευρική πλοήγηση</strong><small>Έλεγχος εμφάνισης στα μαθήματα.</small></span><select id="setting-sidebar" name="sidebar" data-setting="sidebar"><option value="auto">Αυτόματα</option><option value="show">Πάντα ορατή</option><option value="hide">Κρυφή</option></select></label>
+      </div>
+      <div class="settings-data-actions"><button class="settings-clear-progress" type="button" data-clear-progress>Διαγραφή αποθηκευμένης προόδου</button></div>
+      <div class="settings-actions"><button class="settings-reset" type="button" data-settings-reset>Επαναφορά</button><button class="settings-save" type="submit">Αποθήκευση</button></div>
+    </form>
+  </dialog>
 </body>
 </html>

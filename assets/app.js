@@ -1,10 +1,10 @@
 (() => {
   'use strict';
 
-  const STORAGE_KEY = 'nt-certification-progress-v1';
+  const PROGRESS_STORAGE_KEY = 'nt-certification-progress-v2';
+  const LEGACY_PROGRESS_STORAGE_KEY = 'nt-certification-progress-v1';
   const SETTINGS_KEY = 'nt-certification-interface-v2';
-  const SITE_VERSION = 'v 0.1.0_20260725_1915_75748d6';
-  const DELTA_360_PDF = 'https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf';
+  const PASSING_QUIZ_SCORE = 80;
 
   const DEFAULT_SETTINGS = {
     theme: 'system',
@@ -18,26 +18,97 @@
     sidebar: 'auto'
   };
 
-  const safeRead = (key, fallback) => {
+  const SETTING_VALUES = {
+    theme: new Set(['system', 'light', 'dark']),
+    accent: new Set(['steel', 'teal', 'blue', 'indigo', 'green']),
+    font: new Set(['sans', 'serif', 'system', 'mono']),
+    textSize: new Set(['small', 'default', 'large', 'xlarge']),
+    contentWidth: new Set(['narrow', 'standard', 'wide']),
+    spacing: new Set(['compact', 'comfortable', 'spacious']),
+    contrast: new Set(['standard', 'high']),
+    motion: new Set(['standard', 'reduced']),
+    sidebar: new Set(['auto', 'show', 'hide'])
+  };
+
+  const PROGRESS_FIELDS = new Set([
+    'lessonCompleted',
+    'labCompleted',
+    'reviewCompleted'
+  ]);
+
+  const isRecord = (value) => (
+    value !== null
+    && typeof value === 'object'
+    && !Array.isArray(value)
+  );
+
+  const safeReadStorage = (key) => {
     try {
-      return JSON.parse(localStorage.getItem(key)) || fallback;
+      const stored = localStorage.getItem(key);
+      if (stored === null) return { found: false, value: null };
+      return { found: true, value: JSON.parse(stored) };
     } catch {
-      return fallback;
+      return { found: true, value: null };
     }
   };
 
-  const safeWrite = (key, value) => {
+  const safeWriteStorage = (key, value) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      return true;
     } catch {
-      // The website remains usable when local storage is unavailable.
+      return false;
     }
   };
 
-  const readSettings = () => ({
-    ...DEFAULT_SETTINGS,
-    ...safeRead(SETTINGS_KEY, DEFAULT_SETTINGS)
-  });
+  const safeRemoveStorage = (key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // The site remains usable when storage is unavailable.
+    }
+  };
+
+  const readCurriculum = () => {
+    const source = window.NTT_CURRICULUM;
+    if (!isRecord(source) || !Array.isArray(source.modules)) {
+      return { version: 0, modules: [] };
+    }
+
+    const seen = new Set();
+    const modules = source.modules.filter((module) => {
+      if (
+        !isRecord(module)
+        || typeof module.id !== 'string'
+        || !/^MOD-\d{2}$/.test(module.id)
+        || seen.has(module.id)
+        || typeof module.available !== 'boolean'
+      ) {
+        return false;
+      }
+      seen.add(module.id);
+      return true;
+    });
+
+    return {
+      version: Number.isInteger(source.version) ? source.version : 0,
+      modules
+    };
+  };
+
+  const curriculum = readCurriculum();
+
+  const readSettings = () => {
+    const stored = safeReadStorage(SETTINGS_KEY).value;
+    if (!isRecord(stored)) return { ...DEFAULT_SETTINGS };
+
+    return Object.fromEntries(
+      Object.entries(DEFAULT_SETTINGS).map(([key, fallback]) => [
+        key,
+        SETTING_VALUES[key].has(stored[key]) ? stored[key] : fallback
+      ])
+    );
+  };
 
   const applySettings = (settings) => {
     const root = document.documentElement;
@@ -52,381 +123,234 @@
     root.dataset.nttSidebar = settings.sidebar;
   };
 
-  const createOption = (value, label) => {
-    const option = document.createElement('option');
-    option.value = value;
-    option.textContent = label;
-    return option;
+  const createEmptyModuleProgress = () => ({
+    lessonCompleted: false,
+    quizScore: 0,
+    labCompleted: false,
+    reviewCompleted: false
+  });
+
+  const createDefaultProgress = () => ({
+    version: 2,
+    modules: Object.fromEntries(
+      curriculum.modules.map((module) => [module.id, createEmptyModuleProgress()])
+    )
+  });
+
+  const normalizeScore = (value) => {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return 0;
+    return Math.min(100, Math.max(0, Math.round(value)));
   };
 
-  const createSettingRow = ({ id, label, description, value, options }) => {
-    const row = document.createElement('label');
-    row.className = 'settings-row';
-    row.htmlFor = id;
+  const normalizeModuleProgress = (value) => {
+    const state = isRecord(value) ? value : {};
+    return {
+      lessonCompleted: state.lessonCompleted === true,
+      quizScore: normalizeScore(state.quizScore),
+      labCompleted: state.labCompleted === true,
+      reviewCompleted: state.reviewCompleted === true
+    };
+  };
 
-    const labelWrap = document.createElement('span');
-    labelWrap.className = 'settings-row__label';
-
-    const labelText = document.createElement('strong');
-    labelText.textContent = label;
-    labelWrap.appendChild(labelText);
-
-    if (description) {
-      const help = document.createElement('small');
-      help.textContent = description;
-      labelWrap.appendChild(help);
+  const normalizeVersionTwoProgress = (value) => {
+    if (!isRecord(value) || value.version !== 2 || !isRecord(value.modules)) {
+      return null;
     }
 
-    const select = document.createElement('select');
-    select.id = id;
-    select.name = id;
-    options.forEach(([optionValue, optionLabel]) => {
-      select.appendChild(createOption(optionValue, optionLabel));
+    const normalized = createDefaultProgress();
+    Object.entries(value.modules).forEach(([moduleId, state]) => {
+      if (/^MOD-\d{2}$/.test(moduleId) && isRecord(state)) {
+        normalized.modules[moduleId] = normalizeModuleProgress(state);
+      }
     });
-    select.value = value;
-
-    row.append(labelWrap, select);
-    return { row, select };
+    return normalized;
   };
 
-  const setupSettingsDialog = (settingsButton) => {
-    const overlay = document.createElement('div');
-    overlay.className = 'settings-overlay';
-    overlay.hidden = true;
+  const migrateLegacyProgress = (value) => {
+    if (!isRecord(value)) return null;
 
-    const dialog = document.createElement('section');
-    dialog.className = 'settings-dialog';
-    dialog.setAttribute('role', 'dialog');
-    dialog.setAttribute('aria-modal', 'true');
-    dialog.setAttribute('aria-labelledby', 'settings-title');
+    const completedLessons = Array.isArray(value.completedLessons)
+      ? value.completedLessons.filter((item) => typeof item === 'string')
+      : [];
+    const quizScores = isRecord(value.quizScores) ? value.quizScores : {};
+    const migrated = createDefaultProgress();
 
-    const header = document.createElement('header');
-    header.className = 'settings-dialog__header';
+    if (!migrated.modules['MOD-01']) {
+      migrated.modules['MOD-01'] = createEmptyModuleProgress();
+    }
 
-    const heading = document.createElement('div');
-    const title = document.createElement('h2');
-    title.id = 'settings-title';
-    title.textContent = 'Settings';
-    const intro = document.createElement('p');
-    intro.textContent = 'Προσάρμοσε την εμφάνιση και τη συμπεριφορά του εκπαιδευτικού εργαλείου.';
-    heading.append(title, intro);
+    migrated.modules['MOD-01'] = {
+      lessonCompleted: completedLessons.includes('lesson-01-digital-logic'),
+      quizScore: normalizeScore(quizScores['quiz-01-binary']),
+      labCompleted: completedLessons.includes('lab-01-binary-logic'),
+      reviewCompleted: false
+    };
+    return migrated;
+  };
 
-    const closeButton = document.createElement('button');
-    closeButton.className = 'settings-close';
-    closeButton.type = 'button';
-    closeButton.textContent = '×';
-    closeButton.setAttribute('aria-label', 'Κλείσιμο ρυθμίσεων');
-    header.append(heading, closeButton);
+  const readProgress = () => {
+    const current = safeReadStorage(PROGRESS_STORAGE_KEY);
+    const normalized = normalizeVersionTwoProgress(current.value);
+    if (normalized) return normalized;
 
-    const form = document.createElement('form');
-    form.className = 'settings-form';
-    const current = readSettings();
+    const legacy = safeReadStorage(LEGACY_PROGRESS_STORAGE_KEY);
+    const migrated = migrateLegacyProgress(legacy.value);
+    if (migrated) {
+      safeWriteStorage(PROGRESS_STORAGE_KEY, migrated);
+      return migrated;
+    }
 
-    const definitions = [
-      {
-        key: 'theme',
-        id: 'setting-theme',
-        label: 'Θέμα',
-        description: 'Αυτόματο, φωτεινό ή σκοτεινό.',
-        options: [['system', 'Σύστημα'], ['light', 'Φωτεινό'], ['dark', 'Σκοτεινό']]
-      },
-      {
-        key: 'accent',
-        id: 'setting-accent',
-        label: 'Χρώμα έμφασης',
-        description: 'Κύρια χρωματική ταυτότητα.',
-        options: [['steel', 'Steel'], ['teal', 'Teal'], ['blue', 'Blue'], ['indigo', 'Indigo'], ['green', 'Green']]
-      },
-      {
-        key: 'font',
-        id: 'setting-font',
-        label: 'Γραμματοσειρά',
-        description: 'Τύπος γραμματοσειράς ανάγνωσης.',
-        options: [['sans', 'Sans serif'], ['serif', 'Serif'], ['system', 'System UI'], ['mono', 'Monospace']]
-      },
-      {
-        key: 'textSize',
-        id: 'setting-text-size',
-        label: 'Μέγεθος κειμένου',
-        description: 'Γενική κλίμακα γραμματοσειράς.',
-        options: [['small', 'Μικρό'], ['default', 'Κανονικό'], ['large', 'Μεγάλο'], ['xlarge', 'Πολύ μεγάλο']]
-      },
-      {
-        key: 'contentWidth',
-        id: 'setting-content-width',
-        label: 'Πλάτος περιεχομένου',
-        description: 'Στενό για ανάγνωση ή ευρύ για πίνακες.',
-        options: [['narrow', 'Στενό'], ['standard', 'Κανονικό'], ['wide', 'Ευρύ']]
-      },
-      {
-        key: 'spacing',
-        id: 'setting-spacing',
-        label: 'Πυκνότητα διάταξης',
-        description: 'Από συμπαγή έως πιο άνετη.',
-        options: [['compact', 'Συμπαγής'], ['comfortable', 'Άνετη'], ['spacious', 'Ευρύχωρη']]
-      },
-      {
-        key: 'contrast',
-        id: 'setting-contrast',
-        label: 'Αντίθεση',
-        description: 'Ενισχυμένη αντίθεση για καλύτερη ανάγνωση.',
-        options: [['standard', 'Κανονική'], ['high', 'Υψηλή']]
-      },
-      {
-        key: 'motion',
-        id: 'setting-motion',
-        label: 'Κίνηση',
-        description: 'Περιορισμός animations και ομαλής κύλισης.',
-        options: [['standard', 'Κανονική'], ['reduced', 'Μειωμένη']]
-      },
-      {
-        key: 'sidebar',
-        id: 'setting-sidebar',
-        label: 'Πλευρική πλοήγηση',
-        description: 'Έλεγχος εμφάνισης στα μαθήματα.',
-        options: [['auto', 'Αυτόματα'], ['show', 'Πάντα ορατή'], ['hide', 'Κρυφή']]
-      }
-    ];
+    return createDefaultProgress();
+  };
 
-    const controls = {};
-    const fields = document.createElement('div');
-    fields.className = 'settings-fields';
+  const writeProgress = (progress) => {
+    const normalized = normalizeVersionTwoProgress(progress);
+    if (normalized) safeWriteStorage(PROGRESS_STORAGE_KEY, normalized);
+  };
 
-    definitions.forEach((definition) => {
-      const control = createSettingRow({
-        ...definition,
-        value: current[definition.key]
-      });
-      controls[definition.key] = control.select;
-      fields.appendChild(control.row);
+  const modulePercent = (state) => {
+    let percent = 0;
+    if (state.lessonCompleted) percent += 30;
+    if (state.quizScore >= PASSING_QUIZ_SCORE) percent += 30;
+    if (state.labCompleted) percent += 30;
+    if (state.reviewCompleted) percent += 10;
+    return percent;
+  };
+
+  const calculatePercent = (progress) => {
+    const availableModules = curriculum.modules.filter((module) => module.available);
+    if (availableModules.length === 0) return 0;
+
+    const total = availableModules.reduce((sum, module) => {
+      const state = progress.modules[module.id] || createEmptyModuleProgress();
+      return sum + modulePercent(state);
+    }, 0);
+
+    return Math.round(total / availableModules.length);
+  };
+
+  const updateProgressUI = () => {
+    const percent = calculatePercent(readProgress());
+
+    document.querySelectorAll(
+      '#home-progress-label, [data-progress-label]'
+    ).forEach((element) => {
+      element.textContent = `${percent}%`;
     });
 
-    const dataActions = document.createElement('div');
-    dataActions.className = 'settings-data-actions';
+    document.querySelectorAll(
+      '#home-progress-bar, [data-progress-bar]'
+    ).forEach((element) => {
+      element.style.width = `${percent}%`;
+    });
 
-    const clearProgressButton = document.createElement('button');
-    clearProgressButton.type = 'button';
-    clearProgressButton.className = 'settings-clear-progress';
-    clearProgressButton.textContent = 'Διαγραφή αποθηκευμένης προόδου';
-    dataActions.appendChild(clearProgressButton);
+    document.querySelectorAll('[role="progressbar"]').forEach((element) => {
+      element.setAttribute('aria-valuenow', String(percent));
+      element.setAttribute('aria-valuetext', `${percent}% συνολική πρόοδος`);
+    });
+  };
 
-    const actions = document.createElement('div');
-    actions.className = 'settings-actions';
+  const syncProgressControls = () => {
+    const progress = readProgress();
+    document.querySelectorAll(
+      'input[type="checkbox"][data-module-id][data-progress-field]'
+    ).forEach((checkbox) => {
+      const moduleId = checkbox.dataset.moduleId;
+      const field = checkbox.dataset.progressField;
+      const state = progress.modules[moduleId] || createEmptyModuleProgress();
+      checkbox.checked = PROGRESS_FIELDS.has(field) && state[field] === true;
+    });
+  };
 
-    const resetButton = document.createElement('button');
-    resetButton.type = 'button';
-    resetButton.className = 'settings-reset';
-    resetButton.textContent = 'Επαναφορά';
+  const resetQuizFeedback = (form) => {
+    form.querySelectorAll('[data-answer]').forEach((question) => {
+      question.classList.remove('is-correct', 'is-incorrect');
+      question.querySelector('.question-feedback')?.remove();
+      question.querySelector('fieldset')?.removeAttribute('aria-describedby');
+    });
 
-    const saveButton = document.createElement('button');
-    saveButton.type = 'submit';
-    saveButton.className = 'settings-save';
-    saveButton.textContent = 'Αποθήκευση';
+    const result = form.querySelector('.quiz-result');
+    if (result) {
+      result.replaceChildren();
+      result.classList.remove('show');
+    }
+  };
 
-    actions.append(resetButton, saveButton);
-    form.append(fields, dataActions, actions);
-    dialog.append(header, form);
-    overlay.appendChild(dialog);
-    document.body.appendChild(overlay);
+  const setupSettingsDialog = () => {
+    const dialog = document.querySelector('#settings-dialog');
+    const settingsButton = document.querySelector('.settings-button');
+    if (!dialog || typeof dialog.showModal !== 'function' || !settingsButton) return;
+
+    const form = dialog.querySelector('.settings-form');
+    const closeButton = dialog.querySelector('[data-dialog-close]');
+    const resetButton = dialog.querySelector('[data-settings-reset]');
+    const clearProgressButton = dialog.querySelector('[data-clear-progress]');
+    const controls = [...dialog.querySelectorAll('select[data-setting]')];
+    let opener = null;
 
     const setControlValues = (settings) => {
-      definitions.forEach(({ key }) => {
-        controls[key].value = settings[key];
+      controls.forEach((control) => {
+        const key = control.dataset.setting;
+        if (key in settings) control.value = settings[key];
       });
     };
 
     const collectValues = () => {
       const values = {};
-      definitions.forEach(({ key }) => {
-        values[key] = controls[key].value;
+      controls.forEach((control) => {
+        values[control.dataset.setting] = control.value;
       });
       return values;
     };
 
-    const openDialog = () => {
+    settingsButton.addEventListener('click', () => {
+      opener = settingsButton;
       setControlValues(readSettings());
-      overlay.hidden = false;
       document.body.classList.add('settings-open');
-      closeButton.focus();
-    };
+      dialog.showModal();
+      controls[0]?.focus();
+    });
 
-    const closeDialog = () => {
-      overlay.hidden = true;
+    closeButton?.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('close', () => {
       document.body.classList.remove('settings-open');
-      settingsButton.focus();
-    };
-
-    settingsButton.addEventListener('click', openDialog);
-    closeButton.addEventListener('click', closeDialog);
-    overlay.addEventListener('click', (event) => {
-      if (event.target === overlay) closeDialog();
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !overlay.hidden) closeDialog();
+      opener?.focus();
     });
 
-    form.addEventListener('submit', (event) => {
+    form?.addEventListener('submit', (event) => {
       event.preventDefault();
-      const updated = collectValues();
-      safeWrite(SETTINGS_KEY, updated);
-      applySettings(updated);
-      closeDialog();
+      const candidate = collectValues();
+      const validated = Object.fromEntries(
+        Object.entries(DEFAULT_SETTINGS).map(([key, fallback]) => [
+          key,
+          SETTING_VALUES[key].has(candidate[key]) ? candidate[key] : fallback
+        ])
+      );
+      safeWriteStorage(SETTINGS_KEY, validated);
+      applySettings(validated);
+      dialog.close();
     });
 
-    resetButton.addEventListener('click', () => {
-      safeWrite(SETTINGS_KEY, DEFAULT_SETTINGS);
+    resetButton?.addEventListener('click', () => {
+      safeWriteStorage(SETTINGS_KEY, DEFAULT_SETTINGS);
       applySettings(DEFAULT_SETTINGS);
       setControlValues(DEFAULT_SETTINGS);
+      controls[0]?.focus();
     });
 
-    clearProgressButton.addEventListener('click', () => {
-      const confirmed = window.confirm('Να διαγραφεί όλη η αποθηκευμένη πρόοδος και τα αποτελέσματα quiz;');
+    clearProgressButton?.addEventListener('click', () => {
+      const confirmed = window.confirm(
+        'Να διαγραφεί όλη η αποθηκευμένη πρόοδος και τα αποτελέσματα quiz;'
+      );
       if (!confirmed) return;
-      localStorage.removeItem(STORAGE_KEY);
+
+      safeRemoveStorage(PROGRESS_STORAGE_KEY);
+      safeRemoveStorage(LEGACY_PROGRESS_STORAGE_KEY);
+      syncProgressControls();
+      document.querySelectorAll('[data-quiz]').forEach(resetQuizFeedback);
       updateProgressUI();
-      document.querySelectorAll('[data-lesson-id]').forEach((checkbox) => {
-        checkbox.checked = false;
-      });
       window.alert('Η αποθηκευμένη πρόοδος διαγράφηκε.');
-    });
-  };
-
-  const setupHeaderControls = () => {
-    const navWrap = document.querySelector('.nav-wrap');
-    if (!navWrap || navWrap.querySelector('.header-controls')) return;
-
-    const controls = document.createElement('div');
-    controls.className = 'header-controls';
-
-    const languagePicker = document.createElement('div');
-    languagePicker.className = 'language-picker';
-
-    const languageButton = document.createElement('button');
-    languageButton.type = 'button';
-    languageButton.className = 'header-action language-button';
-    languageButton.textContent = 'EL / GR';
-    languageButton.setAttribute('aria-expanded', 'false');
-    languageButton.setAttribute('aria-haspopup', 'menu');
-    languageButton.setAttribute('aria-label', 'Γλώσσα: Ελληνικά');
-
-    const languageMenu = document.createElement('div');
-    languageMenu.className = 'language-menu';
-    languageMenu.hidden = true;
-    languageMenu.setAttribute('role', 'menu');
-    languageMenu.innerHTML = '<span role="menuitem" aria-current="true"><strong>EL / GR</strong><small>Ελληνικά</small><b>✓</b></span>';
-
-    languageButton.addEventListener('click', () => {
-      const open = languageMenu.hidden;
-      languageMenu.hidden = !open;
-      languageButton.setAttribute('aria-expanded', String(open));
-    });
-
-    document.addEventListener('click', (event) => {
-      if (!languagePicker.contains(event.target)) {
-        languageMenu.hidden = true;
-        languageButton.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    languagePicker.append(languageButton, languageMenu);
-
-    const settingsButton = document.createElement('button');
-    settingsButton.type = 'button';
-    settingsButton.className = 'header-action settings-button';
-    settingsButton.textContent = 'Settings';
-    settingsButton.setAttribute('aria-label', 'Άνοιγμα ρυθμίσεων εμφάνισης');
-
-    controls.append(languagePicker, settingsButton);
-    navWrap.appendChild(controls);
-    setupSettingsDialog(settingsButton);
-  };
-
-  const setupFooter = () => {
-    const footer = document.querySelector('.site-footer');
-    if (!footer) return;
-
-    const copyright = document.createElement('p');
-    copyright.className = 'ecosystem-footer__copyright';
-    copyright.textContent = `© ${new Date().getFullYear()} Markellos Markides. All rights reserved.`;
-
-    const navigation = document.createElement('nav');
-    navigation.className = 'ecosystem-footer__navigation';
-    navigation.setAttribute('aria-label', 'Βοηθητικοί σύνδεσμοι');
-
-    const links = [
-      ['Markellos Ecosystem', 'https://markellosecosystem.com/', true],
-      ['About Markellos', 'https://markellosecosystem.com/about/', true],
-      ['Privacy', 'https://markellosecosystem.com/privacy/', true],
-      ['Cookies', 'https://markellosecosystem.com/cookies/', true],
-      ['Feedback', 'mailto:markellos.markides@gmail.com?subject=NTT%20Certification%20Feedback', false],
-      ['iekdelta360pdf', DELTA_360_PDF, true]
-    ];
-
-    links.forEach(([label, href, external]) => {
-      const link = document.createElement('a');
-      link.className = 'ecosystem-footer__link';
-      link.href = href;
-      link.textContent = label;
-      if (label === 'iekdelta360pdf') link.classList.add('footer-pdf-button');
-      if (external) {
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-      }
-      navigation.appendChild(link);
-    });
-
-    const version = document.createElement('p');
-    version.className = 'ecosystem-footer__version';
-    version.textContent = SITE_VERSION;
-    version.setAttribute('aria-label', `Έκδοση ιστοσελίδας ${SITE_VERSION}`);
-
-    footer.replaceChildren(copyright, navigation, version);
-  };
-
-  const setupSiteChrome = () => {
-    const stylesheets = ['assets/fixed-layout.css', 'assets/interface-overrides.css'];
-    stylesheets.forEach((href) => {
-      if (document.querySelector(`link[href="${href}"]`)) return;
-      const stylesheet = document.createElement('link');
-      stylesheet.rel = 'stylesheet';
-      stylesheet.href = href;
-      document.head.appendChild(stylesheet);
-    });
-
-    document
-      .querySelectorAll('.site-header a[href*="github.com"], .site-footer a[href*="github.com"]')
-      .forEach((link) => link.remove());
-
-    applySettings(readSettings());
-    setupHeaderControls();
-    setupFooter();
-  };
-
-  const readProgress = () => safeRead(STORAGE_KEY, {
-    completedLessons: [],
-    quizScores: {}
-  });
-
-  const writeProgress = (progress) => safeWrite(STORAGE_KEY, progress);
-
-  const calculatePercent = (progress) => {
-    const totalUnits = 16;
-    return Math.min(100, Math.round((progress.completedLessons.length / totalUnits) * 100));
-  };
-
-  const updateProgressUI = () => {
-    const progress = readProgress();
-    const percent = calculatePercent(progress);
-    const label = document.querySelector('#home-progress-label');
-    const bar = document.querySelector('#home-progress-bar');
-    if (label) label.textContent = `${percent}%`;
-    if (bar) bar.style.width = `${percent}%`;
-
-    document.querySelectorAll('[data-progress-label]').forEach((element) => {
-      element.textContent = `${percent}%`;
-    });
-    document.querySelectorAll('[data-progress-bar]').forEach((element) => {
-      element.style.width = `${percent}%`;
     });
   };
 
@@ -446,61 +370,113 @@
     });
   };
 
-  const setupLessonCompletion = () => {
-    document.querySelectorAll('[data-lesson-id]').forEach((checkbox) => {
-      const lessonId = checkbox.dataset.lessonId;
-      const progress = readProgress();
-      checkbox.checked = progress.completedLessons.includes(lessonId);
+  const setupProgressControls = () => {
+    const controls = document.querySelectorAll(
+      'input[type="checkbox"][data-module-id][data-progress-field]'
+    );
 
+    syncProgressControls();
+    controls.forEach((checkbox) => {
       checkbox.addEventListener('change', () => {
-        const current = readProgress();
-        const set = new Set(current.completedLessons);
-        if (checkbox.checked) set.add(lessonId);
-        else set.delete(lessonId);
-        current.completedLessons = [...set];
-        writeProgress(current);
+        const moduleId = checkbox.dataset.moduleId;
+        const field = checkbox.dataset.progressField;
+        if (!PROGRESS_FIELDS.has(field)) return;
+
+        const progress = readProgress();
+        if (!progress.modules[moduleId]) {
+          progress.modules[moduleId] = createEmptyModuleProgress();
+        }
+        progress.modules[moduleId][field] = checkbox.checked;
+        writeProgress(progress);
         updateProgressUI();
       });
     });
   };
 
   const setupQuiz = () => {
-    const form = document.querySelector('[data-quiz]');
-    if (!form) return;
+    document.querySelectorAll('[data-quiz][data-module-id]').forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        resetQuizFeedback(form);
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const quizId = form.dataset.quiz;
-      const questions = [...form.querySelectorAll('[data-answer]')];
-      let score = 0;
+        const questions = [...form.querySelectorAll('[data-answer]')];
+        let score = 0;
+        let firstIncorrect = null;
 
-      questions.forEach((question) => {
-        const expected = question.dataset.answer;
-        const selected = question.querySelector('input:checked');
-        question.style.borderColor = selected && selected.value === expected ? '#2f7d72' : '#b34a55';
-        if (selected && selected.value === expected) score += 1;
+        questions.forEach((question, index) => {
+          const expected = question.dataset.answer;
+          const selected = question.querySelector('input:checked');
+          const correct = Boolean(selected && selected.value === expected);
+          const questionId = question.dataset.questionId || `question-${index + 1}`;
+          const feedback = document.createElement('p');
+          const fieldset = question.querySelector('fieldset');
+
+          feedback.className = 'question-feedback';
+          feedback.id = `${form.dataset.quiz}-${questionId}-feedback`;
+          feedback.textContent = correct
+            ? 'Σωστή απάντηση.'
+            : 'Λανθασμένη απάντηση.';
+
+          question.classList.add(correct ? 'is-correct' : 'is-incorrect');
+          question.appendChild(feedback);
+          fieldset?.setAttribute('aria-describedby', feedback.id);
+
+          if (correct) {
+            score += 1;
+          } else if (!firstIncorrect) {
+            firstIncorrect = fieldset || question;
+          }
+        });
+
+        const percent = questions.length === 0
+          ? 0
+          : Math.round((score / questions.length) * 100);
+        const result = form.querySelector('.quiz-result');
+        if (result) {
+          const summary = document.createElement('strong');
+          const message = document.createTextNode(
+            percent >= PASSING_QUIZ_SCORE
+              ? ' Επιτυχία. Συνέχισε με το εργαστήριο και την επανάληψη.'
+              : ' Χρειάζεται επανάληψη στα λάθη πριν από νέα προσπάθεια.'
+          );
+          summary.textContent = `Αποτέλεσμα: ${score}/${questions.length} (${percent}%).`;
+          result.replaceChildren(summary, message);
+          result.classList.add('show');
+        }
+
+        const progress = readProgress();
+        const moduleId = form.dataset.moduleId;
+        if (!progress.modules[moduleId]) {
+          progress.modules[moduleId] = createEmptyModuleProgress();
+        }
+        progress.modules[moduleId].quizScore = percent;
+        writeProgress(progress);
+        updateProgressUI();
+
+        if (firstIncorrect) {
+          firstIncorrect.tabIndex = -1;
+          firstIncorrect.focus();
+        }
       });
-
-      const percent = Math.round((score / questions.length) * 100);
-      const result = form.querySelector('.quiz-result');
-      if (result) {
-        const message = percent >= 80
-          ? 'Επιτυχία. Η ενότητα μπορεί να θεωρηθεί κατακτημένη.'
-          : 'Χρειάζεται επανάληψη στα λάθη πριν από νέα προσπάθεια.';
-        result.innerHTML = `<strong>Αποτέλεσμα: ${score}/${questions.length} (${percent}%)</strong><br>${message}`;
-        result.classList.add('show');
-        result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-
-      const progress = readProgress();
-      progress.quizScores[quizId] = percent;
-      writeProgress(progress);
     });
   };
 
-  setupSiteChrome();
+  if (window.__NTT_TESTING__ === true) {
+    window.NTT_TEST_API = Object.freeze({
+      createDefaultProgress,
+      normalizeVersionTwoProgress,
+      migrateLegacyProgress,
+      readProgress,
+      writeProgress,
+      modulePercent,
+      calculatePercent
+    });
+  }
+
+  applySettings(readSettings());
+  setupSettingsDialog();
   setupNavigation();
-  setupLessonCompletion();
+  setupProgressControls();
   setupQuiz();
   updateProgressUI();
 })();
