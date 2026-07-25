@@ -67,7 +67,6 @@ button, input, select { font: inherit; }
 .main-nav a { padding: .7rem .9rem; border-radius: 10px; text-decoration: none; color: var(--muted); font-weight: 650; }
 .main-nav a:hover, .main-nav a.active { color: var(--primary); background: var(--surface-soft); }
 .nav-toggle { display: none; border: 1px solid var(--line); background: white; border-radius: 10px; padding: .55rem .75rem; }
-.language-indicator { cursor: default; }
 
 .pilot-notice {
   border-bottom: 1px solid #d8c789;

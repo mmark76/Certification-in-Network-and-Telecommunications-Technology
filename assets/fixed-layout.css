@@ -50,7 +50,6 @@ main {
   order: 3;
   display: flex;
   align-items: center;
-  gap: 8px;
   margin-left: 8px;
 }
 
@@ -101,13 +100,6 @@ main {
 .header-action {
   padding: .55rem .9rem;
   white-space: nowrap;
-}
-
-.language-indicator {
-  min-width: 48px;
-  letter-spacing: .04em;
-  text-align: center;
-  cursor: default;
 }
 
 .settings-dialog::backdrop {
@@ -482,18 +474,10 @@ html[data-ntt-theme='dark'] .settings-reset {
     --fixed-footer-height: 146px;
   }
 
-  .header-controls {
-    gap: 5px;
-  }
-
   .header-action {
     min-height: 38px;
     padding: .45rem .58rem;
     font-size: .76rem;
-  }
-
-  .language-indicator {
-    min-width: 44px;
   }
 
   .settings-dialog {

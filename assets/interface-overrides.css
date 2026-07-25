@@ -122,8 +122,6 @@ html[data-ntt-theme='system'] body {
   background: rgba(255, 255, 255, .17);
 }
 
-.language-indicator { min-width: 48px; }
-
 .hero,
 html[data-ntt-theme='light'] .hero,
 html[data-ntt-theme='system'] .hero {
