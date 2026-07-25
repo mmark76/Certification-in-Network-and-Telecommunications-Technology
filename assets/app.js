@@ -16,16 +16,41 @@
       .querySelectorAll('.site-header a[href*="github.com"], .site-footer a[href*="github.com"]')
       .forEach((link) => link.remove());
 
-    const footerLinks = document.querySelector('.site-footer .footer-grid > div:last-child');
-    if (footerLinks && !footerLinks.querySelector('.footer-pdf-button')) {
-      const pdfLink = document.createElement('a');
-      pdfLink.className = 'footer-pdf-button';
-      pdfLink.href = DELTA_360_PDF;
-      pdfLink.target = '_blank';
-      pdfLink.rel = 'noopener noreferrer';
-      pdfLink.textContent = 'iekdelta360pdf';
-      pdfLink.setAttribute('aria-label', 'Άνοιγμα βοηθήματος πιστοποίησης ΙΕΚ ΔΕΛΤΑ 360 σε PDF');
-      footerLinks.appendChild(pdfLink);
+    const footer = document.querySelector('.site-footer');
+    if (footer) {
+      const copyright = document.createElement('p');
+      copyright.className = 'ecosystem-footer__copyright';
+      copyright.textContent = `© ${new Date().getFullYear()} Markellos Markides. All rights reserved.`;
+
+      const navigation = document.createElement('nav');
+      navigation.className = 'ecosystem-footer__navigation';
+      navigation.setAttribute('aria-label', 'Footer navigation');
+
+      const links = [
+        ['Αρχική', 'index.html'],
+        ['Ύλη', 'curriculum.html'],
+        ['Μαθήματα', 'lesson-digital-logic.html'],
+        ['Εξάσκηση', 'practice-binary.html'],
+        ['iekdelta360pdf', DELTA_360_PDF]
+      ];
+
+      links.forEach(([label, href], index) => {
+        const link = document.createElement('a');
+        link.className = 'ecosystem-footer__link';
+        if (index === links.length - 1) link.classList.add('footer-pdf-button');
+        link.href = href;
+        link.textContent = label;
+
+        if (index === links.length - 1) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.setAttribute('aria-label', 'Άνοιγμα βοηθήματος πιστοποίησης ΙΕΚ ΔΕΛΤΑ 360 σε PDF');
+        }
+
+        navigation.appendChild(link);
+      });
+
+      footer.replaceChildren(copyright, navigation);
     }
   };
 
