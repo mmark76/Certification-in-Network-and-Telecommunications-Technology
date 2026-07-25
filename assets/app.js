@@ -24,26 +24,54 @@
 
       const navigation = document.createElement('nav');
       navigation.className = 'ecosystem-footer__navigation';
-      navigation.setAttribute('aria-label', 'Footer navigation');
+      navigation.setAttribute('aria-label', 'Βοηθητικοί σύνδεσμοι');
 
       const links = [
-        ['Αρχική', 'index.html'],
-        ['Ύλη', 'curriculum.html'],
-        ['Μαθήματα', 'lesson-digital-logic.html'],
-        ['Εξάσκηση', 'practice-binary.html'],
-        ['iekdelta360pdf', DELTA_360_PDF]
+        {
+          label: 'Markellos Ecosystem',
+          href: 'https://markellosecosystem.com/',
+          external: true
+        },
+        {
+          label: 'About Markellos',
+          href: 'https://markellosecosystem.com/about/',
+          external: true
+        },
+        {
+          label: 'Privacy',
+          href: 'https://markellosecosystem.com/privacy/',
+          external: true
+        },
+        {
+          label: 'Cookies',
+          href: 'https://markellosecosystem.com/cookies/',
+          external: true
+        },
+        {
+          label: 'Feedback',
+          href: 'mailto:markellos.markides@gmail.com?subject=NTT%20Certification%20Feedback'
+        },
+        {
+          label: 'iekdelta360pdf',
+          href: DELTA_360_PDF,
+          external: true,
+          pdf: true
+        }
       ];
 
-      links.forEach(([label, href], index) => {
+      links.forEach(({ label, href, external, pdf }) => {
         const link = document.createElement('a');
         link.className = 'ecosystem-footer__link';
-        if (index === links.length - 1) link.classList.add('footer-pdf-button');
+        if (pdf) link.classList.add('footer-pdf-button');
         link.href = href;
         link.textContent = label;
 
-        if (index === links.length - 1) {
+        if (external) {
           link.target = '_blank';
           link.rel = 'noopener noreferrer';
+        }
+
+        if (pdf) {
           link.setAttribute('aria-label', 'Άνοιγμα βοηθήματος πιστοποίησης ΙΕΚ ΔΕΛΤΑ 360 σε PDF');
         }
 
