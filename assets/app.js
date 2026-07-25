@@ -2,14 +2,20 @@
   'use strict';
 
   const STORAGE_KEY = 'nt-certification-progress-v1';
-  const SETTINGS_KEY = 'nt-certification-interface-v1';
-  const SITE_VERSION = 'v 0.1.0_20260725_1905_137c93b';
+  const SETTINGS_KEY = 'nt-certification-interface-v2';
+  const SITE_VERSION = 'v 0.1.0_20260725_1915_75748d6';
   const DELTA_360_PDF = 'https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf';
+
   const DEFAULT_SETTINGS = {
     theme: 'system',
+    accent: 'steel',
+    font: 'sans',
     textSize: 'default',
+    contentWidth: 'standard',
     spacing: 'comfortable',
-    motion: 'standard'
+    contrast: 'standard',
+    motion: 'standard',
+    sidebar: 'auto'
   };
 
   const safeRead = (key, fallback) => {
@@ -24,7 +30,7 @@
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch {
-      // The site remains usable if local storage is unavailable.
+      // The website remains usable when local storage is unavailable.
     }
   };
 
@@ -36,9 +42,14 @@
   const applySettings = (settings) => {
     const root = document.documentElement;
     root.dataset.nttTheme = settings.theme;
+    root.dataset.nttAccent = settings.accent;
+    root.dataset.nttFont = settings.font;
     root.dataset.nttText = settings.textSize;
+    root.dataset.nttWidth = settings.contentWidth;
     root.dataset.nttSpacing = settings.spacing;
+    root.dataset.nttContrast = settings.contrast;
     root.dataset.nttMotion = settings.motion;
+    root.dataset.nttSidebar = settings.sidebar;
   };
 
   const createOption = (value, label) => {
@@ -48,13 +59,23 @@
     return option;
   };
 
-  const createSettingRow = ({ id, label, value, options }) => {
+  const createSettingRow = ({ id, label, description, value, options }) => {
     const row = document.createElement('label');
     row.className = 'settings-row';
     row.htmlFor = id;
 
-    const labelText = document.createElement('span');
+    const labelWrap = document.createElement('span');
+    labelWrap.className = 'settings-row__label';
+
+    const labelText = document.createElement('strong');
     labelText.textContent = label;
+    labelWrap.appendChild(labelText);
+
+    if (description) {
+      const help = document.createElement('small');
+      help.textContent = description;
+      labelWrap.appendChild(help);
+    }
 
     const select = document.createElement('select');
     select.id = id;
@@ -64,7 +85,7 @@
     });
     select.value = value;
 
-    row.append(labelText, select);
+    row.append(labelWrap, select);
     return { row, select };
   };
 
@@ -85,9 +106,9 @@
     const heading = document.createElement('div');
     const title = document.createElement('h2');
     title.id = 'settings-title';
-    title.textContent = 'Interface settings';
+    title.textContent = 'Settings';
     const intro = document.createElement('p');
-    intro.textContent = 'Προσάρμοσε την εμφάνιση της εκπαιδευτικής ιστοσελίδας.';
+    intro.textContent = 'Προσάρμοσε την εμφάνιση και τη συμπεριφορά του εκπαιδευτικού εργαλείου.';
     heading.append(title, intro);
 
     const closeButton = document.createElement('button');
@@ -101,60 +122,129 @@
     form.className = 'settings-form';
     const current = readSettings();
 
-    const theme = createSettingRow({
-      id: 'setting-theme',
-      label: 'Colour theme',
-      value: current.theme,
-      options: [['system', 'System'], ['light', 'Light'], ['dark', 'Dark']]
-    });
-    const textSize = createSettingRow({
-      id: 'setting-text-size',
-      label: 'Text size',
-      value: current.textSize,
-      options: [['default', 'Default'], ['large', 'Large']]
-    });
-    const spacing = createSettingRow({
-      id: 'setting-spacing',
-      label: 'Layout spacing',
-      value: current.spacing,
-      options: [['comfortable', 'Comfortable'], ['compact', 'Compact']]
-    });
-    const motion = createSettingRow({
-      id: 'setting-motion',
-      label: 'Motion',
-      value: current.motion,
-      options: [['standard', 'Standard'], ['reduced', 'Reduced']]
-    });
+    const definitions = [
+      {
+        key: 'theme',
+        id: 'setting-theme',
+        label: 'Θέμα',
+        description: 'Αυτόματο, φωτεινό ή σκοτεινό.',
+        options: [['system', 'Σύστημα'], ['light', 'Φωτεινό'], ['dark', 'Σκοτεινό']]
+      },
+      {
+        key: 'accent',
+        id: 'setting-accent',
+        label: 'Χρώμα έμφασης',
+        description: 'Κύρια χρωματική ταυτότητα.',
+        options: [['steel', 'Steel'], ['teal', 'Teal'], ['blue', 'Blue'], ['indigo', 'Indigo'], ['green', 'Green']]
+      },
+      {
+        key: 'font',
+        id: 'setting-font',
+        label: 'Γραμματοσειρά',
+        description: 'Τύπος γραμματοσειράς ανάγνωσης.',
+        options: [['sans', 'Sans serif'], ['serif', 'Serif'], ['system', 'System UI'], ['mono', 'Monospace']]
+      },
+      {
+        key: 'textSize',
+        id: 'setting-text-size',
+        label: 'Μέγεθος κειμένου',
+        description: 'Γενική κλίμακα γραμματοσειράς.',
+        options: [['small', 'Μικρό'], ['default', 'Κανονικό'], ['large', 'Μεγάλο'], ['xlarge', 'Πολύ μεγάλο']]
+      },
+      {
+        key: 'contentWidth',
+        id: 'setting-content-width',
+        label: 'Πλάτος περιεχομένου',
+        description: 'Στενό για ανάγνωση ή ευρύ για πίνακες.',
+        options: [['narrow', 'Στενό'], ['standard', 'Κανονικό'], ['wide', 'Ευρύ']]
+      },
+      {
+        key: 'spacing',
+        id: 'setting-spacing',
+        label: 'Πυκνότητα διάταξης',
+        description: 'Από συμπαγή έως πιο άνετη.',
+        options: [['compact', 'Συμπαγής'], ['comfortable', 'Άνετη'], ['spacious', 'Ευρύχωρη']]
+      },
+      {
+        key: 'contrast',
+        id: 'setting-contrast',
+        label: 'Αντίθεση',
+        description: 'Ενισχυμένη αντίθεση για καλύτερη ανάγνωση.',
+        options: [['standard', 'Κανονική'], ['high', 'Υψηλή']]
+      },
+      {
+        key: 'motion',
+        id: 'setting-motion',
+        label: 'Κίνηση',
+        description: 'Περιορισμός animations και ομαλής κύλισης.',
+        options: [['standard', 'Κανονική'], ['reduced', 'Μειωμένη']]
+      },
+      {
+        key: 'sidebar',
+        id: 'setting-sidebar',
+        label: 'Πλευρική πλοήγηση',
+        description: 'Έλεγχος εμφάνισης στα μαθήματα.',
+        options: [['auto', 'Αυτόματα'], ['show', 'Πάντα ορατή'], ['hide', 'Κρυφή']]
+      }
+    ];
 
+    const controls = {};
     const fields = document.createElement('div');
     fields.className = 'settings-fields';
-    fields.append(theme.row, textSize.row, spacing.row, motion.row);
+
+    definitions.forEach((definition) => {
+      const control = createSettingRow({
+        ...definition,
+        value: current[definition.key]
+      });
+      controls[definition.key] = control.select;
+      fields.appendChild(control.row);
+    });
+
+    const dataActions = document.createElement('div');
+    dataActions.className = 'settings-data-actions';
+
+    const clearProgressButton = document.createElement('button');
+    clearProgressButton.type = 'button';
+    clearProgressButton.className = 'settings-clear-progress';
+    clearProgressButton.textContent = 'Διαγραφή αποθηκευμένης προόδου';
+    dataActions.appendChild(clearProgressButton);
 
     const actions = document.createElement('div');
     actions.className = 'settings-actions';
 
-    const saveButton = document.createElement('button');
-    saveButton.type = 'submit';
-    saveButton.className = 'settings-save';
-    saveButton.textContent = 'Save settings';
-
     const resetButton = document.createElement('button');
     resetButton.type = 'button';
     resetButton.className = 'settings-reset';
-    resetButton.textContent = 'Reset settings';
+    resetButton.textContent = 'Επαναφορά';
 
-    actions.append(saveButton, resetButton);
-    form.append(fields, actions);
+    const saveButton = document.createElement('button');
+    saveButton.type = 'submit';
+    saveButton.className = 'settings-save';
+    saveButton.textContent = 'Αποθήκευση';
+
+    actions.append(resetButton, saveButton);
+    form.append(fields, dataActions, actions);
     dialog.append(header, form);
     overlay.appendChild(dialog);
     document.body.appendChild(overlay);
 
+    const setControlValues = (settings) => {
+      definitions.forEach(({ key }) => {
+        controls[key].value = settings[key];
+      });
+    };
+
+    const collectValues = () => {
+      const values = {};
+      definitions.forEach(({ key }) => {
+        values[key] = controls[key].value;
+      });
+      return values;
+    };
+
     const openDialog = () => {
-      const saved = readSettings();
-      theme.select.value = saved.theme;
-      textSize.select.value = saved.textSize;
-      spacing.select.value = saved.spacing;
-      motion.select.value = saved.motion;
+      setControlValues(readSettings());
       overlay.hidden = false;
       document.body.classList.add('settings-open');
       closeButton.focus();
@@ -177,12 +267,7 @@
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const updated = {
-        theme: theme.select.value,
-        textSize: textSize.select.value,
-        spacing: spacing.select.value,
-        motion: motion.select.value
-      };
+      const updated = collectValues();
       safeWrite(SETTINGS_KEY, updated);
       applySettings(updated);
       closeDialog();
@@ -191,10 +276,18 @@
     resetButton.addEventListener('click', () => {
       safeWrite(SETTINGS_KEY, DEFAULT_SETTINGS);
       applySettings(DEFAULT_SETTINGS);
-      theme.select.value = DEFAULT_SETTINGS.theme;
-      textSize.select.value = DEFAULT_SETTINGS.textSize;
-      spacing.select.value = DEFAULT_SETTINGS.spacing;
-      motion.select.value = DEFAULT_SETTINGS.motion;
+      setControlValues(DEFAULT_SETTINGS);
+    });
+
+    clearProgressButton.addEventListener('click', () => {
+      const confirmed = window.confirm('Να διαγραφεί όλη η αποθηκευμένη πρόοδος και τα αποτελέσματα quiz;');
+      if (!confirmed) return;
+      localStorage.removeItem(STORAGE_KEY);
+      updateProgressUI();
+      document.querySelectorAll('[data-lesson-id]').forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+      window.alert('Η αποθηκευμένη πρόοδος διαγράφηκε.');
     });
   };
 
@@ -291,12 +384,14 @@
   };
 
   const setupSiteChrome = () => {
-    if (!document.querySelector('link[href="assets/fixed-layout.css"]')) {
+    const stylesheets = ['assets/fixed-layout.css', 'assets/interface-overrides.css'];
+    stylesheets.forEach((href) => {
+      if (document.querySelector(`link[href="${href}"]`)) return;
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet';
-      stylesheet.href = 'assets/fixed-layout.css';
+      stylesheet.href = href;
       document.head.appendChild(stylesheet);
-    }
+    });
 
     document
       .querySelectorAll('.site-header a[href*="github.com"], .site-footer a[href*="github.com"]')
@@ -382,7 +477,7 @@
       questions.forEach((question) => {
         const expected = question.dataset.answer;
         const selected = question.querySelector('input:checked');
-        question.style.borderColor = selected && selected.value === expected ? '#00a67e' : '#d33f49';
+        question.style.borderColor = selected && selected.value === expected ? '#2f7d72' : '#b34a55';
         if (selected && selected.value === expected) score += 1;
       });
 
