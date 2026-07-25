@@ -1,6 +1,6 @@
 # LAB-GEN-001 — Δυαδικές μετατροπές και λογικές πράξεις
 
-**Status:** REVIEWED  
+**Status:** NEEDS_VERIFICATION<br>
 **Estimated time:** 45–60 λεπτά  
 **Difficulty:** Basic
 

@@ -1,0 +1,276 @@
+version: 1
+last_updated: "2026-07-26"
+
+modules:
+  - id: MOD-01
+    order: 1
+    slug: digital-logic-and-number-systems
+    title_el: Ψηφιακή λογική και συστήματα αρίθμησης
+    syllabus_area: null
+    status: needs_verification
+    available: true
+    lesson:
+      markdown: theory/01-digital-logic-and-number-systems.md
+      html: lesson-digital-logic.html
+    questions:
+      - GEN-001
+      - GEN-002
+      - GEN-003
+      - GEN-004
+      - GEN-005
+      - GEN-006
+    labs:
+      - LAB-GEN-001
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-02
+    order: 2
+    slug: computer-architecture-and-hardware
+    title_el: Αρχιτεκτονική και υλικό Η/Υ
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-03
+    order: 3
+    slug: operating-systems-and-technical-support
+    title_el: Λειτουργικά συστήματα και τεχνική υποστήριξη
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-04
+    order: 4
+    slug: osi-and-tcp-ip-models
+    title_el: Μοντέλα OSI και TCP/IP
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-05
+    order: 5
+    slug: ethernet-cabling-and-network-equipment
+    title_el: Ethernet, καλωδίωση και δικτυακός εξοπλισμός
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-06
+    order: 6
+    slug: ipv4-and-subnetting
+    title_el: IPv4 και subnetting
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-07
+    order: 7
+    slug: ipv6
+    title_el: IPv6
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-08
+    order: 8
+    slug: switching-vlans-and-routing
+    title_el: Switching, VLAN και routing
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-09
+    order: 9
+    slug: network-services
+    title_el: Υπηρεσίες δικτύου
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-10
+    order: 10
+    slug: wireless-networks
+    title_el: Ασύρματα δίκτυα
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-11
+    order: 11
+    slug: network-management-and-monitoring
+    title_el: Διαχείριση και παρακολούθηση δικτύου
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-12
+    order: 12
+    slug: signals-transmission-and-multiplexing
+    title_el: Σήματα, μετάδοση και πολυπλεξία
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-13
+    order: 13
+    slug: telephony-voip-and-access-networks
+    title_el: Τηλεφωνία, VoIP και δίκτυα πρόσβασης
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-14
+    order: 14
+    slug: network-security
+    title_el: Ασφάλεια δικτύων
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-15
+    order: 15
+    slug: troubleshooting-methodology
+    title_el: Μεθοδολογία troubleshooting
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+  - id: MOD-16
+    order: 16
+    slug: review-exams-and-practical-scenarios
+    title_el: Επαναληπτικές εξετάσεις και πρακτικά σενάρια
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    labs: []
+    official_sources: []
+    last_verified: null
+
+questions:
+  - id: GEN-001
+    module_id: MOD-01
+    html: practice-binary.html
+  - id: GEN-002
+    module_id: MOD-01
+    html: practice-binary.html
+  - id: GEN-003
+    module_id: MOD-01
+    html: practice-binary.html
+  - id: GEN-004
+    module_id: MOD-01
+    html: practice-binary.html
+  - id: GEN-005
+    module_id: MOD-01
+    html: practice-binary.html
+  - id: GEN-006
+    module_id: MOD-01
+    html: practice-binary.html
+
+labs:
+  - id: LAB-GEN-001
+    module_id: MOD-01
+    markdown: practical/LAB-GEN-001-binary-and-logic.md
+    html: practice-binary.html
