@@ -2,24 +2,20 @@
 
 Οι θεωρητικές ενότητες θα είναι σύντομες, αυτοτελείς και συνδεδεμένες με ερωτήσεις και πρακτικές ασκήσεις.
 
-## Προτεινόμενη σειρά
+## Canonical σειρά
 
-1. `01-digital-logic-and-number-systems.md`
-2. `02-computer-hardware.md`
-3. `03-operating-systems.md`
-4. `04-network-fundamentals.md`
-5. `05-osi-and-tcp-ip.md`
-6. `06-ethernet-and-cabling.md`
-7. `07-ipv4-addressing.md`
-8. `08-subnetting.md`
-9. `09-ipv6.md`
-10. `10-switching-and-vlans.md`
-11. `11-routing.md`
-12. `12-network-services.md`
-13. `13-wireless-networks.md`
-14. `14-telecommunications-fundamentals.md`
-15. `15-network-security.md`
-16. `16-troubleshooting.md`
+Το [`data/curriculum.yml`](../data/curriculum.yml) είναι η μοναδική πηγή
+αλήθειας για τα 16 modules, τη σειρά τους και τα lesson paths. Νέα filenames
+δεν δεσμεύονται σε αυτό το index πριν δημιουργηθεί και καταγραφεί το
+αντίστοιχο εκπαιδευτικό περιεχόμενο στο canonical αρχείο.
+
+## Διαθέσιμη θεωρία
+
+- [`MOD-01 — Ψηφιακή λογική και συστήματα αρίθμησης`](01-digital-logic-and-number-systems.md)
+  — `NEEDS_VERIFICATION`
+
+Τα υπόλοιπα modules παραμένουν `planned`. Η παρούσα καταγραφή δεν δημιουργεί
+περιεχόμενο για το Module 02.
 
 ## Definition of Done ενότητας
 

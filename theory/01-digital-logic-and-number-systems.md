@@ -1,8 +1,8 @@
 # Ψηφιακή λογική και συστήματα αρίθμησης
 
-**Status:** REVIEWED  
-**Syllabus area:** A — Γενικές γνώσεις πληροφορικής  
-**Last verified:** 2026-07-25
+**Status:** NEEDS_VERIFICATION<br>
+**Thematic grouping (draft):** A — Γενικές γνώσεις πληροφορικής<br>
+**Last verified:** —
 
 ## Μαθησιακοί στόχοι
 

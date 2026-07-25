@@ -1,5 +1,10 @@
 # Documentation Index
 
+## Canonical curriculum
+
+- [`../data/curriculum.yml`](../data/curriculum.yml) — μοναδική πηγή αλήθειας για τα 16 modules, τη σειρά, την κατάσταση, τη διαθεσιμότητα και τις συνδέσεις περιεχομένου
+- [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md) — αντιστοίχιση modules, πηγών, ερωτήσεων και εργαστηρίων με placeholders για όσα δεν έχουν επαληθευτεί
+
 ## Project
 
 - [`product/PROJECT_BRIEF.md`](product/PROJECT_BRIEF.md) — σκοπός, κοινό, όρια και επιτυχία του έργου
@@ -7,12 +12,12 @@
 
 ## Syllabus
 
-- [`../syllabus/README.md`](../syllabus/README.md) — αρχικός χάρτης ύλης
+- [`../syllabus/README.md`](../syllabus/README.md) — δέκα θεματικές ομαδοποιήσεις A–J και ενδεικτικό crosswalk προς τα canonical modules
 
 ## Theory
 
-- [`../theory/README.md`](../theory/README.md) — κατάλογος θεωρητικών ενοτήτων
-- [`../theory/01-digital-logic-and-number-systems.md`](../theory/01-digital-logic-and-number-systems.md) — πρώτη ολοκληρωμένη ενότητα
+- [`../theory/README.md`](../theory/README.md) — κανόνες και κατάλογος της διαθέσιμης θεωρίας
+- [`../theory/01-digital-logic-and-number-systems.md`](../theory/01-digital-logic-and-number-systems.md) — πρώτη διαθέσιμη ενότητα (`NEEDS_VERIFICATION`)
 
 ## Questions
 
@@ -30,12 +35,12 @@
 
 ## Progress
 
-- [`../progress/STUDY_PLAN.md`](../progress/STUDY_PLAN.md) — αρχικό πρόγραμμα μελέτης
+- [`../progress/STUDY_PLAN.md`](../progress/STUDY_PLAN.md) — πρόγραμμα 12 κύκλων μελέτης και crosswalk προς τα canonical modules
 - `../progress/PROGRESS_TRACKER.md` — πίνακας προόδου, προς δημιουργία
 
 ## Current phase
 
-**Phase 1 — Foundation**
+**Phase 1 — Pilot / Early Access stabilization**
 
 Κριτήρια ολοκλήρωσης:
 
@@ -43,8 +48,10 @@
 - [x] Κανόνες εκπαιδευτικού περιεχομένου
 - [x] Χάρτης τεκμηρίωσης
 - [x] Project brief
-- [x] Αρχικός χάρτης ύλης
+- [x] Canonical curriculum 16 modules
+- [x] Αρχικός πίνακας ιχνηλασιμότητας
+- [x] Θεματικός χάρτης ύλης A–J
 - [x] Πρότυπα θεωρίας, ερωτήσεων και εργαστηρίων
 - [x] Αρχικό πρόγραμμα μελέτης
 - [ ] Επαλήθευση επίσημης ύλης και πλήρης αντιστοίχιση θεμάτων
-- [x] Πρώτη ολοκληρωμένη εκπαιδευτική ενότητα
+- [x] Πρώτη διαθέσιμη εκπαιδευτική ενότητα (`NEEDS_VERIFICATION`)
