@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Μάθημα ψηφιακής λογικής και συστημάτων αρίθμησης για τεχνικούς δικτύων.">
+  <title>Ψηφιακή Λογική | Network Technician Certification</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Μετάβαση στο περιεχόμενο</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html"><span class="brand-mark">NT</span><span><strong>Network Technician</strong><small>Certification Study Tool</small></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Μενού</button>
+      <nav id="main-nav" class="main-nav" aria-label="Κύρια πλοήγηση">
+        <a href="index.html">Αρχική</a><a href="curriculum.html">Ύλη</a><a class="active" href="lesson-digital-logic.html">Μάθημα</a><a href="practice-binary.html">Εξάσκηση</a><a href="https://github.com/mmark76/Certification-in-Network-and-Telecommunications-Technology">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Ενότητα 01 · Βασικό επίπεδο</p>
+        <h1>Ψηφιακή λογική και <span>συστήματα αρίθμησης</span></h1>
+        <p>Εκτιμώμενος χρόνος: 60–90 λεπτά. Στόχος είναι να κατανοήσεις τις λογικές πράξεις και να εκτελείς βασικές μετατροπές χωρίς μηχανική αποστήθιση.</p>
+      </div>
+    </section>
+
+    <div class="container content-layout">
+      <aside class="sidebar">
+        <strong>Περιεχόμενα</strong>
+        <a href="#objectives">Μαθησιακοί στόχοι</a>
+        <a href="#signals">Αναλογικά και ψηφιακά σήματα</a>
+        <a href="#gates">Λογικές πύλες</a>
+        <a href="#number-systems">Συστήματα αρίθμησης</a>
+        <a href="#conversion">Μετατροπές</a>
+        <a href="#units">Bit, nibble και byte</a>
+        <a href="#encoding">Κωδικοποίηση χαρακτήρων</a>
+        <a href="#recall">Ενεργητική ανάκληση</a>
+      </aside>
+
+      <article class="lesson">
+        <section id="objectives">
+          <p class="eyebrow">Στόχοι</p>
+          <h2>Μετά το μάθημα θα μπορείς</h2>
+          <ul class="check-list">
+            <li>να διακρίνεις αναλογική και ψηφιακή πληροφορία,</li>
+            <li>να εξηγείς AND, OR, NOT, XOR, NAND, NOR και XNOR,</li>
+            <li>να συμπληρώνεις πίνακες αληθείας,</li>
+            <li>να μετατρέπεις θετικούς ακεραίους μεταξύ δυαδικού, δεκαδικού και δεκαεξαδικού,</li>
+            <li>να περιγράφεις τη σχέση bit, nibble, byte και word,</li>
+            <li>να αναγνωρίζεις τον ρόλο ASCII, Unicode και UTF‑8.</li>
+          </ul>
+        </section>
+
+        <section id="signals">
+          <p class="eyebrow">1 · Πληροφορία</p>
+          <h2>Αναλογικά και ψηφιακά σήματα</h2>
+          <p>Ένα <strong>αναλογικό σήμα</strong> μπορεί να λάβει συνεχείς τιμές μέσα σε ένα εύρος. Ένα <strong>ψηφιακό σήμα</strong> αναπαριστά πληροφορία με διακριτές καταστάσεις.</p>
+          <p>Στα περισσότερα ψηφιακά συστήματα χρησιμοποιούνται δύο λογικές καταστάσεις:</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Κατάσταση</th><th>Συνήθης έννοια</th><th>Παράδειγμα</th></tr></thead>
+              <tbody>
+                <tr><td><code>0</code></td><td>Χαμηλή στάθμη, ψευδές, ανενεργό</td><td>Κλειστός διακόπτης λογικής εξόδου</td></tr>
+                <tr><td><code>1</code></td><td>Υψηλή στάθμη, αληθές, ενεργό</td><td>Ενεργοποιημένη λογική έξοδος</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note"><strong>Προσοχή:</strong> Τα 0 και 1 είναι λογικές καταστάσεις. Δεν σημαίνουν υποχρεωτικά ηλεκτρικές τάσεις ακριβώς 0 V και 1 V.</div>
+        </section>
+
+        <section id="gates">
+          <p class="eyebrow">2 · Boolean logic</p>
+          <h2>Βασικές λογικές πύλες</h2>
+          <h3>AND — λογικό ΚΑΙ</h3>
+          <p>Η έξοδος είναι 1 μόνο όταν όλες οι είσοδοι είναι 1.</p>
+          <div class="table-wrap"><table><thead><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
+
+          <h3>OR — λογικό Ή</h3>
+          <p>Η έξοδος είναι 1 όταν τουλάχιστον μία είσοδος είναι 1.</p>
+          <div class="table-wrap"><table><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
+
+          <h3>NOT — λογικό ΟΧΙ</h3>
+          <p>Η NOT έχει μία είσοδο και αντιστρέφει τη λογική της τιμή.</p>
+          <div class="table-wrap"><table><thead><tr><th>A</th><th>NOT A</th></tr></thead><tbody><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td></tr></tbody></table></div>
+
+          <h3>Συμπληρωματικές πύλες</h3>
+          <ul>
+            <li><strong>XOR:</strong> έξοδος 1 όταν οι δύο είσοδοι είναι διαφορετικές.</li>
+            <li><strong>XNOR:</strong> έξοδος 1 όταν οι δύο είσοδοι είναι ίδιες.</li>
+            <li><strong>NAND:</strong> άρνηση του αποτελέσματος AND.</li>
+            <li><strong>NOR:</strong> άρνηση του αποτελέσματος OR.</li>
+          </ul>
+          <div class="warning"><strong>Συχνό λάθος:</strong> Η OR δίνει 1 και όταν A=1, B=1. Η XOR στην ίδια περίπτωση δίνει 0.</div>
+        </section>
+
+        <section id="number-systems">
+          <p class="eyebrow">3 · Number systems</p>
+          <h2>Συστήματα αρίθμησης</h2>
+          <p>Η <strong>βάση</strong> καθορίζει πόσα διαφορετικά ψηφία χρησιμοποιούνται και ποια είναι η αξία κάθε θέσης.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Σύστημα</th><th>Βάση</th><th>Ψηφία</th><th>Παράδειγμα</th></tr></thead>
+              <tbody>
+                <tr><td>Δυαδικό</td><td>2</td><td>0–1</td><td><code>101101₂</code></td></tr>
+                <tr><td>Οκταδικό</td><td>8</td><td>0–7</td><td><code>55₈</code></td></tr>
+                <tr><td>Δεκαδικό</td><td>10</td><td>0–9</td><td><code>45₁₀</code></td></tr>
+                <tr><td>Δεκαεξαδικό</td><td>16</td><td>0–9, A–F</td><td><code>2D₁₆</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Στο δεκαεξαδικό, τα γράμματα A έως F αντιστοιχούν στις δεκαδικές τιμές 10 έως 15.</p>
+        </section>
+
+        <section id="conversion">
+          <p class="eyebrow">4 · Μετατροπές</p>
+          <h2>Δυαδικό σε δεκαδικό</h2>
+          <p>Κάθε θέση έχει βάρος δύναμης του 2. Για το <code>10101100₂</code>:</p>
+          <div class="code-card"><div class="code-card-top"><span></span><span></span><span></span></div><pre><code>1×2⁷ + 0×2⁶ + 1×2⁵ + 0×2⁴
++ 1×2³ + 1×2² + 0×2¹ + 0×2⁰
+
+= 128 + 32 + 8 + 4
+= 172₁₀</code></pre></div>
+
+          <h2>Δεκαδικό σε δυαδικό</h2>
+          <p>Διαίρεσε επανειλημμένα τον αριθμό με το 2 και κράτησε τα υπόλοιπα. Διάβασε τα υπόλοιπα από κάτω προς τα πάνω.</p>
+          <div class="table-wrap"><table><thead><tr><th>Διαίρεση</th><th>Πηλίκο</th><th>Υπόλοιπο</th></tr></thead><tbody><tr><td>13 ÷ 2</td><td>6</td><td>1</td></tr><tr><td>6 ÷ 2</td><td>3</td><td>0</td></tr><tr><td>3 ÷ 2</td><td>1</td><td>1</td></tr><tr><td>1 ÷ 2</td><td>0</td><td>1</td></tr></tbody></table></div>
+          <p>Άρα <code>13₁₀ = 1101₂</code>.</p>
+
+          <h2>Δυαδικό σε δεκαεξαδικό</h2>
+          <p>Χώρισε τα δυαδικά ψηφία σε ομάδες τεσσάρων από δεξιά:</p>
+          <div class="note"><code>1010 1100₂ = A C₁₆ = AC₁₆</code></div>
+        </section>
+
+        <section id="units">
+          <p class="eyebrow">5 · Μονάδες</p>
+          <h2>Bit, nibble, byte και word</h2>
+          <div class="table-wrap"><table><thead><tr><th>Όρος</th><th>Σημασία</th></tr></thead><tbody><tr><td>bit</td><td>Ένα δυαδικό ψηφίο: 0 ή 1.</td></tr><tr><td>nibble</td><td>Ομάδα 4 bits.</td></tr><tr><td>byte</td><td>Ομάδα 8 bits.</td></tr><tr><td>word</td><td>Μονάδα δεδομένων συγκεκριμένου επεξεργαστή, π.χ. 16, 32 ή 64 bits.</td></tr></tbody></table></div>
+          <div class="warning"><strong>Διάκριση:</strong> Το μικρό <code>b</code> χρησιμοποιείται συνήθως για bit, ενώ το κεφαλαίο <code>B</code> για byte. Έτσι, 100 Mb/s και 100 MB/s δεν είναι το ίδιο.</div>
+        </section>
+
+        <section id="encoding">
+          <p class="eyebrow">6 · Encoding</p>
+          <h2>Κωδικοποίηση χαρακτήρων</h2>
+          <p>Οι χαρακτήρες αποθηκεύονται ως αριθμητικοί κωδικοί. Το ASCII καλύπτει ένα περιορισμένο σύνολο χαρακτήρων. Το Unicode ορίζει κωδικούς για πολύ περισσότερες γραφές και σύμβολα. Το UTF‑8 είναι ένας ευρέως χρησιμοποιούμενος τρόπος κωδικοποίησης Unicode με μεταβλητό αριθμό bytes.</p>
+          <div class="success"><strong>Σύνδεση με τα δίκτυα:</strong> Η σωστή κωδικοποίηση είναι κρίσιμη όταν δεδομένα ανταλλάσσονται μεταξύ διαφορετικών λειτουργικών συστημάτων, εφαρμογών και πρωτοκόλλων.</div>
+        </section>
+
+        <section id="recall">
+          <p class="eyebrow">7 · Active recall</p>
+          <h2>Έλεγχος χωρίς βοήθεια</h2>
+          <ol>
+            <li>Πότε η XOR δίνει έξοδο 1;</li>
+            <li>Ποια είναι η διαφορά OR και XOR για εισόδους 1 και 1;</li>
+            <li>Ποια είναι η δεκαδική τιμή του <code>11111111₂</code>;</li>
+            <li>Πώς μετατρέπεται το <code>172₁₀</code> σε δεκαεξαδικό;</li>
+            <li>Πόσα bits έχει ένα byte;</li>
+            <li>Γιατί το UTF‑8 είναι σημαντικό στη δικτυακή επικοινωνία;</li>
+          </ol>
+          <p><a class="button primary" href="practice-binary.html">Πήγαινε στο quiz και στο εργαστήριο</a></p>
+        </section>
+
+        <div class="lesson-actions">
+          <label class="complete-control"><input type="checkbox" data-lesson-id="lesson-01-digital-logic"> Ολοκλήρωσα το μάθημα</label>
+          <a class="text-link" href="curriculum.html">Επιστροφή στην ύλη →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-grid"><div><strong>Network & Telecommunications Technician</strong><p>Η κατανόηση επαληθεύεται με ανάκληση και εφαρμογή, όχι μόνο με ανάγνωση.</p></div><div><a href="curriculum.html">Ύλη</a><a href="practice-binary.html">Quiz</a><a href="index.html">Αρχική</a></div></div></footer>
+</body>
+</html>
