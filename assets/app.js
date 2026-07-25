@@ -5,6 +5,11 @@
   const LEGACY_PROGRESS_STORAGE_KEY = 'nt-certification-progress-v1';
   const SETTINGS_KEY = 'nt-certification-interface-v2';
   const PASSING_QUIZ_SCORE = 80;
+  const DEFAULT_BUILD_INFO = Object.freeze({
+    version: '0.1.0',
+    buildStamp: 'local',
+    shortSha: 'dev'
+  });
 
   const DEFAULT_SETTINGS = {
     theme: 'system',
@@ -41,6 +46,31 @@
     && typeof value === 'object'
     && !Array.isArray(value)
   );
+
+  const readBuildInfo = () => {
+    const source = isRecord(window.NTT_BUILD_INFO)
+      ? window.NTT_BUILD_INFO
+      : {};
+    const safePart = (value, fallback) => (
+      typeof value === 'string' && value.trim()
+        ? value.trim()
+        : fallback
+    );
+
+    return {
+      version: safePart(source.version, DEFAULT_BUILD_INFO.version),
+      buildStamp: safePart(source.buildStamp, DEFAULT_BUILD_INFO.buildStamp),
+      shortSha: safePart(source.shortSha, DEFAULT_BUILD_INFO.shortSha)
+    };
+  };
+
+  const updateBuildVersion = () => {
+    const versionElement = document.querySelector('[data-build-version]');
+    if (!versionElement) return;
+
+    const { version, buildStamp, shortSha } = readBuildInfo();
+    versionElement.textContent = `v ${version}_${buildStamp}_${shortSha}`;
+  };
 
   const safeReadStorage = (key) => {
     try {
@@ -474,6 +504,7 @@
   }
 
   applySettings(readSettings());
+  updateBuildVersion();
   setupSettingsDialog();
   setupNavigation();
   setupProgressControls();

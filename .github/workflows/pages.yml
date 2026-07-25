@@ -25,6 +25,20 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Generate deployment build information
+        env:
+          TZ: Europe/Athens
+        run: |
+          BUILD_STAMP="$(date +'%Y%m%d_%H%M')"
+          SHORT_SHA="${GITHUB_SHA::7}"
+          cat > assets/build-info.js <<EOF
+          window.NTT_BUILD_INFO = Object.freeze({
+            version: '0.1.0',
+            buildStamp: '${BUILD_STAMP}',
+            shortSha: '${SHORT_SHA}'
+          });
+          EOF
+
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
         with:
