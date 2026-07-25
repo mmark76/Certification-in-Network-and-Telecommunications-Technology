@@ -5,6 +5,18 @@
 > **English title:** Network and Telecommunications Technician  
 > **Repository purpose:** Structured preparation for the EOPPEP certification examinations.
 
+## Ιστοσελίδα
+
+Η διαδραστική εκπαιδευτική ιστοσελίδα είναι σχεδιασμένη για GitHub Pages:
+
+**https://mmark76.github.io/Certification-in-Network-and-Telecommunications-Technology/**
+
+Περιλαμβάνει αρχική σελίδα, χάρτη 16 ενοτήτων, πρώτο ολοκληρωμένο μάθημα, εργαστήριο, quiz και τοπική αποθήκευση προόδου.
+
+Αν το GitHub Pages δεν έχει ενεργοποιηθεί ακόμη, επίλεξε στο repository:
+
+`Settings → Pages → Build and deployment → Source: GitHub Actions`
+
 ## Σκοπός
 
 Το repository οργανώνει τη μελέτη σε μικρές, ελέγξιμες ενότητες και συνδυάζει:
@@ -39,6 +51,7 @@
 | `practical/` | Πρακτικές ασκήσεις και εργαστήρια |
 | `resources/` | Πηγές, σύνδεσμοι και ορολογία |
 | `progress/` | Πρόγραμμα μελέτης και καταγραφή προόδου |
+| `assets/` | CSS και JavaScript της εκπαιδευτικής ιστοσελίδας |
 
 ## Θεματικοί άξονες
 
@@ -55,16 +68,14 @@
 
 ## Γρήγορη εκκίνηση
 
-1. Διάβασε το [`docs/product/PROJECT_BRIEF.md`](docs/product/PROJECT_BRIEF.md).
-2. Άνοιξε το [`docs/INDEX.md`](docs/INDEX.md).
-3. Ακολούθησε το [`progress/STUDY_PLAN.md`](progress/STUDY_PLAN.md).
-4. Μελέτησε μία ενότητα θεωρίας.
-5. Απάντησε στις αντίστοιχες ερωτήσεις χωρίς βοήθεια.
-6. Εκτέλεσε το σχετικό πρακτικό εργαστήριο.
-7. Κατέγραψε αποτέλεσμα, λάθη και επόμενη επανάληψη.
+1. Άνοιξε την εκπαιδευτική ιστοσελίδα ή το `index.html`.
+2. Δες τον χάρτη στο `curriculum.html`.
+3. Μελέτησε το πρώτο μάθημα στο `lesson-digital-logic.html`.
+4. Ολοκλήρωσε το quiz και το εργαστήριο στο `practice-binary.html`.
+5. Κατάγραψε αποτέλεσμα, λάθη και επόμενη επανάληψη.
 
 ## Κατάσταση έργου
 
-**Phase 1 — Educational foundation:** σε εξέλιξη.
+**Phase 1 — Educational website foundation: ολοκληρώθηκε.**
 
-Πρώτος στόχος είναι η δημιουργία πλήρους χάρτη ύλης και ενός επαναχρησιμοποιήσιμου προτύπου μαθήματος, ερώτησης και πρακτικού εργαστηρίου.
+Η ιστοσελίδα διαθέτει πλέον λειτουργικό πυρήνα. Επόμενος στόχος είναι η ανάπτυξη της ενότητας **Αρχιτεκτονική και υλικό Η/Υ** και η πλήρης αντιστοίχιση της ύλης με τις επίσημες θεματικές εξετάσεων.
