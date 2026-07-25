@@ -2,6 +2,32 @@
   'use strict';
 
   const STORAGE_KEY = 'nt-certification-progress-v1';
+  const DELTA_360_PDF = 'https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf';
+
+  const setupSiteChrome = () => {
+    if (!document.querySelector('link[href="assets/fixed-layout.css"]')) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = 'assets/fixed-layout.css';
+      document.head.appendChild(stylesheet);
+    }
+
+    document
+      .querySelectorAll('.site-header a[href*="github.com"], .site-footer a[href*="github.com"]')
+      .forEach((link) => link.remove());
+
+    const footerLinks = document.querySelector('.site-footer .footer-grid > div:last-child');
+    if (footerLinks && !footerLinks.querySelector('.footer-pdf-button')) {
+      const pdfLink = document.createElement('a');
+      pdfLink.className = 'footer-pdf-button';
+      pdfLink.href = DELTA_360_PDF;
+      pdfLink.target = '_blank';
+      pdfLink.rel = 'noopener noreferrer';
+      pdfLink.textContent = 'iekdelta360pdf';
+      pdfLink.setAttribute('aria-label', 'Άνοιγμα βοηθήματος πιστοποίησης ΙΕΚ ΔΕΛΤΑ 360 σε PDF');
+      footerLinks.appendChild(pdfLink);
+    }
+  };
 
   const readProgress = () => {
     try {
@@ -111,6 +137,7 @@
     });
   };
 
+  setupSiteChrome();
   setupNavigation();
   setupLessonCompletion();
   setupQuiz();
