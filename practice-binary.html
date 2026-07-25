@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Διαδραστικό quiz και πρακτικό εργαστήριο δυαδικών μετατροπών και λογικών πράξεων.">
+  <title>Εξάσκηση Δυαδικού | Network Technician Certification</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Μετάβαση στο περιεχόμενο</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html"><span class="brand-mark">NT</span><span><strong>Network Technician</strong><small>Certification Study Tool</small></span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Μενού</button>
+      <nav id="main-nav" class="main-nav" aria-label="Κύρια πλοήγηση">
+        <a href="index.html">Αρχική</a><a href="curriculum.html">Ύλη</a><a href="lesson-digital-logic.html">Μάθημα</a><a class="active" href="practice-binary.html">Εξάσκηση</a><a href="https://github.com/mmark76/Certification-in-Network-and-Telecommunications-Technology">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">LAB-GEN-001 · 45–60 λεπτά</p>
+        <h1>Δυαδικές μετατροπές και <span>λογικές πράξεις</span></h1>
+        <p>Ολοκλήρωσε πρώτα το quiz χωρίς σημειώσεις. Έπειτα εκτέλεσε τις ασκήσεις σε χαρτί και χρησιμοποίησε υπολογιστή μόνο για τελικό έλεγχο.</p>
+      </div>
+    </section>
+
+    <div class="container content-layout">
+      <aside class="sidebar">
+        <strong>Περιεχόμενα</strong>
+        <a href="#quiz">Γρήγορο quiz</a>
+        <a href="#truth-tables">Πίνακες αληθείας</a>
+        <a href="#binary-decimal">Δυαδικό σε δεκαδικό</a>
+        <a href="#decimal-binary">Δεκαδικό σε δυαδικό</a>
+        <a href="#hex">Δεκαεξαδικό</a>
+        <a href="#error-finding">Εντοπισμός λαθών</a>
+        <a href="#criteria">Κριτήρια επιτυχίας</a>
+      </aside>
+
+      <article class="lesson">
+        <section id="quiz">
+          <p class="eyebrow">Αυτοαξιολόγηση</p>
+          <h2>Quiz έξι ερωτήσεων</h2>
+          <p>Όριο επιτυχίας: 80%. Μετά την υποβολή, οι σωστές απαντήσεις σημειώνονται με πράσινο περίγραμμα και οι λανθασμένες με κόκκινο.</p>
+
+          <form class="quiz" data-quiz="quiz-01-binary">
+            <article class="question-card" data-answer="b">
+              <fieldset><legend>1. Πότε η πύλη AND δίνει έξοδο 1;</legend>
+                <label class="option"><input type="radio" name="q1" value="a"> Όταν τουλάχιστον μία είσοδος είναι 1.</label>
+                <label class="option"><input type="radio" name="q1" value="b"> Όταν όλες οι είσοδοι είναι 1.</label>
+                <label class="option"><input type="radio" name="q1" value="c"> Όταν οι είσοδοι είναι διαφορετικές.</label>
+              </fieldset>
+            </article>
+
+            <article class="question-card" data-answer="c">
+              <fieldset><legend>2. Ποια είναι η έξοδος XOR για A=1 και B=1;</legend>
+                <label class="option"><input type="radio" name="q2" value="a"> 1</label>
+                <label class="option"><input type="radio" name="q2" value="b"> Απροσδιόριστη</label>
+                <label class="option"><input type="radio" name="q2" value="c"> 0</label>
+              </fieldset>
+            </article>
+
+            <article class="question-card" data-answer="a">
+              <fieldset><legend>3. Ποια είναι η δεκαδική τιμή του 1010₂;</legend>
+                <label class="option"><input type="radio" name="q3" value="a"> 10</label>
+                <label class="option"><input type="radio" name="q3" value="b"> 12</label>
+                <label class="option"><input type="radio" name="q3" value="c"> 8</label>
+              </fieldset>
+            </article>
+
+            <article class="question-card" data-answer="b">
+              <fieldset><legend>4. Ποια είναι η δυαδική μορφή του 13₁₀;</legend>
+                <label class="option"><input type="radio" name="q4" value="a"> 1011₂</label>
+                <label class="option"><input type="radio" name="q4" value="b"> 1101₂</label>
+                <label class="option"><input type="radio" name="q4" value="c"> 1110₂</label>
+              </fieldset>
+            </article>
+
+            <article class="question-card" data-answer="c">
+              <fieldset><legend>5. Πόσα bits περιέχει ένα byte;</legend>
+                <label class="option"><input type="radio" name="q5" value="a"> 4</label>
+                <label class="option"><input type="radio" name="q5" value="b"> 16</label>
+                <label class="option"><input type="radio" name="q5" value="c"> 8</label>
+              </fieldset>
+            </article>
+
+            <article class="question-card" data-answer="a">
+              <fieldset><legend>6. Ποια είναι η δεκαεξαδική μορφή του 10101100₂;</legend>
+                <label class="option"><input type="radio" name="q6" value="a"> AC₁₆</label>
+                <label class="option"><input type="radio" name="q6" value="b"> BC₁₆</label>
+                <label class="option"><input type="radio" name="q6" value="c"> A8₁₆</label>
+              </fieldset>
+            </article>
+
+            <button class="button primary" type="submit">Υποβολή απαντήσεων</button>
+            <div class="quiz-result" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section id="truth-tables">
+          <p class="eyebrow">Μέρος Α</p>
+          <h2>Πίνακες αληθείας</h2>
+          <p>Αντέγραψε τον πίνακα σε χαρτί και συμπλήρωσε τα κενά χωρίς να κοιτάξεις τη θεωρία.</p>
+          <div class="table-wrap"><table><thead><tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>XOR</th><th>NAND</th><th>NOR</th><th>XNOR</th></tr></thead><tbody><tr><td>0</td><td>0</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>0</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>1</td><td>0</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>1</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+          <div class="note"><strong>Προφορικός έλεγχος:</strong> Εξήγησε σε μία πρόταση τη διαφορά OR και XOR.</div>
+        </section>
+
+        <section id="binary-decimal">
+          <p class="eyebrow">Μέρος Β</p>
+          <h2>Δυαδικό σε δεκαδικό</h2>
+          <p>Μετέτρεψε τους αριθμούς και παρουσίασε αναλυτικά τα βάρη των θέσεων:</p>
+          <ol>
+            <li><code>1010₂</code></li>
+            <li><code>110101₂</code></li>
+            <li><code>10000000₂</code></li>
+            <li><code>11111111₂</code></li>
+            <li><code>10101100₂</code></li>
+          </ol>
+        </section>
+
+        <section id="decimal-binary">
+          <p class="eyebrow">Μέρος Γ</p>
+          <h2>Δεκαδικό σε δυαδικό</h2>
+          <p>Χρησιμοποίησε διαδοχικές διαιρέσεις με το 2 και κράτησε για κάθε βήμα διαίρεση, πηλίκο και υπόλοιπο.</p>
+          <ol>
+            <li><code>13₁₀</code></li>
+            <li><code>27₁₀</code></li>
+            <li><code>58₁₀</code></li>
+            <li><code>127₁₀</code></li>
+            <li><code>172₁₀</code></li>
+          </ol>
+        </section>
+
+        <section id="hex">
+          <p class="eyebrow">Μέρος Δ</p>
+          <h2>Δυαδικό και δεκαεξαδικό</h2>
+          <ol>
+            <li>Μετέτρεψε το <code>10101100₂</code> σε δεκαεξαδικό.</li>
+            <li>Μετέτρεψε το <code>11111111₂</code> σε δεκαεξαδικό.</li>
+            <li>Μετέτρεψε το <code>7B₁₆</code> σε δυαδικό και δεκαδικό.</li>
+            <li>Μετέτρεψε το <code>C0₁₆</code> σε δυαδικό και δεκαδικό.</li>
+          </ol>
+          <div class="note"><strong>Μέθοδος:</strong> Κάθε δεκαεξαδικό ψηφίο αντιστοιχεί ακριβώς σε τέσσερα δυαδικά ψηφία.</div>
+        </section>
+
+        <section id="error-finding">
+          <p class="eyebrow">Μέρος Ε</p>
+          <h2>Εντοπισμός λαθών</h2>
+          <p>Χαρακτήρισε κάθε πρόταση σωστή ή λανθασμένη και διόρθωσε τις λανθασμένες:</p>
+          <ol>
+            <li><code>10000₂ = 8₁₀</code></li>
+            <li><code>15₁₀ = 1111₂</code></li>
+            <li><code>FF₁₆ = 255₁₀</code></li>
+            <li>Η XOR δίνει 1 όταν και οι δύο είσοδοι είναι 1.</li>
+            <li>Ένα nibble αποτελείται από 8 bits.</li>
+          </ol>
+        </section>
+
+        <section id="criteria">
+          <p class="eyebrow">Ολοκλήρωση</p>
+          <h2>Κριτήρια επιτυχίας</h2>
+          <ul class="check-list">
+            <li>τουλάχιστον 80% στο quiz,</li>
+            <li>σωστή συμπλήρωση όλων των πινάκων αληθείας,</li>
+            <li>τουλάχιστον 8/10 σωστές αριθμητικές μετατροπές,</li>
+            <li>δυνατότητα προφορικής εξήγησης της μεθόδου,</li>
+            <li>καταγραφή κάθε λάθους και της αιτίας του.</li>
+          </ul>
+          <div class="success"><strong>Επόμενο βήμα:</strong> Επανάλαβε μόνο τις ασκήσεις στις οποίες έκανες λάθος μετά από 1 ημέρα, 3 ημέρες και 7 ημέρες.</div>
+        </section>
+
+        <div class="lesson-actions">
+          <label class="complete-control"><input type="checkbox" data-lesson-id="lab-01-binary-logic"> Ολοκλήρωσα το εργαστήριο</label>
+          <a class="text-link" href="lesson-digital-logic.html">Επιστροφή στο μάθημα →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-grid"><div><strong>Network & Telecommunications Technician</strong><p>Τα αποτελέσματα του quiz και η πρόοδος αποθηκεύονται μόνο στον browser της συσκευής.</p></div><div><a href="lesson-digital-logic.html">Μάθημα</a><a href="curriculum.html">Ύλη</a><a href="index.html">Αρχική</a></div></div></footer>
+</body>
+</html>
