@@ -1,0 +1,29 @@
+# Default owner
+* @mmark76
+
+# Governance and automation
+/.github/ @mmark76
+/LICENSE @mmark76
+/CONTRIBUTING.md @mmark76
+/SECURITY.md @mmark76
+
+# Canonical curriculum and validation tooling
+/data/ @mmark76
+/scripts/ @mmark76
+
+# Educational content
+/syllabus/ @mmark76
+/theory/ @mmark76
+/questions/ @mmark76
+/practical/ @mmark76
+/progress/ @mmark76
+/resources/ @mmark76
+
+# Static website
+/*.html @mmark76
+/assets/ @mmark76
+
+# Project documentation
+/docs/ @mmark76
+/README.md @mmark76
+/AGENTS.md @mmark76
