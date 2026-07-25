@@ -12,6 +12,7 @@
 ## Theory
 
 - [`../theory/README.md`](../theory/README.md) — κατάλογος θεωρητικών ενοτήτων
+- [`../theory/01-digital-logic-and-number-systems.md`](../theory/01-digital-logic-and-number-systems.md) — πρώτη ολοκληρωμένη ενότητα
 
 ## Questions
 
@@ -20,6 +21,7 @@
 ## Practical work
 
 - [`../practical/README.md`](../practical/README.md) — εργαστήρια και πρακτικές δεξιότητες
+- [`../practical/LAB-GEN-001-binary-and-logic.md`](../practical/LAB-GEN-001-binary-and-logic.md) — δυαδικές μετατροπές και λογικές πράξεις
 
 ## Resources
 
@@ -45,4 +47,4 @@
 - [x] Πρότυπα θεωρίας, ερωτήσεων και εργαστηρίων
 - [x] Αρχικό πρόγραμμα μελέτης
 - [ ] Επαλήθευση επίσημης ύλης και πλήρης αντιστοίχιση θεμάτων
-- [ ] Πρώτη ολοκληρωμένη εκπαιδευτική ενότητα
+- [x] Πρώτη ολοκληρωμένη εκπαιδευτική ενότητα
