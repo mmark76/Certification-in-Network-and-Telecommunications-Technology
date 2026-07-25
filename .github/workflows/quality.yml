@@ -1,0 +1,52 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate canonical curriculum
+        run: python scripts/validate_curriculum.py
+
+      - name: Check HTML IDs
+        run: python scripts/check_html_ids.py
+
+      - name: Check internal links
+        run: python scripts/check_internal_links.py
+
+      - name: Check application JavaScript syntax
+        run: node --check assets/app.js
+
+      - name: Check generated curriculum JavaScript syntax
+        run: node --check assets/curriculum-data.js
+
+      - name: Test progress migration and calculation
+        run: node scripts/test_progress.mjs
+
+  deploy:
+    name: Deploy educational website
+    needs: validate
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
