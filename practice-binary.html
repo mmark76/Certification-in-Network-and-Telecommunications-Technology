@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/fixed-layout.css">
   <link rel="stylesheet" href="assets/interface-overrides.css">
   <script src="assets/curriculum-data.js" defer></script>
+  <script src="assets/build-info.js" defer></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body>
@@ -199,14 +200,16 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-layout">
-      <p class="footer-disclaimer"><strong>Pilot:</strong> ανεξάρτητο εκπαιδευτικό βοήθημα· δεν αποτελεί επίσημο υλικό του ΕΟΠΠΕΠ ούτε μοναδικό βοήθημα πιστοποίησης.</p>
-      <nav class="footer-links" aria-label="Πηγές και repository">
-        <a href="https://github.com/mmark76/Certification-in-Network-and-Telecommunications-Technology">GitHub repository</a>
-        <a href="https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf" target="_blank" rel="noopener noreferrer">Βοήθημα προετοιμασίας ΔΕΛΤΑ 360 (PDF)</a>
-      </nav>
-      <span class="footer-status" aria-label="Κατάσταση έκδοσης: Pilot">Pilot</span>
-    </div>
+    <p class="ecosystem-footer__copyright">© 2026 Markellos Markides. All rights reserved.</p>
+    <nav class="ecosystem-footer__navigation" aria-label="Βοηθητικοί σύνδεσμοι">
+      <a class="ecosystem-footer__link" href="https://markellosecosystem.com/" target="_blank" rel="noopener noreferrer">Markellos Ecosystem</a>
+      <a class="ecosystem-footer__link" href="https://markellosecosystem.com/about/" target="_blank" rel="noopener noreferrer">About Markellos</a>
+      <a class="ecosystem-footer__link" href="https://markellosecosystem.com/privacy/" target="_blank" rel="noopener noreferrer">Privacy</a>
+      <a class="ecosystem-footer__link" href="https://markellosecosystem.com/cookies/" target="_blank" rel="noopener noreferrer">Cookies</a>
+      <a class="ecosystem-footer__link" href="mailto:markellos.markides@gmail.com?subject=NTT%20Certification%20Feedback">Feedback</a>
+      <a class="ecosystem-footer__link footer-pdf-button" href="https://www.iekdelta360.edu.gr/files/repository/eoppep/%CE%99%CE%95%CE%9A-%CE%94%CE%95%CE%9B%CE%A4%CE%91-360-technikos-diktion.pdf" target="_blank" rel="noopener noreferrer">iekdelta360pdf</a>
+    </nav>
+    <span class="ecosystem-footer__version" data-build-version>v 0.1.0_local_dev</span>
   </footer>
 
   <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title" aria-describedby="settings-intro">
