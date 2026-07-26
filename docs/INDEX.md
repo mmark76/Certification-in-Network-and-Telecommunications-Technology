@@ -3,7 +3,7 @@
 ## Canonical curriculum
 
 - [`../data/curriculum.yml`](../data/curriculum.yml) — μοναδική πηγή αλήθειας για τα 16 modules, τη σειρά, την κατάσταση, τη διαθεσιμότητα και τις συνδέσεις περιεχομένου
-- [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md) — αντιστοίχιση modules, πηγών, ερωτήσεων και εργαστηρίων με placeholders για όσα δεν έχουν επαληθευτεί
+- [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md) — αντιστοίχιση modules, σημείων του PDF, ερωτήσεων και εργαστηρίων με placeholders για όσα δεν έχουν χαρτογραφηθεί
 
 ## Project
 
@@ -30,7 +30,7 @@
 
 ## Resources
 
-- [`../resources/OFFICIAL_SOURCES.md`](../resources/OFFICIAL_SOURCES.md) — επίσημες και βοηθητικές πηγές
+- [`../resources/OFFICIAL_SOURCES.md`](../resources/OFFICIAL_SOURCES.md) — μοναδική πηγή γνώσης και κανόνες ιχνηλασιμότητας
 - `../resources/TERMINOLOGY-EL-EN.md` — δίγλωσση τεχνική ορολογία, προς δημιουργία
 
 ## Progress
@@ -53,5 +53,5 @@
 - [x] Θεματικός χάρτης ύλης A–J
 - [x] Πρότυπα θεωρίας, ερωτήσεων και εργαστηρίων
 - [x] Αρχικό πρόγραμμα μελέτης
-- [ ] Επαλήθευση επίσημης ύλης και πλήρης αντιστοίχιση θεμάτων
+- [ ] Πλήρης χαρτογράφηση του PDF σε θέματα, σελίδες και ερωτήσεις
 - [x] Πρώτη διαθέσιμη εκπαιδευτική ενότητα (`NEEDS_VERIFICATION`)
