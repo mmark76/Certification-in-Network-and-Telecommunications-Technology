@@ -8,9 +8,11 @@
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="assets/fixed-layout.css">
   <link rel="stylesheet" href="assets/interface-overrides.css">
+  <link rel="stylesheet" href="assets/flashcards.css">
   <script src="assets/curriculum-data.js" defer></script>
   <script src="assets/build-info.js" defer></script>
   <script src="assets/app.js" defer></script>
+  <script src="assets/flashcards.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Μετάβαση στο περιεχόμενο</a>
@@ -46,6 +48,7 @@
     <div class="container content-layout">
       <aside class="sidebar">
         <strong>Περιεχόμενα</strong>
+        <a href="#flashcards">Κάρτες ανάκλησης</a>
         <a href="#quiz">Γρήγορο quiz</a>
         <a href="#truth-tables">Πίνακες αληθείας</a>
         <a href="#binary-decimal">Δυαδικό σε δεκαδικό</a>
@@ -56,6 +59,239 @@
       </aside>
 
       <article class="lesson">
+        <section id="flashcards" data-flashcard-deck aria-labelledby="flashcards-title">
+          <p class="eyebrow">Ενεργητική ανάκληση</p>
+          <h2 id="flashcards-title">12 κάρτες ερωτήσεων και απαντήσεων</h2>
+          <p>Προσπάθησε να απαντήσεις χωρίς σημειώσεις, εμφάνισε την απάντηση και κατέγραψε αν τη γνωρίζεις ή αν χρειάζεται επανάληψη.</p>
+
+          <div class="flashcard-toolbar" role="group" aria-label="Μαζικοί χειρισμοί καρτών">
+            <button class="button secondary" type="button" data-flashcards-open-all>Εμφάνιση όλων</button>
+            <button class="button secondary" type="button" data-flashcards-close-all>Απόκρυψη όλων</button>
+            <button class="button secondary" type="button" data-flashcards-reset>Επαναφορά αξιολογήσεων</button>
+            <p class="flashcard-summary" data-flashcard-summary role="status" aria-live="polite" aria-atomic="true">Γνωστές: 0 · Για επανάληψη: 0 · Χωρίς αξιολόγηση: 12</p>
+          </div>
+
+          <div class="flashcard-grid">
+            <article class="flashcard" id="flashcard-gen-101" data-flashcard-id="GEN-101" aria-labelledby="flashcard-gen-101-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-101</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Λογικές πύλες</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-101-title">Πότε η AND δίνει έξοδο 1;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-101-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Η AND δίνει 1 μόνο όταν όλες οι είσοδοι είναι 1.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερώτηση 1, σελίδα 2.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-101">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-101-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-101" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-101" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-102" data-flashcard-id="GEN-102" aria-labelledby="flashcard-gen-102-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-102</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Λογικές πύλες</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-102-title">Ποια είναι η διαφορά OR και XOR;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-102-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Η OR δίνει 1 όταν υπάρχει τουλάχιστον μία είσοδος 1. Η XOR δίνει 1 όταν οι δύο είσοδοι είναι διαφορετικές.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερωτήσεις 1 και 17, σελίδες 2 και 8. <strong>NEEDS_VERIFICATION:</strong> η συνθήκη αληθείας της XOR δεν αναλύεται.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-102">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-102-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-102" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-102" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-103" data-flashcard-id="GEN-103" aria-labelledby="flashcard-gen-103-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-103</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Λογικές πύλες</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-103-title">Τι κάνει η NOT;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-103-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Η NOT έχει μία είσοδο και αντιστρέφει τη λογική τιμή: 0→1 και 1→0.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερώτηση 1, σελίδα 2.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-103">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-103-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-103" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-103" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-104" data-flashcard-id="GEN-104" aria-labelledby="flashcard-gen-104-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-104</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Μετατροπές βάσης</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-104-title">Πώς μετατρέπεται ένας θετικός δεκαδικός ακέραιος σε δυαδικό;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-104-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Διαιρούμε επανειλημμένα με το 2, κρατάμε τα υπόλοιπα και τα διαβάζουμε από το τελευταίο προς το πρώτο.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερώτηση 5, σελίδα 3.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-104">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-104-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-104" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-104" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-105" data-flashcard-id="GEN-105" aria-labelledby="flashcard-gen-105-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-105</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Μετατροπές βάσης</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-105-title">Πώς μετατρέπεται δυαδικός αριθμός σε δεκαδικό;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-105-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Πολλαπλασιάζουμε κάθε bit με την αντίστοιχη δύναμη του 2 και προσθέτουμε τα αποτελέσματα.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερώτηση 9, σελίδα 41. <strong>NEEDS_VERIFICATION:</strong> η πηγή τεκμηριώνει την εργασία μετατροπής, όχι αναλυτικά τη μέθοδο θέσεων της κάρτας.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-105">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-105-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-105" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-105" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-106" data-flashcard-id="GEN-106" aria-labelledby="flashcard-gen-106-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-106</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Μετατροπές βάσης</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-106-title">Πώς γίνεται γρήγορα μετατροπή δυαδικού σε δεκαεξαδικό ή οκταδικό;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-106-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Ομαδοποιούμε από δεξιά ανά 4 bits για δεκαεξαδικό ή ανά 3 bits για οκταδικό και μετατρέπουμε κάθε ομάδα ανεξάρτητα.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερωτήσεις 15–17, σελίδες 45–46. <strong>NEEDS_VERIFICATION:</strong> η πηγή δεν αναλύει τη μέθοδο ομαδοποίησης και ο πίνακας της ερώτησης 15 περιέχει ασυνεπή τιμή.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-106">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-106-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-106" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-106" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-107" data-flashcard-id="GEN-107" aria-labelledby="flashcard-gen-107-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-107</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Μονάδες πληροφορίας</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-107-title">Τι είναι bit, byte και word;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-107-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Bit είναι μία δυαδική κατάσταση. Byte είναι 8 bits. Word είναι ομάδα bits της οποίας το μέγεθος εξαρτάται από την αρχιτεκτονική.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερώτηση 38, σελίδες 60–61.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-107">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-107-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-107" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-107" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-108" data-flashcard-id="GEN-108" aria-labelledby="flashcard-gen-108-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-108</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Μονάδες πληροφορίας</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-108-title">Πόσες διαφορετικές τιμές αναπαριστούν n bits;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-108-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Τα n bits αναπαριστούν 2ⁿ διαφορετικές τιμές. Για 8 bits υπάρχουν 256 συνδυασμοί, συνήθως 0–255 όταν είναι unsigned.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερώτηση 38, σελίδες 60–61.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-108">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-108-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-108" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-108" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-109" data-flashcard-id="GEN-109" aria-labelledby="flashcard-gen-109-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-109</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Κωδικοποίηση χαρακτήρων</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-109-title">Τι είναι ASCII;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-109-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Το ASCII αντιστοιχίζει αριθμητικές τιμές σε λατινικούς χαρακτήρες, ψηφία, σημεία στίξης και χαρακτήρες ελέγχου.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερώτηση 7, σελίδα 4, και Ομάδα Β, ερώτηση 143, σελίδες 105–106. <strong>NEEDS_VERIFICATION:</strong> οι δύο απαντήσεις του PDF διαφωνούν για το εύρος του ASCII.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-109">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-109-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-109" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-109" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-110" data-flashcard-id="GEN-110" aria-labelledby="flashcard-gen-110-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-110</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Κωδικοποίηση χαρακτήρων</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-110-title">Τι επιδιώκει το Unicode;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-110-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Το Unicode επιδιώκει ενιαία αριθμητική αναπαράσταση χαρακτήρων από διαφορετικά συστήματα γραφής και τεχνικά σύμβολα.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Α, ερώτηση 18, σελίδα 9.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-110">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-110-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-110" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-110" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-111" data-flashcard-id="GEN-111" aria-labelledby="flashcard-gen-111-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-111</strong></span>
+                <span>Δυσκολία: Intermediate</span>
+                <span>Θέμα: Προσημασμένοι αριθμοί</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-111-title">Τι αλλάζει όταν ένα byte ερμηνεύεται ως unsigned ή ως two’s complement;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-111-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Τα ίδια 8 bits διατηρούνται, αλλά αλλάζει η ερμηνεία. Unsigned: 0–255. Two’s complement: −128 έως 127. Έτσι AE₁₆ είναι 174 ή −82 και 83₁₆ είναι 131 ή −125.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερώτηση 45, σελίδες 64–65. <strong>NEEDS_VERIFICATION:</strong> οι αριθμητικές πράξεις του PDF είναι ασυνεπείς· οι τιμές έχουν επανυπολογιστεί.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-111">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-111-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-111" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-111" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+
+            <article class="flashcard" id="flashcard-gen-112" data-flashcard-id="GEN-112" aria-labelledby="flashcard-gen-112-title">
+              <div class="flashcard__meta">
+                <span><strong>GEN-112</strong></span>
+                <span>Δυσκολία: Basic</span>
+                <span>Θέμα: Δεκαεξαδική αναπαράσταση</span>
+              </div>
+              <h3 class="flashcard__question" id="flashcard-gen-112-title">Γιατί είναι χρήσιμη η δεκαεξαδική γραφή;</h3>
+              <div class="flashcard__answer" id="flashcard-gen-112-answer" data-flashcard-answer hidden>
+                <p><strong>Απάντηση:</strong> Κάθε δεκαεξαδικό ψηφίο αντιστοιχεί ακριβώς σε 4 bits, οπότε μεγάλες δυαδικές ακολουθίες γράφονται και ελέγχονται πιο εύκολα.</p>
+              </div>
+              <p class="flashcard__source">PDF: Ομάδα Β, ερωτήσεις 15–17 και 45, σελίδες 45–46 και 64–65. <strong>NEEDS_VERIFICATION:</strong> η χρησιμότητα προκύπτει έμμεσα από τα παραδείγματα.</p>
+              <div class="flashcard__actions" role="group" aria-label="Χειριστήρια κάρτας GEN-112">
+                <button type="button" data-flashcard-toggle aria-expanded="false" aria-controls="flashcard-gen-112-answer">Εμφάνιση απάντησης</button>
+                <button type="button" data-confidence="known" aria-pressed="false" aria-label="Το γνωρίζω — GEN-112" disabled>Το γνωρίζω</button>
+                <button type="button" data-confidence="review" aria-pressed="false" aria-label="Χρειάζεται επανάληψη — GEN-112" disabled>Χρειάζεται επανάληψη</button>
+              </div>
+            </article>
+          </div>
+
+          <p class="source-reference"><strong>Πηγή και κατάσταση:</strong> Οι κάρτες βασίζονται αποκλειστικά στο PDF ΔΕΛΤΑ 360. Το MOD-01 και οι αβέβαιες αντιστοιχίσεις παραμένουν <code>NEEDS_VERIFICATION</code>.</p>
+        </section>
+
         <section id="quiz">
           <p class="eyebrow">Αυτοαξιολόγηση</p>
           <h2>Quiz έξι ερωτήσεων</h2>
@@ -64,49 +300,49 @@
           <form class="quiz" data-quiz="quiz-01-binary" data-module-id="MOD-01">
             <article class="question-card" data-question-id="GEN-001" data-answer="b">
               <fieldset><legend>1. Πότε η πύλη AND δίνει έξοδο 1;</legend>
-                <label class="option"><input type="radio" name="q1" value="a"> Όταν τουλάχιστον μία είσοδος είναι 1.</label>
-                <label class="option"><input type="radio" name="q1" value="b"> Όταν όλες οι είσοδοι είναι 1.</label>
-                <label class="option"><input type="radio" name="q1" value="c"> Όταν οι είσοδοι είναι διαφορετικές.</label>
+                <label class="option"><input type="radio" name="q1" value="a" data-feedback="Το «τουλάχιστον μία είσοδος» περιγράφει την OR, όχι την AND."> Όταν τουλάχιστον μία είσοδος είναι 1.</label>
+                <label class="option"><input type="radio" name="q1" value="b" data-feedback="Η AND δίνει 1 μόνο όταν όλες οι είσοδοι είναι 1."> Όταν όλες οι είσοδοι είναι 1.</label>
+                <label class="option"><input type="radio" name="q1" value="c" data-feedback="Οι διαφορετικές είσοδοι περιγράφουν τη συνθήκη της XOR, όχι της AND."> Όταν οι είσοδοι είναι διαφορετικές.</label>
               </fieldset>
             </article>
 
             <article class="question-card" data-question-id="GEN-002" data-answer="c">
               <fieldset><legend>2. Ποια είναι η έξοδος XOR για A=1 και B=1;</legend>
-                <label class="option"><input type="radio" name="q2" value="a"> 1</label>
-                <label class="option"><input type="radio" name="q2" value="b"> Απροσδιόριστη</label>
-                <label class="option"><input type="radio" name="q2" value="c"> 0</label>
+                <label class="option"><input type="radio" name="q2" value="a" data-feedback="Η XOR δίνει 1 μόνο όταν οι δύο είσοδοι διαφέρουν· εδώ είναι ίδιες."> 1</label>
+                <label class="option"><input type="radio" name="q2" value="b" data-feedback="Η XOR έχει καθορισμένη έξοδο για κάθε συνδυασμό δυαδικών εισόδων."> Απροσδιόριστη</label>
+                <label class="option"><input type="radio" name="q2" value="c" data-feedback="Η XOR δίνει 0 επειδή οι δύο είσοδοι είναι ίδιες."> 0</label>
               </fieldset>
             </article>
 
             <article class="question-card" data-question-id="GEN-003" data-answer="a">
               <fieldset><legend>3. Ποια είναι η δεκαδική τιμή του 1010₂;</legend>
-                <label class="option"><input type="radio" name="q3" value="a"> 10</label>
-                <label class="option"><input type="radio" name="q3" value="b"> 12</label>
-                <label class="option"><input type="radio" name="q3" value="c"> 8</label>
+                <label class="option"><input type="radio" name="q3" value="a" data-feedback="Τα ενεργά βάρη είναι 2³ και 2¹, άρα 8 + 2 = 10."> 10</label>
+                <label class="option"><input type="radio" name="q3" value="b" data-feedback="Το 12 απαιτεί ενεργά βάρη 8 και 4, ενώ στο 1010₂ είναι ενεργά τα 8 και 2."> 12</label>
+                <label class="option"><input type="radio" name="q3" value="c" data-feedback="Η τιμή 8 λαμβάνει υπόψη μόνο το αριστερό bit και παραλείπει το ενεργό βάρος 2."> 8</label>
               </fieldset>
             </article>
 
             <article class="question-card" data-question-id="GEN-004" data-answer="b">
               <fieldset><legend>4. Ποια είναι η δυαδική μορφή του 13₁₀;</legend>
-                <label class="option"><input type="radio" name="q4" value="a"> 1011₂</label>
-                <label class="option"><input type="radio" name="q4" value="b"> 1101₂</label>
-                <label class="option"><input type="radio" name="q4" value="c"> 1110₂</label>
+                <label class="option"><input type="radio" name="q4" value="a" data-feedback="Το 1011₂ ισούται με 8 + 2 + 1 = 11, όχι 13."> 1011₂</label>
+                <label class="option"><input type="radio" name="q4" value="b" data-feedback="Το 13 είναι 8 + 4 + 1, άρα γράφεται 1101₂."> 1101₂</label>
+                <label class="option"><input type="radio" name="q4" value="c" data-feedback="Το 1110₂ ισούται με 8 + 4 + 2 = 14, όχι 13."> 1110₂</label>
               </fieldset>
             </article>
 
             <article class="question-card" data-question-id="GEN-005" data-answer="c">
               <fieldset><legend>5. Πόσα bits περιέχει ένα byte;</legend>
-                <label class="option"><input type="radio" name="q5" value="a"> 4</label>
-                <label class="option"><input type="radio" name="q5" value="b"> 16</label>
-                <label class="option"><input type="radio" name="q5" value="c"> 8</label>
+                <label class="option"><input type="radio" name="q5" value="a" data-feedback="Τα 4 bits είναι τα μισά από τα 8 bits που απαιτούνται για ένα byte."> 4</label>
+                <label class="option"><input type="radio" name="q5" value="b" data-feedback="Τα 16 bits αντιστοιχούν σε δύο bytes."> 16</label>
+                <label class="option"><input type="radio" name="q5" value="c" data-feedback="Ένα byte ορίζεται ως ομάδα 8 bits."> 8</label>
               </fieldset>
             </article>
 
             <article class="question-card" data-question-id="GEN-006" data-answer="a">
               <fieldset><legend>6. Ποια είναι η δεκαεξαδική μορφή του 10101100₂;</legend>
-                <label class="option"><input type="radio" name="q6" value="a"> AC₁₆</label>
-                <label class="option"><input type="radio" name="q6" value="b"> BC₁₆</label>
-                <label class="option"><input type="radio" name="q6" value="c"> A8₁₆</label>
+                <label class="option"><input type="radio" name="q6" value="a" data-feedback="Η ομαδοποίηση 1010 1100 δίνει A και C, άρα AC₁₆."> AC₁₆</label>
+                <label class="option"><input type="radio" name="q6" value="b" data-feedback="Η πρώτη τετράδα 1010₂ αντιστοιχεί σε A₁₆, όχι B₁₆."> BC₁₆</label>
+                <label class="option"><input type="radio" name="q6" value="c" data-feedback="Η δεύτερη τετράδα 1100₂ αντιστοιχεί σε C₁₆, όχι 8₁₆."> A8₁₆</label>
               </fieldset>
             </article>
 

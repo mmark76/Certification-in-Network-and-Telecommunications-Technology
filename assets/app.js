@@ -440,12 +440,18 @@
           const questionId = question.dataset.questionId || `question-${index + 1}`;
           const feedback = document.createElement('p');
           const fieldset = question.querySelector('fieldset');
+          const feedbackDetail = selected?.dataset.feedback?.trim();
+          const feedbackLead = correct
+            ? 'Σωστή απάντηση.'
+            : selected
+              ? 'Λανθασμένη απάντηση.'
+              : 'Δεν επιλέχθηκε απάντηση.';
 
           feedback.className = 'question-feedback';
           feedback.id = `${form.dataset.quiz}-${questionId}-feedback`;
-          feedback.textContent = correct
-            ? 'Σωστή απάντηση.'
-            : 'Λανθασμένη απάντηση.';
+          feedback.textContent = feedbackDetail
+            ? `${feedbackLead} ${feedbackDetail}`
+            : feedbackLead;
 
           question.classList.add(correct ? 'is-correct' : 'is-incorrect');
           question.appendChild(feedback);

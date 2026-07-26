@@ -1,0 +1,205 @@
+.flashcard-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  align-items: center;
+  margin: 1rem 0 1.35rem;
+}
+
+.flashcard-toolbar .button {
+  min-height: 44px;
+  padding: .55rem .85rem;
+  font-size: .9rem;
+}
+
+.flashcard-summary {
+  width: 100%;
+  margin: .15rem 0 0;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.flashcard {
+  display: flex;
+  min-height: 260px;
+  flex-direction: column;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(24, 45, 80, .05);
+}
+
+.flashcard.is-open {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--line));
+}
+
+.flashcard[data-confidence="known"] {
+  border-inline-start-width: 4px;
+  border-inline-start-color: var(--accent);
+  box-shadow: 0 8px 28px rgba(24, 45, 80, .05);
+}
+
+.flashcard[data-confidence="review"] {
+  border-inline-start-width: 4px;
+  border-inline-start-color: #b45309;
+  box-shadow: 0 8px 28px rgba(24, 45, 80, .05);
+}
+
+.flashcard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem .75rem;
+  margin-bottom: .8rem;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.flashcard__question {
+  margin: 0 0 1rem;
+  font-size: 1.08rem;
+}
+
+.flashcard__answer {
+  margin: 0 0 1rem;
+  padding: .9rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.flashcard__answer p {
+  margin: 0;
+}
+
+.flashcard__source {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.flashcard__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin-top: auto;
+}
+
+.flashcard__actions button {
+  min-height: 44px;
+  flex: 1 1 170px;
+  padding: .55rem .75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.flashcard__actions button:hover:not(:disabled),
+.flashcard__actions button[aria-pressed="true"] {
+  border-color: currentColor;
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+.flashcard-toolbar .button:focus-visible,
+.flashcard__actions button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.flashcard__actions button:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+}
+
+.flashcard__actions [data-flashcard-toggle] {
+  width: 100%;
+  flex-basis: 100%;
+  border-width: 2px;
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.flashcard__actions button[aria-pressed="true"] {
+  border-width: 2px;
+  font-weight: 800;
+}
+
+.flashcard__actions button[aria-pressed="true"]::before {
+  content: "✓ ";
+}
+
+.source-reference {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--muted);
+  background: var(--surface);
+  font-size: .92rem;
+}
+
+html[data-ntt-theme="dark"] .flashcard,
+html[data-ntt-theme="dark"] .flashcard__actions button {
+  box-shadow: none;
+}
+
+html[data-ntt-theme="dark"] .lesson [data-flashcard-deck] p {
+  color: var(--text);
+}
+
+html[data-ntt-theme="dark"] .lesson [data-flashcard-deck] .flashcard-summary,
+html[data-ntt-theme="dark"] .lesson [data-flashcard-deck] .flashcard__source,
+html[data-ntt-theme="dark"] .lesson [data-flashcard-deck] .source-reference {
+  color: var(--muted);
+}
+
+html[data-ntt-contrast="high"] .flashcard {
+  border-width: 2px;
+  box-shadow: none;
+}
+
+html[data-ntt-contrast="high"] .flashcard__actions button:not(:disabled) {
+  border-width: 2px;
+}
+
+@media (max-width: 760px) {
+  .flashcard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flashcard {
+    min-height: 0;
+  }
+
+  .flashcard__actions button {
+    flex-basis: 100%;
+  }
+}
+
+@media (forced-colors: active) {
+  .flashcard,
+  .flashcard.is-open,
+  .flashcard[data-confidence] {
+    border: 2px solid CanvasText;
+    box-shadow: none;
+  }
+
+  .flashcard[data-confidence] {
+    border-inline-start-width: 6px;
+  }
+
+  .flashcard__actions button[aria-pressed="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}

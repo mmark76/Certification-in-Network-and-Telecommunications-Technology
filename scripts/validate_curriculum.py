@@ -31,9 +31,17 @@ REVIEWED_STATUSES = {"reviewed", "practiced", "complete"}
 MODULE_ID_RE = re.compile(r"^MOD-(?:0[1-9]|1[0-6])$")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 QUESTION_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
+FLASHCARD_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 LAB_ID_RE = re.compile(r"^LAB-[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 
-TOP_LEVEL_FIELDS = {"version", "last_updated", "questions", "labs", "modules"}
+TOP_LEVEL_FIELDS = {
+    "version",
+    "last_updated",
+    "questions",
+    "flashcards",
+    "labs",
+    "modules",
+}
 MODULE_REQUIRED_FIELDS = {
     "id",
     "order",
@@ -44,12 +52,15 @@ MODULE_REQUIRED_FIELDS = {
     "available",
     "lesson",
     "questions",
+    "flashcards",
     "labs",
     "source_references",
     "last_verified",
 }
 MODULE_ALLOWED_FIELDS = MODULE_REQUIRED_FIELDS | {"reviewer"}
 QUESTION_FIELDS = {"id", "html", "module_id"}
+FLASHCARD_REQUIRED_FIELDS = {"id", "html", "module_id"}
+FLASHCARD_FIELDS = FLASHCARD_REQUIRED_FIELDS | {"markdown"}
 LAB_FIELDS = {"id", "markdown", "html", "module_id"}
 
 REQUIRED_FILES = (
@@ -72,6 +83,7 @@ REQUIRED_FILES = (
     "theory/README.md",
     "theory/01-digital-logic-and-number-systems.md",
     "questions/README.md",
+    "questions/MOD-01-flashcards.md",
     "practical/README.md",
     "practical/LAB-GEN-001-binary-and-logic.md",
     "progress/STUDY_PLAN.md",
@@ -81,6 +93,8 @@ REQUIRED_FILES = (
     "lesson-digital-logic.html",
     "practice-binary.html",
     "assets/app.js",
+    "assets/flashcards.css",
+    "assets/flashcards.js",
     "assets/styles.css",
     "assets/fixed-layout.css",
     "assets/interface-overrides.css",
@@ -98,6 +112,7 @@ class MetadataParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.question_ids: list[tuple[str, int]] = []
+        self.flashcard_ids: list[tuple[str, int]] = []
         self.module_cards: list[tuple[str, str | None, int]] = []
 
     def handle_starttag(
@@ -110,6 +125,8 @@ class MetadataParser(HTMLParser):
         line = self.getpos()[0]
         if "data-question-id" in attributes:
             self.question_ids.append((attributes["data-question-id"] or "", line))
+        if "data-flashcard-id" in attributes:
+            self.flashcard_ids.append((attributes["data-flashcard-id"] or "", line))
         if "data-module-id" in attributes:
             self.module_cards.append(
                 (
@@ -238,14 +255,16 @@ def _validate_modules(
     dict[str, dict[str, Any]],
     dict[str, list[str]],
     dict[str, list[str]],
+    dict[str, list[str]],
 ]:
     modules_by_id: dict[str, dict[str, Any]] = {}
     question_refs: dict[str, list[str]] = {}
+    flashcard_refs: dict[str, list[str]] = {}
     lab_refs: dict[str, list[str]] = {}
 
     if not isinstance(modules_value, list):
         errors.append("modules: expected a list")
-        return modules_by_id, question_refs, lab_refs
+        return modules_by_id, question_refs, flashcard_refs, lab_refs
     if len(modules_value) != 16:
         errors.append(f"modules: expected exactly 16 entries, found {len(modules_value)}")
 
@@ -349,8 +368,14 @@ def _validate_modules(
             f"{context}.questions",
             errors,
         )
+        module_flashcards = _string_list(
+            module.get("flashcards"),
+            f"{context}.flashcards",
+            errors,
+        )
         module_labs = _string_list(module.get("labs"), f"{context}.labs", errors)
         question_refs[module_key] = module_questions
+        flashcard_refs[module_key] = module_flashcards
         lab_refs[module_key] = module_labs
 
         source_references = _string_list(
@@ -425,7 +450,7 @@ def _validate_modules(
         if module is not None and module.get("available") is not False:
             errors.append(f"{module_id}: available must be false in this pilot")
 
-    return modules_by_id, question_refs, lab_refs
+    return modules_by_id, question_refs, flashcard_refs, lab_refs
 
 
 def _validate_questions(
@@ -526,6 +551,134 @@ def _validate_questions(
             )
             errors.append(
                 f"unregistered data-question-id {question_id!r} at {location_text}"
+            )
+
+
+def _validate_flashcards(
+    value: Any,
+    modules_by_id: dict[str, dict[str, Any]],
+    module_refs: dict[str, list[str]],
+    html_metadata: dict[Path, MetadataParser],
+    errors: list[str],
+) -> None:
+    if not isinstance(value, list):
+        errors.append("flashcards: expected a list")
+        return
+
+    registry: dict[str, tuple[Path | None, str | None]] = {}
+    for index, flashcard in enumerate(value):
+        context = f"flashcards[{index}]"
+        if not isinstance(flashcard, dict):
+            errors.append(f"{context}: expected a mapping")
+            continue
+        _check_fields(
+            flashcard,
+            FLASHCARD_REQUIRED_FIELDS,
+            FLASHCARD_FIELDS,
+            context,
+            errors,
+        )
+
+        flashcard_id = flashcard.get("id")
+        if (
+            not isinstance(flashcard_id, str)
+            or not FLASHCARD_ID_RE.fullmatch(flashcard_id)
+        ):
+            errors.append(f"{context}.id: invalid flashcard ID")
+            continue
+        if flashcard_id in registry:
+            errors.append(f"{context}.id: duplicate flashcard ID {flashcard_id}")
+            continue
+
+        html_path = _safe_file(
+            flashcard.get("html"),
+            f"{context}.html",
+            errors,
+            suffix=".html",
+        )
+        if html_path is None:
+            errors.append(f"{context}.html: a flashcard requires a valid HTML file")
+
+        if "markdown" in flashcard:
+            markdown_path = _safe_file(
+                flashcard.get("markdown"),
+                f"{context}.markdown",
+                errors,
+                suffix=".md",
+            )
+            if markdown_path is None:
+                errors.append(
+                    f"{context}.markdown: expected a valid Markdown file when present"
+                )
+
+        module_id = flashcard.get("module_id")
+        if not isinstance(module_id, str):
+            errors.append(f"{context}.module_id: expected a canonical module ID")
+            module_id = None
+        elif module_id not in modules_by_id:
+            errors.append(f"{context}.module_id: unknown module {module_id!r}")
+        registry[flashcard_id] = (html_path, module_id)
+
+    referenced_by: dict[str, list[str]] = defaultdict(list)
+    for module_id, references in module_refs.items():
+        for flashcard_id in references:
+            referenced_by[flashcard_id].append(module_id)
+            if flashcard_id not in registry:
+                errors.append(
+                    f"{module_id}.flashcards: unregistered flashcard {flashcard_id}"
+                )
+                continue
+            declared_module = registry[flashcard_id][1]
+            if declared_module is not None and declared_module != module_id:
+                errors.append(
+                    f"{flashcard_id}: registry module_id {declared_module} does not "
+                    f"match module reference {module_id}"
+                )
+
+    for flashcard_id in sorted(registry):
+        owners = referenced_by.get(flashcard_id, [])
+        if not owners:
+            errors.append(
+                f"{flashcard_id}: registry entry is not referenced by a module"
+            )
+        elif len(owners) > 1:
+            errors.append(
+                f"{flashcard_id}: referenced by multiple modules: "
+                f"{', '.join(owners)}"
+            )
+
+    found: dict[str, list[tuple[Path, int]]] = defaultdict(list)
+    for path, metadata in html_metadata.items():
+        for flashcard_id, line in metadata.flashcard_ids:
+            if not flashcard_id:
+                errors.append(
+                    f"{_display(path)}:{line}: data-flashcard-id must not be empty"
+                )
+                continue
+            found[flashcard_id].append((path, line))
+
+    for flashcard_id, (declared_html, _) in sorted(registry.items()):
+        locations = found.get(flashcard_id, [])
+        if len(locations) != 1:
+            errors.append(
+                f"{flashcard_id}: expected exactly one matching data-flashcard-id, "
+                f"found {len(locations)}"
+            )
+            continue
+        actual_html, line = locations[0]
+        if declared_html is not None and actual_html != declared_html.resolve():
+            errors.append(
+                f"{_display(actual_html)}:{line}: {flashcard_id} is registered for "
+                f"{_display(declared_html.resolve())}"
+            )
+
+    for flashcard_id, locations in sorted(found.items()):
+        if flashcard_id not in registry:
+            location_text = ", ".join(
+                f"{_display(path)}:{line}" for path, line in locations
+            )
+            errors.append(
+                f"unregistered data-flashcard-id {flashcard_id!r} at {location_text}"
             )
 
 
@@ -686,7 +839,7 @@ def main() -> int:
             errors.append("version: expected integer 1")
         last_updated = _parse_date(data.get("last_updated"), "last_updated", errors)
         html_metadata = _load_html_metadata(errors)
-        modules_by_id, question_refs, lab_refs = _validate_modules(
+        modules_by_id, question_refs, flashcard_refs, lab_refs = _validate_modules(
             data.get("modules"),
             last_updated,
             errors,
@@ -695,6 +848,13 @@ def main() -> int:
             data.get("questions"),
             modules_by_id,
             question_refs,
+            html_metadata,
+            errors,
+        )
+        _validate_flashcards(
+            data.get("flashcards"),
+            modules_by_id,
+            flashcard_refs,
             html_metadata,
             errors,
         )

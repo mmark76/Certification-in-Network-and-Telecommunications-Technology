@@ -22,6 +22,7 @@
 ## Questions
 
 - [`../questions/README.md`](../questions/README.md) — σύστημα ερωτήσεων και αυτοαξιολόγησης
+- [`../questions/MOD-01-flashcards.md`](../questions/MOD-01-flashcards.md) — τράπεζα 12 flashcards του MOD-01 (`NEEDS_VERIFICATION`)
 
 ## Practical work
 
