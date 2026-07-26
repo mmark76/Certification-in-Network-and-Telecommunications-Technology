@@ -45,7 +45,7 @@ MODULE_REQUIRED_FIELDS = {
     "lesson",
     "questions",
     "labs",
-    "official_sources",
+    "source_references",
     "last_verified",
 }
 MODULE_ALLOWED_FIELDS = MODULE_REQUIRED_FIELDS | {"reviewer"}
@@ -75,7 +75,7 @@ REQUIRED_FILES = (
     "practical/README.md",
     "practical/LAB-GEN-001-binary-and-logic.md",
     "progress/STUDY_PLAN.md",
-    "resources/OFFICIAL_SOURCES.md",
+    "resources/KNOWLEDGE_SOURCE.md",
     "index.html",
     "curriculum.html",
     "lesson-digital-logic.html",
@@ -353,9 +353,9 @@ def _validate_modules(
         question_refs[module_key] = module_questions
         lab_refs[module_key] = module_labs
 
-        official_sources = _string_list(
-            module.get("official_sources"),
-            f"{context}.official_sources",
+        source_references = _string_list(
+            module.get("source_references"),
+            f"{context}.source_references",
             errors,
         )
         last_verified_value = module.get("last_verified")
@@ -366,9 +366,9 @@ def _validate_modules(
                 f"{context}.last_verified",
                 errors,
             )
-            if not official_sources:
+            if not source_references:
                 errors.append(
-                    f"{context}: last_verified requires at least one official source"
+                    f"{context}: last_verified requires at least one source reference"
                 )
             if (
                 verified_date is not None
@@ -384,8 +384,8 @@ def _validate_modules(
                 )
             if not isinstance(reviewer, str) or not reviewer.strip():
                 errors.append(f"{context}: status {status!r} requires reviewer")
-            if not official_sources:
-                errors.append(f"{context}: status {status!r} requires an official source")
+            if not source_references:
+                errors.append(f"{context}: status {status!r} requires a source reference")
             if last_verified_value is None:
                 errors.append(f"{context}: status {status!r} requires last_verified")
             if not module_questions:

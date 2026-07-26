@@ -5,7 +5,7 @@
 ερωτήσεις και εργαστήρια.
 
 Η μοναδική πηγή γνώσης καταγράφεται στο
-[`resources/OFFICIAL_SOURCES.md`](../resources/OFFICIAL_SOURCES.md). Ο παρών
+[`resources/KNOWLEDGE_SOURCE.md`](../resources/KNOWLEDGE_SOURCE.md). Ο παρών
 πίνακας συνδέει κάθε artifact με συγκεκριμένη σελίδα, ερώτηση ή θέμα του PDF.
 Τα κενά πεδία σημαίνουν ότι η χαρτογράφηση δεν έχει ακόμη ολοκληρωθεί.
 
