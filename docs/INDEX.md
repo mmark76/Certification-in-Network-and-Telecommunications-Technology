@@ -30,7 +30,7 @@
 
 ## Resources
 
-- [`../resources/OFFICIAL_SOURCES.md`](../resources/OFFICIAL_SOURCES.md) — μοναδική πηγή γνώσης και κανόνες ιχνηλασιμότητας
+- [`../resources/KNOWLEDGE_SOURCE.md`](../resources/KNOWLEDGE_SOURCE.md) — μοναδική πηγή γνώσης και κανόνες ιχνηλασιμότητας
 - `../resources/TERMINOLOGY-EL-EN.md` — δίγλωσση τεχνική ορολογία, προς δημιουργία
 
 ## Progress

@@ -179,4 +179,4 @@ for value in values:
 ## Πηγές
 
 - `../theory/01-digital-logic-and-number-systems.md`
-- `../resources/OFFICIAL_SOURCES.md`
+- `../resources/KNOWLEDGE_SOURCE.md`
