@@ -1,9 +1,95 @@
 version: 1
-last_updated: "2026-07-26"
+last_updated: "2026-07-27"
+
+domains:
+  - id: DOMAIN-01
+    order: 1
+    title: Ψηφιακή πληροφορία και λογική
+    guiding_question: Πώς αναπαριστά ο υπολογιστής την πληροφορία;
+    module_ids:
+      - MOD-01
+
+  - id: DOMAIN-02
+    order: 2
+    title: Αρχιτεκτονική και υλικό υπολογιστών
+    guiding_question: Πώς λειτουργεί και από τι αποτελείται ένας υπολογιστής;
+    module_ids:
+      - MOD-02
+      - MOD-17
+      - MOD-18
+
+  - id: DOMAIN-03
+    order: 3
+    title: Λειτουργικά συστήματα και διαχείριση
+    guiding_question: Πώς διαχειρίζεται το λειτουργικό το υλικό, τα αρχεία και τους χρήστες;
+    module_ids:
+      - MOD-03
+      - MOD-23
+
+  - id: DOMAIN-04
+    order: 4
+    title: Αλγόριθμοι και προγραμματισμός
+    guiding_question: Πώς περιγράφουμε και υλοποιούμε μία υπολογιστική λύση;
+    module_ids:
+      - MOD-19
+      - MOD-20
+
+  - id: DOMAIN-05
+    order: 5
+    title: Εφαρμογές και πληροφοριακά συστήματα
+    guiding_question: Πώς οργανώνεται και χρησιμοποιείται η πληροφορία στην πράξη;
+    module_ids:
+      - MOD-21
+      - MOD-22
+
+  - id: DOMAIN-06
+    order: 6
+    title: Θεμέλια δικτύων
+    guiding_question: Πώς επικοινωνούν δύο συσκευές στο ίδιο ή σε διαφορετικά δίκτυα;
+    module_ids:
+      - MOD-04
+      - MOD-05
+
+  - id: DOMAIN-07
+    order: 7
+    title: IP, μεταγωγή και δρομολόγηση
+    guiding_question: Πώς βρίσκει ένα πακέτο τον προορισμό του;
+    module_ids:
+      - MOD-06
+      - MOD-07
+      - MOD-08
+
+  - id: DOMAIN-08
+    order: 8
+    title: Υπηρεσίες και διαχείριση δικτύου
+    guiding_question: Ποιες υπηρεσίες κάνουν ένα δίκτυο λειτουργικό και διαχειρίσιμο;
+    module_ids:
+      - MOD-09
+      - MOD-11
+
+  - id: DOMAIN-09
+    order: 9
+    title: Μετάδοση και τηλεπικοινωνίες
+    guiding_question: Πώς μεταφέρεται φυσικά ένα σήμα και πώς λειτουργούν τα τηλεπικοινωνιακά δίκτυα;
+    module_ids:
+      - MOD-10
+      - MOD-12
+      - MOD-13
+      - MOD-24
+
+  - id: DOMAIN-10
+    order: 10
+    title: Ασφάλεια και αντιμετώπιση προβλημάτων
+    guiding_question: Πώς προστατεύουμε, ελέγχουμε και αποκαθιστούμε ένα σύστημα;
+    module_ids:
+      - MOD-14
+      - MOD-15
+      - MOD-16
 
 modules:
   - id: MOD-01
     order: 1
+    domain_id: DOMAIN-01
     slug: digital-logic-and-number-systems
     title_el: Ψηφιακή λογική και συστήματα αρίθμησης
     syllabus_area: null
@@ -50,6 +136,7 @@ modules:
 
   - id: MOD-02
     order: 2
+    domain_id: DOMAIN-02
     slug: computer-architecture-and-hardware
     title_el: Αρχιτεκτονική και υλικό Η/Υ
     syllabus_area: null
@@ -66,6 +153,7 @@ modules:
 
   - id: MOD-03
     order: 3
+    domain_id: DOMAIN-03
     slug: operating-systems-and-technical-support
     title_el: Λειτουργικά συστήματα και τεχνική υποστήριξη
     syllabus_area: null
@@ -82,6 +170,7 @@ modules:
 
   - id: MOD-04
     order: 4
+    domain_id: DOMAIN-06
     slug: osi-and-tcp-ip-models
     title_el: Μοντέλα OSI και TCP/IP
     syllabus_area: null
@@ -98,6 +187,7 @@ modules:
 
   - id: MOD-05
     order: 5
+    domain_id: DOMAIN-06
     slug: ethernet-cabling-and-network-equipment
     title_el: Ethernet, καλωδίωση και δικτυακός εξοπλισμός
     syllabus_area: null
@@ -114,6 +204,7 @@ modules:
 
   - id: MOD-06
     order: 6
+    domain_id: DOMAIN-07
     slug: ipv4-and-subnetting
     title_el: IPv4 και subnetting
     syllabus_area: null
@@ -130,6 +221,7 @@ modules:
 
   - id: MOD-07
     order: 7
+    domain_id: DOMAIN-07
     slug: ipv6
     title_el: IPv6
     syllabus_area: null
@@ -146,6 +238,7 @@ modules:
 
   - id: MOD-08
     order: 8
+    domain_id: DOMAIN-07
     slug: switching-vlans-and-routing
     title_el: Switching, VLAN και routing
     syllabus_area: null
@@ -162,6 +255,7 @@ modules:
 
   - id: MOD-09
     order: 9
+    domain_id: DOMAIN-08
     slug: network-services
     title_el: Υπηρεσίες δικτύου
     syllabus_area: null
@@ -178,6 +272,7 @@ modules:
 
   - id: MOD-10
     order: 10
+    domain_id: DOMAIN-09
     slug: wireless-networks
     title_el: Ασύρματα δίκτυα
     syllabus_area: null
@@ -194,6 +289,7 @@ modules:
 
   - id: MOD-11
     order: 11
+    domain_id: DOMAIN-08
     slug: network-management-and-monitoring
     title_el: Διαχείριση και παρακολούθηση δικτύου
     syllabus_area: null
@@ -210,6 +306,7 @@ modules:
 
   - id: MOD-12
     order: 12
+    domain_id: DOMAIN-09
     slug: signals-transmission-and-multiplexing
     title_el: Σήματα, μετάδοση και πολυπλεξία
     syllabus_area: null
@@ -226,6 +323,7 @@ modules:
 
   - id: MOD-13
     order: 13
+    domain_id: DOMAIN-09
     slug: telephony-voip-and-access-networks
     title_el: Τηλεφωνία, VoIP και δίκτυα πρόσβασης
     syllabus_area: null
@@ -242,6 +340,7 @@ modules:
 
   - id: MOD-14
     order: 14
+    domain_id: DOMAIN-10
     slug: network-security
     title_el: Ασφάλεια δικτύων
     syllabus_area: null
@@ -258,6 +357,7 @@ modules:
 
   - id: MOD-15
     order: 15
+    domain_id: DOMAIN-10
     slug: troubleshooting-methodology
     title_el: Μεθοδολογία troubleshooting
     syllabus_area: null
@@ -274,8 +374,145 @@ modules:
 
   - id: MOD-16
     order: 16
+    domain_id: DOMAIN-10
     slug: review-exams-and-practical-scenarios
     title_el: Επαναληπτικές εξετάσεις και πρακτικά σενάρια
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-17
+    order: 17
+    domain_id: DOMAIN-02
+    slug: memory-storage-and-peripherals
+    title_el: Μνήμες, αποθήκευση και περιφερειακές συσκευές
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-18
+    order: 18
+    domain_id: DOMAIN-02
+    slug: digital-electronics-and-embedded-systems
+    title_el: Ψηφιακά ηλεκτρονικά και ενσωματωμένα συστήματα
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-19
+    order: 19
+    domain_id: DOMAIN-04
+    slug: algorithms-and-data-structures
+    title_el: Αλγόριθμοι και δομές δεδομένων
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-20
+    order: 20
+    domain_id: DOMAIN-04
+    slug: programming-languages-pascal-and-assembly
+    title_el: Γλώσσες προγραμματισμού, Pascal και Assembly
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-21
+    order: 21
+    domain_id: DOMAIN-05
+    slug: office-applications-and-spreadsheets
+    title_el: Εφαρμογές γραφείου και λογιστικά φύλλα
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-22
+    order: 22
+    domain_id: DOMAIN-05
+    slug: data-and-information-systems
+    title_el: Δεδομένα και πληροφοριακά συστήματα
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-23
+    order: 23
+    domain_id: DOMAIN-03
+    slug: systems-users-and-backup-management
+    title_el: Διαχείριση συστημάτων, χρηστών και αντιγράφων ασφαλείας
+    syllabus_area: null
+    status: planned
+    available: false
+    lesson:
+      markdown: null
+      html: null
+    questions: []
+    flashcards: []
+    labs: []
+    source_references: []
+    last_verified: null
+
+  - id: MOD-24
+    order: 24
+    domain_id: DOMAIN-09
+    slug: mobile-communications-and-cellular-networks
+    title_el: Κινητές επικοινωνίες και κυψελωτά δίκτυα
     syllabus_area: null
     status: planned
     available: false

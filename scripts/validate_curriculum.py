@@ -28,23 +28,140 @@ ALLOWED_STATUSES = {
     "complete",
 }
 REVIEWED_STATUSES = {"reviewed", "practiced", "complete"}
-MODULE_ID_RE = re.compile(r"^MOD-(?:0[1-9]|1[0-6])$")
+DOMAIN_ID_RE = re.compile(r"^DOMAIN-(?:0[1-9]|10)$")
+MODULE_ID_RE = re.compile(r"^MOD-(?:0[1-9]|1[0-9]|2[0-4])$")
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 QUESTION_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 FLASHCARD_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 LAB_ID_RE = re.compile(r"^LAB-[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 
+EXPECTED_DOMAIN_DEFINITIONS = (
+    (
+        "DOMAIN-01",
+        1,
+        "Ψηφιακή πληροφορία και λογική",
+        "Πώς αναπαριστά ο υπολογιστής την πληροφορία;",
+        ("MOD-01",),
+    ),
+    (
+        "DOMAIN-02",
+        2,
+        "Αρχιτεκτονική και υλικό υπολογιστών",
+        "Πώς λειτουργεί και από τι αποτελείται ένας υπολογιστής;",
+        ("MOD-02", "MOD-17", "MOD-18"),
+    ),
+    (
+        "DOMAIN-03",
+        3,
+        "Λειτουργικά συστήματα και διαχείριση",
+        "Πώς διαχειρίζεται το λειτουργικό το υλικό, τα αρχεία και τους χρήστες;",
+        ("MOD-03", "MOD-23"),
+    ),
+    (
+        "DOMAIN-04",
+        4,
+        "Αλγόριθμοι και προγραμματισμός",
+        "Πώς περιγράφουμε και υλοποιούμε μία υπολογιστική λύση;",
+        ("MOD-19", "MOD-20"),
+    ),
+    (
+        "DOMAIN-05",
+        5,
+        "Εφαρμογές και πληροφοριακά συστήματα",
+        "Πώς οργανώνεται και χρησιμοποιείται η πληροφορία στην πράξη;",
+        ("MOD-21", "MOD-22"),
+    ),
+    (
+        "DOMAIN-06",
+        6,
+        "Θεμέλια δικτύων",
+        "Πώς επικοινωνούν δύο συσκευές στο ίδιο ή σε διαφορετικά δίκτυα;",
+        ("MOD-04", "MOD-05"),
+    ),
+    (
+        "DOMAIN-07",
+        7,
+        "IP, μεταγωγή και δρομολόγηση",
+        "Πώς βρίσκει ένα πακέτο τον προορισμό του;",
+        ("MOD-06", "MOD-07", "MOD-08"),
+    ),
+    (
+        "DOMAIN-08",
+        8,
+        "Υπηρεσίες και διαχείριση δικτύου",
+        "Ποιες υπηρεσίες κάνουν ένα δίκτυο λειτουργικό και διαχειρίσιμο;",
+        ("MOD-09", "MOD-11"),
+    ),
+    (
+        "DOMAIN-09",
+        9,
+        "Μετάδοση και τηλεπικοινωνίες",
+        (
+            "Πώς μεταφέρεται φυσικά ένα σήμα και πώς λειτουργούν τα "
+            "τηλεπικοινωνιακά δίκτυα;"
+        ),
+        ("MOD-10", "MOD-12", "MOD-13", "MOD-24"),
+    ),
+    (
+        "DOMAIN-10",
+        10,
+        "Ασφάλεια και αντιμετώπιση προβλημάτων",
+        "Πώς προστατεύουμε, ελέγχουμε και αποκαθιστούμε ένα σύστημα;",
+        ("MOD-14", "MOD-15", "MOD-16"),
+    ),
+)
+EXPECTED_DOMAINS = {
+    domain_id: {
+        "order": order,
+        "title": title,
+        "guiding_question": guiding_question,
+        "module_ids": module_ids,
+    }
+    for (
+        domain_id,
+        order,
+        title,
+        guiding_question,
+        module_ids,
+    ) in EXPECTED_DOMAIN_DEFINITIONS
+}
+EXPECTED_MODULE_IDS = {f"MOD-{number:02d}" for number in range(1, 25)}
+EXPECTED_MODULE_DOMAINS = {
+    module_id: domain_id
+    for domain_id, definition in EXPECTED_DOMAINS.items()
+    for module_id in definition["module_ids"]
+}
+EXPECTED_NEW_MODULE_TITLES = {
+    "MOD-17": "Μνήμες, αποθήκευση και περιφερειακές συσκευές",
+    "MOD-18": "Ψηφιακά ηλεκτρονικά και ενσωματωμένα συστήματα",
+    "MOD-19": "Αλγόριθμοι και δομές δεδομένων",
+    "MOD-20": "Γλώσσες προγραμματισμού, Pascal και Assembly",
+    "MOD-21": "Εφαρμογές γραφείου και λογιστικά φύλλα",
+    "MOD-22": "Δεδομένα και πληροφοριακά συστήματα",
+    "MOD-23": "Διαχείριση συστημάτων, χρηστών και αντιγράφων ασφαλείας",
+    "MOD-24": "Κινητές επικοινωνίες και κυψελωτά δίκτυα",
+}
+
 TOP_LEVEL_FIELDS = {
     "version",
     "last_updated",
+    "domains",
     "questions",
     "flashcards",
     "labs",
     "modules",
 }
+DOMAIN_FIELDS = {
+    "id",
+    "order",
+    "title",
+    "guiding_question",
+    "module_ids",
+}
 MODULE_REQUIRED_FIELDS = {
     "id",
     "order",
+    "domain_id",
     "slug",
     "title_el",
     "syllabus_area",
@@ -113,7 +230,7 @@ class MetadataParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.question_ids: list[tuple[str, int]] = []
         self.flashcard_ids: list[tuple[str, int]] = []
-        self.module_cards: list[tuple[str, str | None, int]] = []
+        self.render_hosts: dict[str, list[int]] = defaultdict(list)
 
     def handle_starttag(
         self,
@@ -127,14 +244,13 @@ class MetadataParser(HTMLParser):
             self.question_ids.append((attributes["data-question-id"] or "", line))
         if "data-flashcard-id" in attributes:
             self.flashcard_ids.append((attributes["data-flashcard-id"] or "", line))
-        if "data-module-id" in attributes:
-            self.module_cards.append(
-                (
-                    attributes["data-module-id"] or "",
-                    attributes.get("data-available"),
-                    line,
-                )
-            )
+        for attribute in (
+            "data-domain-navigation",
+            "data-curriculum-domains",
+            "data-home-domains",
+        ):
+            if attribute in attributes:
+                self.render_hosts[attribute].append(line)
 
 
 def _display(path: Path) -> str:
@@ -247,8 +363,108 @@ def _load_html_metadata(
     return parsed
 
 
+def _validate_domains(
+    domains_value: Any,
+    errors: list[str],
+) -> dict[str, dict[str, Any]]:
+    domains_by_id: dict[str, dict[str, Any]] = {}
+
+    if not isinstance(domains_value, list):
+        errors.append("domains: expected a list")
+        return domains_by_id
+    if len(domains_value) != 10:
+        errors.append(f"domains: expected exactly 10 entries, found {len(domains_value)}")
+
+    orders: list[int] = []
+    for index, domain in enumerate(domains_value):
+        context = f"domains[{index}]"
+        if not isinstance(domain, dict):
+            errors.append(f"{context}: expected a mapping")
+            continue
+        _check_fields(domain, DOMAIN_FIELDS, DOMAIN_FIELDS, context, errors)
+
+        domain_id = domain.get("id")
+        if not isinstance(domain_id, str) or not DOMAIN_ID_RE.fullmatch(domain_id):
+            errors.append(f"{context}.id: expected DOMAIN-01 through DOMAIN-10")
+        else:
+            if domain_id in domains_by_id:
+                errors.append(f"{context}.id: duplicate domain ID {domain_id}")
+            domains_by_id[domain_id] = domain
+
+        order = domain.get("order")
+        if type(order) is not int or not 1 <= order <= 10:
+            errors.append(f"{context}.order: expected an integer from 1 through 10")
+        else:
+            orders.append(order)
+
+        title = domain.get("title")
+        if not isinstance(title, str) or not title.strip():
+            errors.append(f"{context}.title: expected a non-empty string")
+
+        guiding_question = domain.get("guiding_question")
+        if not isinstance(guiding_question, str) or not guiding_question.strip():
+            errors.append(f"{context}.guiding_question: expected a non-empty string")
+
+        module_ids = _string_list(
+            domain.get("module_ids"),
+            f"{context}.module_ids",
+            errors,
+        )
+        if not module_ids:
+            errors.append(f"{context}.module_ids: expected at least one module")
+        for module_id in module_ids:
+            if module_id not in EXPECTED_MODULE_IDS:
+                errors.append(
+                    f"{context}.module_ids: unknown canonical module {module_id!r}"
+                )
+
+        expected = (
+            EXPECTED_DOMAINS.get(domain_id)
+            if isinstance(domain_id, str)
+            else None
+        )
+        if expected is not None:
+            if order != expected["order"]:
+                errors.append(
+                    f"{domain_id}.order: expected {expected['order']}, found {order!r}"
+                )
+            if title != expected["title"]:
+                errors.append(f"{domain_id}.title: must match the canonical title")
+            if guiding_question != expected["guiding_question"]:
+                errors.append(
+                    f"{domain_id}.guiding_question: must match the canonical "
+                    "retrieval cue"
+                )
+            if module_ids != list(expected["module_ids"]):
+                expected_modules = ", ".join(expected["module_ids"])
+                errors.append(
+                    f"{domain_id}.module_ids: expected [{expected_modules}] "
+                    "in this order"
+                )
+
+    duplicate_orders = sorted(
+        str(value) for value, count in Counter(orders).items() if count > 1
+    )
+    if duplicate_orders:
+        errors.append(f"domains: duplicate order(s): {', '.join(duplicate_orders)}")
+    if set(orders) != set(range(1, 11)):
+        errors.append("domains: orders must be exactly 1 through 10")
+
+    expected_ids = set(EXPECTED_DOMAINS)
+    actual_ids = set(domains_by_id)
+    missing_ids = sorted(expected_ids - actual_ids)
+    extra_ids = sorted(actual_ids - expected_ids)
+    if missing_ids:
+        errors.append(f"domains: missing canonical ID(s): {', '.join(missing_ids)}")
+    if extra_ids:
+        errors.append(f"domains: unexpected ID(s): {', '.join(extra_ids)}")
+
+    return domains_by_id
+
+
 def _validate_modules(
     modules_value: Any,
+    domains_by_id: dict[str, dict[str, Any]],
     last_updated: date | None,
     errors: list[str],
 ) -> tuple[
@@ -265,8 +481,8 @@ def _validate_modules(
     if not isinstance(modules_value, list):
         errors.append("modules: expected a list")
         return modules_by_id, question_refs, flashcard_refs, lab_refs
-    if len(modules_value) != 16:
-        errors.append(f"modules: expected exactly 16 entries, found {len(modules_value)}")
+    if len(modules_value) != 24:
+        errors.append(f"modules: expected exactly 24 entries, found {len(modules_value)}")
 
     orders: list[int] = []
     slugs: list[str] = []
@@ -285,7 +501,7 @@ def _validate_modules(
 
         module_id = module.get("id")
         if not isinstance(module_id, str) or not MODULE_ID_RE.fullmatch(module_id):
-            errors.append(f"{context}.id: expected MOD-01 through MOD-16")
+            errors.append(f"{context}.id: expected MOD-01 through MOD-24")
             module_key = f"<invalid-{index}>"
         else:
             module_key = module_id
@@ -294,14 +510,31 @@ def _validate_modules(
             modules_by_id[module_id] = module
 
         order = module.get("order")
-        if type(order) is not int or not 1 <= order <= 16:
-            errors.append(f"{context}.order: expected an integer from 1 through 16")
+        if type(order) is not int or not 1 <= order <= 24:
+            errors.append(f"{context}.order: expected an integer from 1 through 24")
         else:
             orders.append(order)
             if isinstance(module_id, str) and module_id != f"MOD-{order:02d}":
                 errors.append(
                     f"{context}: ID {module_id!r} does not match order {order}"
                 )
+
+        domain_id = module.get("domain_id")
+        if not isinstance(domain_id, str) or not DOMAIN_ID_RE.fullmatch(domain_id):
+            errors.append(
+                f"{context}.domain_id: expected DOMAIN-01 through DOMAIN-10"
+            )
+        elif domain_id not in domains_by_id:
+            errors.append(f"{context}.domain_id: unknown domain {domain_id!r}")
+        elif (
+            isinstance(module_id, str)
+            and module_id in EXPECTED_MODULE_DOMAINS
+            and domain_id != EXPECTED_MODULE_DOMAINS[module_id]
+        ):
+            errors.append(
+                f"{context}.domain_id: {module_id} belongs to "
+                f"{EXPECTED_MODULE_DOMAINS[module_id]}, not {domain_id}"
+            )
 
         slug = module.get("slug")
         if not isinstance(slug, str) or not SLUG_RE.fullmatch(slug):
@@ -312,6 +545,13 @@ def _validate_modules(
         title_el = module.get("title_el")
         if not isinstance(title_el, str) or not title_el.strip():
             errors.append(f"{context}.title_el: expected a non-empty string")
+        expected_title = (
+            EXPECTED_NEW_MODULE_TITLES.get(module_id)
+            if isinstance(module_id, str)
+            else None
+        )
+        if expected_title is not None and title_el != expected_title:
+            errors.append(f"{module_id}.title_el: must match the canonical title")
 
         syllabus_area = module.get("syllabus_area")
         if syllabus_area is not None and (
@@ -326,7 +566,7 @@ def _validate_modules(
             errors.append(f"{context}.reviewer: expected null or a non-empty string")
 
         status = module.get("status")
-        if status not in ALLOWED_STATUSES:
+        if not isinstance(status, str) or status not in ALLOWED_STATUSES:
             errors.append(
                 f"{context}.status: expected one of {', '.join(sorted(ALLOWED_STATUSES))}"
             )
@@ -402,7 +642,7 @@ def _validate_modules(
             ):
                 errors.append(f"{context}: last_verified cannot be after last_updated")
 
-        if status in REVIEWED_STATUSES:
+        if isinstance(status, str) and status in REVIEWED_STATUSES:
             if not isinstance(syllabus_area, str) or not syllabus_area.strip():
                 errors.append(
                     f"{context}: status {status!r} requires syllabus_area"
@@ -426,10 +666,10 @@ def _validate_modules(
         errors.append(f"modules: duplicate order(s): {', '.join(duplicate_orders)}")
     if duplicate_slugs:
         errors.append(f"modules: duplicate slug(s): {', '.join(duplicate_slugs)}")
-    if set(orders) != set(range(1, 17)):
-        errors.append("modules: orders must be exactly 1 through 16")
+    if set(orders) != set(range(1, 25)):
+        errors.append("modules: orders must be exactly 1 through 24")
 
-    expected_ids = {f"MOD-{number:02d}" for number in range(1, 17)}
+    expected_ids = EXPECTED_MODULE_IDS
     actual_ids = set(modules_by_id)
     missing_ids = sorted(expected_ids - actual_ids)
     extra_ids = sorted(actual_ids - expected_ids)
@@ -444,13 +684,78 @@ def _validate_modules(
             errors.append("MOD-01: status must remain needs_verification")
         if module_one.get("available") is not True:
             errors.append("MOD-01: available must be true")
-    for number in range(2, 17):
+        if module_one.get("last_verified") is not None:
+            errors.append("MOD-01: last_verified must remain null")
+        if "reviewer" in module_one:
+            errors.append("MOD-01: reviewer must remain absent")
+    for number in range(2, 25):
         module_id = f"MOD-{number:02d}"
         module = modules_by_id.get(module_id)
-        if module is not None and module.get("available") is not False:
+        if module is None:
+            continue
+        if module.get("available") is not False:
             errors.append(f"{module_id}: available must be false in this pilot")
+        if module.get("status") != "planned":
+            errors.append(f"{module_id}: status must remain planned in this pilot")
+        if "reviewer" in module:
+            errors.append(f"{module_id}: planned module must not declare reviewer")
+
+        if number >= 17:
+            lesson = module.get("lesson")
+            if not isinstance(lesson, dict) or (
+                lesson.get("markdown") is not None
+                or lesson.get("html") is not None
+            ):
+                errors.append(f"{module_id}: planned lesson paths must remain null")
+            for field in ("questions", "flashcards", "labs", "source_references"):
+                if module.get(field) != []:
+                    errors.append(f"{module_id}.{field}: planned registry must be empty")
+            if module.get("last_verified") is not None:
+                errors.append(f"{module_id}: last_verified must remain null")
 
     return modules_by_id, question_refs, flashcard_refs, lab_refs
+
+
+def _validate_domain_module_relationships(
+    domains_by_id: dict[str, dict[str, Any]],
+    modules_by_id: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    memberships: dict[str, list[str]] = defaultdict(list)
+    for domain_id, domain in domains_by_id.items():
+        module_ids = domain.get("module_ids")
+        if not isinstance(module_ids, list):
+            continue
+        for module_id in module_ids:
+            if (
+                isinstance(module_id, str)
+                and domain_id not in memberships[module_id]
+            ):
+                memberships[module_id].append(domain_id)
+
+    for module_id, owners in sorted(memberships.items()):
+        if module_id not in modules_by_id:
+            errors.append(
+                f"{module_id}: domain registry references a module that is not defined"
+            )
+        if len(owners) > 1:
+            errors.append(
+                f"{module_id}: listed in multiple domains: {', '.join(owners)}"
+            )
+
+    for module_id, module in sorted(modules_by_id.items()):
+        owners = memberships.get(module_id, [])
+        if not owners:
+            errors.append(f"{module_id}: module is not listed in any domain")
+            continue
+        if len(owners) != 1:
+            continue
+        declared_domain = module.get("domain_id")
+        if declared_domain != owners[0]:
+            errors.append(
+                f"{module_id}: domain_id {declared_domain!r} does not agree with "
+                f"domain registry owner {owners[0]}"
+            )
 
 
 def _validate_questions(
@@ -487,11 +792,11 @@ def _validate_questions(
             suffix=".html",
         )
         module_id = question.get("module_id")
-        if module_id is not None and module_id not in modules_by_id:
-            errors.append(f"{context}.module_id: unknown module {module_id!r}")
         if module_id is not None and not isinstance(module_id, str):
             errors.append(f"{context}.module_id: expected a canonical module ID")
             module_id = None
+        elif module_id is not None and module_id not in modules_by_id:
+            errors.append(f"{context}.module_id: unknown module {module_id!r}")
         registry[question_id] = (html_path, module_id)
 
     referenced_by: dict[str, list[str]] = defaultdict(list)
@@ -711,11 +1016,11 @@ def _validate_labs(
         _safe_file(lab.get("markdown"), f"{context}.markdown", errors, suffix=".md")
         _safe_file(lab.get("html"), f"{context}.html", errors, suffix=".html")
         module_id = lab.get("module_id")
-        if module_id is not None and module_id not in modules_by_id:
-            errors.append(f"{context}.module_id: unknown module {module_id!r}")
         if module_id is not None and not isinstance(module_id, str):
             errors.append(f"{context}.module_id: expected a canonical module ID")
             module_id = None
+        elif module_id is not None and module_id not in modules_by_id:
+            errors.append(f"{context}.module_id: unknown module {module_id!r}")
         registry[lab_id] = module_id
 
     referenced_by: dict[str, list[str]] = defaultdict(list)
@@ -740,57 +1045,27 @@ def _validate_labs(
             errors.append(f"{lab_id}: referenced by multiple modules: {', '.join(owners)}")
 
 
-def _validate_curriculum_cards(
-    modules_by_id: dict[str, dict[str, Any]],
+def _validate_render_hosts(
     html_metadata: dict[Path, MetadataParser],
     errors: list[str],
 ) -> None:
-    curriculum_path = (ROOT / "curriculum.html").resolve()
-    metadata = html_metadata.get(curriculum_path)
-    if metadata is None:
-        errors.append("curriculum.html: cannot inspect module cards")
-        return
-
-    cards: dict[str, list[tuple[str | None, int]]] = defaultdict(list)
-    for module_id, availability, line in metadata.module_cards:
-        if not module_id:
-            errors.append(
-                f"curriculum.html:{line}: data-module-id must not be empty"
-            )
+    expectations = (
+        ("curriculum.html", "data-domain-navigation"),
+        ("curriculum.html", "data-curriculum-domains"),
+        ("index.html", "data-home-domains"),
+    )
+    for relative_path, attribute in expectations:
+        path = (ROOT / relative_path).resolve()
+        metadata = html_metadata.get(path)
+        if metadata is None:
+            errors.append(f"{relative_path}: cannot inspect dynamic render hosts")
             continue
-        cards[module_id].append((availability, line))
-
-    expected_ids = {f"MOD-{number:02d}" for number in range(1, 17)}
-    for module_id in sorted(expected_ids):
-        entries = cards.get(module_id, [])
-        if len(entries) != 1:
+        lines = metadata.render_hosts.get(attribute, [])
+        if len(lines) != 1:
             errors.append(
-                f"curriculum.html: expected exactly one card for {module_id}, "
-                f"found {len(entries)}"
+                f"{relative_path}: expected exactly one [{attribute}] render host, "
+                f"found {len(lines)}"
             )
-            continue
-        availability, line = entries[0]
-        if availability not in {"true", "false"}:
-            errors.append(
-                f"curriculum.html:{line}: {module_id} data-available must be "
-                "'true' or 'false'"
-            )
-            continue
-        module = modules_by_id.get(module_id)
-        if module is not None:
-            expected_availability = "true" if module.get("available") is True else "false"
-            if availability != expected_availability:
-                errors.append(
-                    f"curriculum.html:{line}: {module_id} data-available="
-                    f"{availability!r}, expected {expected_availability!r}"
-                )
-
-    for module_id in sorted(set(cards) - expected_ids):
-        lines = ", ".join(str(line) for _, line in cards[module_id])
-        errors.append(
-            f"curriculum.html: unexpected data-module-id {module_id!r} "
-            f"on line(s) {lines}"
-        )
 
 
 def _validate_generated_data(data: Any, errors: list[str]) -> None:
@@ -839,9 +1114,16 @@ def main() -> int:
             errors.append("version: expected integer 1")
         last_updated = _parse_date(data.get("last_updated"), "last_updated", errors)
         html_metadata = _load_html_metadata(errors)
+        domains_by_id = _validate_domains(data.get("domains"), errors)
         modules_by_id, question_refs, flashcard_refs, lab_refs = _validate_modules(
             data.get("modules"),
+            domains_by_id,
             last_updated,
+            errors,
+        )
+        _validate_domain_module_relationships(
+            domains_by_id,
+            modules_by_id,
             errors,
         )
         _validate_questions(
@@ -864,7 +1146,7 @@ def main() -> int:
             lab_refs,
             errors,
         )
-        _validate_curriculum_cards(modules_by_id, html_metadata, errors)
+        _validate_render_hosts(html_metadata, errors)
         _validate_generated_data(data, errors)
 
     if errors:
@@ -876,7 +1158,10 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print("Curriculum validation passed: 16 canonical modules and references are valid.")
+    print(
+        "Curriculum validation passed: 10 domains, 24 canonical modules "
+        "and references are valid."
+    )
     return 0
 
 
