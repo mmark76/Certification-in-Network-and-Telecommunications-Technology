@@ -2,8 +2,12 @@
 
 ## Canonical curriculum
 
-- [`../data/curriculum.yml`](../data/curriculum.yml) — μοναδική πηγή αλήθειας για τα 16 modules, τη σειρά, την κατάσταση, τη διαθεσιμότητα και τις συνδέσεις περιεχομένου
+- [`../data/curriculum.yml`](../data/curriculum.yml) — μοναδική πηγή αλήθειας για τα 10 thematic domains, τα 24 modules, τη σειρά, την κατάσταση, τη διαθεσιμότητα και τις συνδέσεις περιεχομένου
 - [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md) — αντιστοίχιση modules, σημείων του PDF, ερωτήσεων και εργαστηρίων με placeholders για όσα δεν έχουν χαρτογραφηθεί
+
+Το PDF περιέχει κυρίως ομάδες ερωτήσεων και όχι τα domains ή modules της
+εφαρμογής. Τα domains ορίζονται από την εφαρμογή για κατανόηση και ανάκληση,
+με καθοδηγητικές ερωτήσεις ως νοητικά σημεία ανάκλησης.
 
 ## Project
 
@@ -12,7 +16,7 @@
 
 ## Syllabus
 
-- [`../syllabus/README.md`](../syllabus/README.md) — δέκα θεματικές ομαδοποιήσεις A–J και ενδεικτικό crosswalk προς τα canonical modules
+- [`../syllabus/README.md`](../syllabus/README.md) — canonical ιεραρχία των 10 domains, οι καθοδηγητικές ερωτήσεις και η αντιστοίχιση των 24 modules
 
 ## Theory
 
@@ -36,7 +40,7 @@
 
 ## Progress
 
-- [`../progress/STUDY_PLAN.md`](../progress/STUDY_PLAN.md) — πρόγραμμα 12 κύκλων μελέτης και crosswalk προς τα canonical modules
+- [`../progress/STUDY_PLAN.md`](../progress/STUDY_PLAN.md) — μη canonical, ενδεικτικό πρόγραμμα 12 κύκλων μελέτης
 - `../progress/PROGRESS_TRACKER.md` — πίνακας προόδου, προς δημιουργία
 
 ## Current phase
@@ -49,10 +53,15 @@
 - [x] Κανόνες εκπαιδευτικού περιεχομένου
 - [x] Χάρτης τεκμηρίωσης
 - [x] Project brief
-- [x] Canonical curriculum 16 modules
+- [x] Canonical curriculum 10 domains και 24 modules
 - [x] Αρχικός πίνακας ιχνηλασιμότητας
-- [x] Θεματικός χάρτης ύλης A–J
+- [x] Θεματικός χάρτης 10 domains με καθοδηγητικές ερωτήσεις
 - [x] Πρότυπα θεωρίας, ερωτήσεων και εργαστηρίων
 - [x] Αρχικό πρόγραμμα μελέτης
 - [ ] Πλήρης χαρτογράφηση του PDF σε θέματα, σελίδες και ερωτήσεις
 - [x] Πρώτη διαθέσιμη εκπαιδευτική ενότητα (`NEEDS_VERIFICATION`)
+
+Μόνο το `MOD-01` διαθέτει σήμερα μάθημα, flashcards, quiz και εργαστήριο και
+παραμένει `NEEDS_VERIFICATION`. Τα `MOD-02` έως `MOD-24` είναι planned
+curriculum placeholders, όχι ολοκληρωμένα μαθήματα. Η πλήρης θεωρία θα
+εισαχθεί σε μεταγενέστερα Pull Requests.
