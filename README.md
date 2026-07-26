@@ -12,7 +12,7 @@
 
 Η διαδραστική εκπαιδευτική ιστοσελίδα είναι σχεδιασμένη για GitHub Pages:
 
-**https://mmark76.github.io/Certification-in-Network-and-Telecommunications-Technology/**
+**https://mmark76.github.io/ntt-certification/**
 
 Η πιλοτική έκδοση περιλαμβάνει αρχική σελίδα, canonical χάρτη 16 ενοτήτων, ένα διαθέσιμο μάθημα, ένα εργαστήριο, quiz και τοπική αποθήκευση προόδου.
 
