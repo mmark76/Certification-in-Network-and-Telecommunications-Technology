@@ -19,9 +19,33 @@ modules:
       - GEN-004
       - GEN-005
       - GEN-006
+    flashcards:
+      - GEN-101
+      - GEN-102
+      - GEN-103
+      - GEN-104
+      - GEN-105
+      - GEN-106
+      - GEN-107
+      - GEN-108
+      - GEN-109
+      - GEN-110
+      - GEN-111
+      - GEN-112
     labs:
       - LAB-GEN-001
-    source_references: []
+    source_references:
+      - "Ομάδα Α, ερώτηση 1, σελίδα 2"
+      - "Ομάδα Α, ερώτηση 5, σελίδα 3"
+      - "Ομάδα Α, ερώτηση 7, σελίδα 4"
+      - "Ομάδα Α, ερώτηση 17, σελίδα 8"
+      - "Ομάδα Α, ερώτηση 18, σελίδα 9"
+      - "Ομάδα Α, ερώτηση 27, σελίδες 11-12"
+      - "Ομάδα Β, ερώτηση 9, σελίδα 41"
+      - "Ομάδα Β, ερωτήσεις 15-17, σελίδες 45-46"
+      - "Ομάδα Β, ερώτηση 38, σελίδες 60-61"
+      - "Ομάδα Β, ερώτηση 45, σελίδες 64-65"
+      - "Ομάδα Β, ερώτηση 143, σελίδες 105-106"
     last_verified: null
 
   - id: MOD-02
@@ -35,6 +59,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -50,6 +75,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -65,6 +91,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -80,6 +107,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -95,6 +123,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -110,6 +139,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -125,6 +155,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -140,6 +171,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -155,6 +187,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -170,6 +203,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -185,6 +219,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -200,6 +235,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -215,6 +251,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -230,6 +267,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -245,6 +283,7 @@ modules:
       markdown: null
       html: null
     questions: []
+    flashcards: []
     labs: []
     source_references: []
     last_verified: null
@@ -268,6 +307,56 @@ questions:
   - id: GEN-006
     module_id: MOD-01
     html: practice-binary.html
+
+flashcards:
+  - id: GEN-101
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-102
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-103
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-104
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-105
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-106
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-107
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-108
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-109
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-110
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-111
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
+  - id: GEN-112
+    module_id: MOD-01
+    html: practice-binary.html
+    markdown: questions/MOD-01-flashcards.md
 
 labs:
   - id: LAB-GEN-001
