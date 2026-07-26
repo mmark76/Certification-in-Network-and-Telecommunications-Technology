@@ -18,7 +18,8 @@
 ## Ονομασίες και μοναδική πηγή αλήθειας
 
 - Modules: `MOD-01` έως `MOD-16`.
-- Ερωτήσεις: θεματικό prefix και τριψήφιος αριθμός, π.χ. `IP-001`.
+- Ερωτήσεις quiz: θεματικό prefix και τριψήφιος αριθμός, π.χ. `IP-001`.
+- Flashcards: ξεχωριστό registry με το ίδιο σχήμα ID, π.χ. `IP-101`.
 - Εργαστήρια: `LAB-<PREFIX>-NNN`, π.χ. `LAB-GEN-001`.
 - Το `data/curriculum.yml` είναι η μοναδική πηγή αλήθειας για τη σειρά,
   διαθεσιμότητα, κατάσταση και συσχετίσεις των 16 modules.
@@ -66,6 +67,7 @@ python scripts/check_html_ids.py
 python scripts/check_internal_links.py
 python scripts/generate_curriculum_data.py --check
 node --check assets/app.js
+node --check assets/flashcards.js
 node --check assets/curriculum-data.js
 node scripts/test_progress.mjs
 ```
