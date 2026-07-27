@@ -30,6 +30,9 @@ ALLOWED_STATUSES = {
 REVIEWED_STATUSES = {"reviewed", "practiced", "complete"}
 DOMAIN_ID_RE = re.compile(r"^DOMAIN-(?:0[1-9]|10)$")
 MODULE_ID_RE = re.compile(r"^MOD-(?:0[1-9]|1[0-9]|2[0-4])$")
+DISPLAY_CODE_RE = re.compile(
+    r"^(?P<domain>0[1-9]|10)\.(?P<module>0[1-9]|[1-9][0-9])$"
+)
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 QUESTION_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
 FLASHCARD_ID_RE = re.compile(r"^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$")
@@ -131,6 +134,32 @@ EXPECTED_MODULE_DOMAINS = {
     for domain_id, definition in EXPECTED_DOMAINS.items()
     for module_id in definition["module_ids"]
 }
+EXPECTED_MODULE_DISPLAY_CODES = {
+    "MOD-01": "01.01",
+    "MOD-02": "02.01",
+    "MOD-03": "03.01",
+    "MOD-04": "06.01",
+    "MOD-05": "06.02",
+    "MOD-06": "07.01",
+    "MOD-07": "07.02",
+    "MOD-08": "07.03",
+    "MOD-09": "08.01",
+    "MOD-10": "09.01",
+    "MOD-11": "08.02",
+    "MOD-12": "09.02",
+    "MOD-13": "09.03",
+    "MOD-14": "10.01",
+    "MOD-15": "10.02",
+    "MOD-16": "10.03",
+    "MOD-17": "02.02",
+    "MOD-18": "02.03",
+    "MOD-19": "04.01",
+    "MOD-20": "04.02",
+    "MOD-21": "05.01",
+    "MOD-22": "05.02",
+    "MOD-23": "03.02",
+    "MOD-24": "09.04",
+}
 EXPECTED_NEW_MODULE_TITLES = {
     "MOD-17": "Μνήμες, αποθήκευση και περιφερειακές συσκευές",
     "MOD-18": "Ψηφιακά ηλεκτρονικά και ενσωματωμένα συστήματα",
@@ -161,6 +190,7 @@ DOMAIN_FIELDS = {
 MODULE_REQUIRED_FIELDS = {
     "id",
     "order",
+    "display_code",
     "domain_id",
     "slug",
     "title_el",
@@ -221,6 +251,7 @@ REQUIRED_FILES = (
     "scripts/check_html_ids.py",
     "scripts/check_internal_links.py",
     "scripts/generate_curriculum_data.py",
+    "scripts/test_curriculum_display_codes.py",
     "scripts/test_progress.mjs",
 )
 
@@ -716,6 +747,118 @@ def _validate_modules(
     return modules_by_id, question_refs, flashcard_refs, lab_refs
 
 
+def _validate_module_display_codes(
+    modules_by_id: dict[str, dict[str, Any]],
+    domains_by_id: dict[str, dict[str, Any]],
+    errors: list[str],
+) -> None:
+    display_code_owners: dict[str, list[str]] = defaultdict(list)
+    parsed_codes: dict[str, tuple[int, int]] = {}
+
+    for module_id, module in sorted(modules_by_id.items()):
+        context = f"{module_id}.display_code"
+        display_code = module.get("display_code")
+        if not isinstance(display_code, str):
+            errors.append(f"{context}: expected a string")
+            continue
+
+        display_code_owners[display_code].append(module_id)
+        if not display_code:
+            errors.append(f"{context}: expected a non-empty string")
+            continue
+        if any(character.isspace() for character in display_code):
+            errors.append(f"{context}: spaces are not allowed")
+        if display_code == module_id:
+            errors.append(f"{context}: must not use the technical module ID")
+
+        match = DISPLAY_CODE_RE.fullmatch(display_code)
+        if match is None:
+            errors.append(
+                f"{context}: expected NN.NN with domain 01 through 10 "
+                "and a local module number beginning at 01"
+            )
+        else:
+            domain_number = int(match.group("domain"))
+            local_number = int(match.group("module"))
+            parsed_codes[module_id] = (domain_number, local_number)
+
+            domain_id = module.get("domain_id")
+            domain = (
+                domains_by_id.get(domain_id)
+                if isinstance(domain_id, str)
+                else None
+            )
+            domain_order = domain.get("order") if isinstance(domain, dict) else None
+            if type(domain_order) is int and domain_number != domain_order:
+                errors.append(
+                    f"{context}: domain component {domain_number:02d} does not "
+                    f"match {domain_id} order {domain_order:02d}"
+                )
+
+        expected_display_code = EXPECTED_MODULE_DISPLAY_CODES.get(module_id)
+        if (
+            expected_display_code is not None
+            and display_code != expected_display_code
+        ):
+            errors.append(
+                f"{context}: expected canonical code {expected_display_code}, "
+                f"found {display_code!r}"
+            )
+
+    duplicates = sorted(
+        (display_code, owners)
+        for display_code, owners in display_code_owners.items()
+        if len(owners) > 1
+    )
+    for display_code, owners in duplicates:
+        errors.append(
+            f"modules: duplicate display_code {display_code!r}: "
+            f"{', '.join(owners)}"
+        )
+
+    for domain_id, domain in sorted(domains_by_id.items()):
+        domain_order = domain.get("order")
+        module_ids = domain.get("module_ids")
+        if type(domain_order) is not int or not isinstance(module_ids, list):
+            continue
+
+        local_numbers: list[int] = []
+        sequence_is_complete = True
+        for position, module_id in enumerate(module_ids, start=1):
+            if not isinstance(module_id, str):
+                sequence_is_complete = False
+                continue
+            parsed_code = parsed_codes.get(module_id)
+            if parsed_code is None:
+                sequence_is_complete = False
+                continue
+            domain_number, local_number = parsed_code
+            local_numbers.append(local_number)
+            if domain_number != domain_order:
+                errors.append(
+                    f"{module_id}.display_code: domain component "
+                    f"{domain_number:02d} does not match registry owner "
+                    f"{domain_id} order {domain_order:02d}"
+                )
+            if local_number != position:
+                errors.append(
+                    f"{module_id}.display_code: local component "
+                    f"{local_number:02d} does not match one-based position "
+                    f"{position:02d} in {domain_id}.module_ids"
+                )
+
+        if local_numbers and local_numbers[0] != 1:
+            errors.append(
+                f"{domain_id}: display_code local numbering must begin at 01"
+            )
+        expected_local_numbers = list(range(1, len(module_ids) + 1))
+        if sequence_is_complete and local_numbers != expected_local_numbers:
+            errors.append(
+                f"{domain_id}: display_code local numbering must be continuous "
+                "from 01 in module_ids order"
+            )
+
+
 def _validate_domain_module_relationships(
     domains_by_id: dict[str, dict[str, Any]],
     modules_by_id: dict[str, dict[str, Any]],
@@ -1119,6 +1262,11 @@ def main() -> int:
             data.get("modules"),
             domains_by_id,
             last_updated,
+            errors,
+        )
+        _validate_module_display_codes(
+            modules_by_id,
+            domains_by_id,
             errors,
         )
         _validate_domain_module_relationships(

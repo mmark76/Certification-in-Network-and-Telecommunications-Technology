@@ -24,6 +24,9 @@ jobs:
       - name: Validate canonical curriculum
         run: python scripts/validate_curriculum.py
 
+      - name: Test hierarchical module display codes
+        run: python -B scripts/test_curriculum_display_codes.py
+
       - name: Check HTML IDs
         run: python scripts/check_html_ids.py
 
