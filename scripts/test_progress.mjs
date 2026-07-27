@@ -27,6 +27,36 @@ class MemoryStorage {
 }
 
 const storage = new MemoryStorage();
+const domainModuleIds = [
+  ['MOD-01'],
+  ['MOD-02', 'MOD-17', 'MOD-18'],
+  ['MOD-03', 'MOD-23'],
+  ['MOD-19', 'MOD-20'],
+  ['MOD-21', 'MOD-22'],
+  ['MOD-04', 'MOD-05'],
+  ['MOD-06', 'MOD-07', 'MOD-08'],
+  ['MOD-09', 'MOD-11'],
+  ['MOD-10', 'MOD-12', 'MOD-13', 'MOD-24'],
+  ['MOD-14', 'MOD-15', 'MOD-16']
+];
+const moduleDomains = new Map(
+  domainModuleIds.flatMap((moduleIds, domainIndex) => (
+    moduleIds.map((moduleId) => [moduleId, `DOMAIN-${String(domainIndex + 1).padStart(2, '0')}`])
+  ))
+);
+const projectedModules = Array.from({ length: 24 }, (_, index) => {
+  const order = index + 1;
+  const id = `MOD-${String(order).padStart(2, '0')}`;
+  return {
+    id,
+    order,
+    title_el: `Module ${order}`,
+    domain_id: moduleDomains.get(id),
+    available: id === 'MOD-01',
+    status: id === 'MOD-01' ? 'needs_verification' : 'planned',
+    lesson_html: id === 'MOD-01' ? 'lesson-digital-logic.html' : null
+  };
+});
 const documentStub = {
   documentElement: { dataset: {} },
   querySelector: () => null,
@@ -36,10 +66,14 @@ const windowStub = {
   __NTT_TESTING__: true,
   NTT_CURRICULUM: {
     version: 1,
-    modules: [
-      { id: 'MOD-01', order: 1, title_el: 'Module 1', available: true },
-      { id: 'MOD-02', order: 2, title_el: 'Module 2', available: false }
-    ]
+    domains: domainModuleIds.map((moduleIds, index) => ({
+      id: `DOMAIN-${String(index + 1).padStart(2, '0')}`,
+      order: index + 1,
+      title: `Domain ${index + 1}`,
+      guiding_question: `Guiding question ${index + 1}?`,
+      module_ids: moduleIds
+    })),
+    modules: projectedModules
   }
 };
 
@@ -58,7 +92,12 @@ const api = windowStub.NTT_TEST_API;
 assert.ok(api, 'The guarded progress test API must be available.');
 
 const plain = (value) => JSON.parse(JSON.stringify(value));
+const curriculum = api.readCurriculum();
+assert.equal(curriculum.domains.length, 10);
+assert.equal(curriculum.modules.length, 24);
+
 const progress = api.createDefaultProgress();
+assert.equal(Object.keys(progress.modules).length, 24);
 assert.equal(api.calculatePercent(progress), 0);
 
 progress.modules['MOD-02'] = {
@@ -132,12 +171,24 @@ storage.setItem(
   })
 );
 const normalized = api.readProgress();
+assert.equal(Object.keys(normalized.modules).length, 24);
 assert.deepEqual(plain(normalized.modules['MOD-01']), {
   lessonCompleted: true,
   quizScore: 100,
   labCompleted: false,
   reviewCompleted: false
 });
+assert.deepEqual(plain(normalized.modules['MOD-24']), {
+  lessonCompleted: false,
+  quizScore: 0,
+  labCompleted: false,
+  reviewCompleted: false
+});
+assert.equal(
+  api.calculatePercent(normalized),
+  60,
+  'Adding planned modules must not reinterpret MOD-01 progress.'
+);
 
 storage.clear();
 storage.setItem('nt-certification-progress-v2', 'null');
@@ -149,5 +200,19 @@ assert.equal(api.calculatePercent(safeDefault), 0);
 storage.clear();
 api.writeProgress(progress);
 assert.deepEqual(plain(api.readProgress()), plain(progress));
+
+storage.setItem('nt-certification-progress-v2', '{"version":2}');
+storage.setItem('nt-certification-progress-v1', '{"completedLessons":[]}');
+storage.setItem('ntt-flashcard-confidence-v1', '{"GEN-101":"known"}');
+storage.setItem('nt-certification-interface-v2', '{"theme":"dark"}');
+api.clearSavedLearningData();
+assert.equal(storage.getItem('nt-certification-progress-v2'), null);
+assert.equal(storage.getItem('nt-certification-progress-v1'), null);
+assert.equal(storage.getItem('ntt-flashcard-confidence-v1'), null);
+assert.equal(
+  storage.getItem('nt-certification-interface-v2'),
+  '{"theme":"dark"}',
+  'Clearing learning data must preserve interface settings.'
+);
 
 console.log('Progress contract tests passed: migration, recovery, persistence and weights.');

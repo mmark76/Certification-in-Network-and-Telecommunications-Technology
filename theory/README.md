@@ -5,7 +5,8 @@
 ## Canonical σειρά
 
 Το [`data/curriculum.yml`](../data/curriculum.yml) είναι η μοναδική πηγή
-αλήθειας για τα 16 modules, τη σειρά τους και τα lesson paths. Νέα filenames
+αλήθειας για τα 24 modules, τη σειρά τους, τους θεματικούς τομείς και τα
+lesson paths. Νέα filenames
 δεν δεσμεύονται σε αυτό το index πριν δημιουργηθεί και καταγραφεί το
 αντίστοιχο εκπαιδευτικό περιεχόμενο στο canonical αρχείο.
 
@@ -14,8 +15,8 @@
 - [`MOD-01 — Ψηφιακή λογική και συστήματα αρίθμησης`](01-digital-logic-and-number-systems.md)
   — `NEEDS_VERIFICATION`
 
-Τα υπόλοιπα modules παραμένουν `planned`. Η παρούσα καταγραφή δεν δημιουργεί
-περιεχόμενο για το Module 02.
+Τα `MOD-02` έως `MOD-24` παραμένουν `planned`. Η παρούσα καταγραφή δεν
+δημιουργεί θεωρία ή placeholder lesson pages για αυτά.
 
 ## Definition of Done ενότητας
 

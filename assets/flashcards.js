@@ -2,6 +2,7 @@
   'use strict';
 
   const STORAGE_KEY = 'ntt-flashcard-confidence-v1';
+  const CLEAR_EVENT = 'ntt:flashcard-confidence-cleared';
   const VALID_STATES = new Set(['known', 'review']);
   const FLASHCARD_ID_PATTERN = /^[A-Z][A-Z0-9]{1,7}-[0-9]{3}$/;
 
@@ -94,6 +95,17 @@
     updateSummary(deck);
   };
 
+  const clearDeckConfidence = (deck) => {
+    deckCards(deck).forEach((card) => {
+      delete state[card.dataset.flashcardId];
+      delete card.dataset.confidence;
+      card.querySelectorAll('[data-confidence]').forEach((button) => {
+        button.setAttribute('aria-pressed', 'false');
+      });
+    });
+    updateSummary(deck);
+  };
+
   const toggleCard = (card, forceOpen = null) => {
     if (!card) return false;
 
@@ -164,17 +176,17 @@
     });
 
     deckControl(deck, '[data-flashcards-reset]')?.addEventListener('click', () => {
-      cards.forEach((card) => {
-        delete state[card.dataset.flashcardId];
-        delete card.dataset.confidence;
-        card.querySelectorAll('[data-confidence]').forEach((button) => {
-          button.setAttribute('aria-pressed', 'false');
-        });
-      });
+      clearDeckConfidence(deck);
       safeWrite(state);
-      updateSummary(deck);
     });
 
     updateSummary(deck);
+  });
+
+  document.addEventListener(CLEAR_EVENT, () => {
+    Object.keys(state).forEach((cardId) => {
+      delete state[cardId];
+    });
+    document.querySelectorAll('[data-flashcard-deck]').forEach(clearDeckConfidence);
   });
 })();

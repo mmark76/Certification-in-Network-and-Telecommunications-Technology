@@ -29,7 +29,7 @@
 
   <aside class="pilot-notice" aria-label="Κατάσταση Pilot / Early Access">
     <div class="container">
-      <strong>Pilot / Early Access · διαθέσιμη ύλη: 1 από 16 ενότητες.</strong>
+      <strong>Pilot / Early Access · διαθέσιμη ύλη: 1 από 24 modules.</strong>
       <p>Το εκπαιδευτικό περιεχόμενο βασίζεται αποκλειστικά στο βοήθημα ΔΕΛΤΑ 360. Η χαρτογράφηση του PDF σε μαθήματα, ερωτήσεις και εργαστήρια βρίσκεται σε εξέλιξη.</p>
     </div>
   </aside>
@@ -38,90 +38,24 @@
     <section class="page-hero">
       <div class="container">
         <p class="eyebrow">Χάρτης μελέτης</p>
-        <h1>Η ύλη σε <span>16 μαθησιακές ενότητες</span></h1>
-        <p>Η σειρά ακολουθεί λογική εξάρτηση: από τις βάσεις των υπολογιστών έως τη σχεδίαση, ασφάλεια και διάγνωση πραγματικών δικτύων.</p>
+        <h1><span>10 θεματικοί τομείς</span> και 24 σταθερά modules</h1>
+        <p>Οι τομείς είναι παιδαγωγική οργάνωση της εφαρμογής και χρησιμοποιούν καθοδηγητικές ερωτήσεις ως σημεία ανάκλησης. Το PDF παραμένει οργανωμένο κυρίως σε ομάδες ερωτήσεων και δεν διαιρείται σε αυτούς τους τομείς ή modules.</p>
       </div>
     </section>
 
     <div class="container content-layout">
       <aside class="sidebar">
         <strong>Πλοήγηση ύλης</strong>
-        <a href="#fundamentals">1–3 · Βάσεις</a>
-        <a href="#models">4–5 · Μοντέλα και Ethernet</a>
-        <a href="#ip">6–8 · IP και δρομολόγηση</a>
-        <a href="#services">9–11 · Υπηρεσίες και ασύρματα</a>
-        <a href="#telecom">12–13 · Τηλεπικοινωνίες</a>
-        <a href="#security">14–16 · Ασφάλεια και διάγνωση</a>
+        <nav class="curriculum-domain-nav" data-domain-navigation aria-label="Θεματικοί τομείς">
+          <p class="curriculum-message" role="status">Φόρτωση θεματικών τομέων…</p>
+        </nav>
         <hr>
         <strong>Συνολική πρόοδος: <span data-progress-label>0%</span></strong>
         <div class="progress" role="progressbar" aria-label="Συνολική πρόοδος" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-progress-bar></span></div>
       </aside>
 
-      <article class="lesson">
-        <section id="fundamentals">
-          <p class="eyebrow">Μέρος Α</p>
-          <h2>Θεμέλια υπολογιστικών συστημάτων</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-01" data-available="true">
-              <header><div><h3>01 · Ψηφιακή λογική και συστήματα αρίθμησης</h3><p>Λογικές πύλες, πίνακες αληθείας, δυαδικό, δεκαδικό και δεκαεξαδικό.</p></div><span class="status ready">Διαθέσιμο · προς επαλήθευση</span></header>
-              <a class="text-link" href="lesson-digital-logic.html">Άνοιξε το μάθημα →</a>
-            </article>
-            <article class="module-card" data-module-id="MOD-02" data-available="false">
-              <header><div><h3>02 · Αρχιτεκτονική και υλικό Η/Υ</h3><p>CPU, RAM, μητρική, αποθήκευση, τροφοδοσία, περιφερειακά και βασικός έλεγχος βλαβών.</p></div><span class="status">Προσεχώς</span></header>
-            </article>
-            <article class="module-card" data-module-id="MOD-03" data-available="false">
-              <header><div><h3>03 · Λειτουργικά συστήματα και τεχνική υποστήριξη</h3><p>Εγκατάσταση, αρχεία, δικαιώματα, διεργασίες, οδηγοί και εργαλεία διάγνωσης.</p></div><span class="status">Προσεχώς</span></header>
-            </article>
-          </div>
-        </section>
-
-        <section id="models">
-          <p class="eyebrow">Μέρος Β</p>
-          <h2>Μοντέλα δικτύωσης και φυσική διασύνδεση</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-04" data-available="false"><header><div><h3>04 · Μοντέλα OSI και TCP/IP</h3><p>Επίπεδα, ενθυλάκωση, PDU, πρωτόκολλα και πορεία δεδομένων.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" id="ethernet" data-module-id="MOD-05" data-available="false"><header><div><h3>05 · Ethernet, καλωδίωση και δικτυακός εξοπλισμός</h3><p>MAC, frames, UTP/STP, οπτικές ίνες, T568A/B, switches, routers και access points.</p></div><span class="status">Προσεχώς</span></header></article>
-          </div>
-        </section>
-
-        <section id="ip">
-          <p class="eyebrow">Μέρος Γ</p>
-          <h2>Διευθυνσιοδότηση, μεταγωγή και δρομολόγηση</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-06" data-available="false"><header><div><h3>06 · IPv4 και subnetting</h3><p>Μάσκες, CIDR, network/broadcast, host ranges και σχεδιασμός υποδικτύων.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" data-module-id="MOD-07" data-available="false"><header><div><h3>07 · IPv6</h3><p>Μορφή διεύθυνσης, συμπίεση, τύποι διευθύνσεων και βασική μετάβαση.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" id="switching" data-module-id="MOD-08" data-available="false"><header><div><h3>08 · Switching, VLAN και routing</h3><p>MAC tables, VLANs, trunks, static routing και βασικές έννοιες δυναμικής δρομολόγησης.</p></div><span class="status">Προσεχώς</span></header></article>
-          </div>
-        </section>
-
-        <section id="services">
-          <p class="eyebrow">Μέρος Δ</p>
-          <h2>Υπηρεσίες και πρόσβαση δικτύου</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-09" data-available="false"><header><div><h3>09 · Υπηρεσίες δικτύου</h3><p>DHCP, DNS, NAT/PAT, NTP, HTTP/HTTPS, email και βασικές θύρες.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" id="wireless" data-module-id="MOD-10" data-available="false"><header><div><h3>10 · Ασύρματα δίκτυα</h3><p>Wi‑Fi πρότυπα, κανάλια, παρεμβολές, ασφάλεια και σχεδίαση κάλυψης.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" data-module-id="MOD-11" data-available="false"><header><div><h3>11 · Διαχείριση και παρακολούθηση δικτύου</h3><p>CLI, logs, SNMP, βασικά metrics, τεκμηρίωση και αντίγραφα ρυθμίσεων.</p></div><span class="status">Προσεχώς</span></header></article>
-          </div>
-        </section>
-
-        <section id="telecom">
-          <p class="eyebrow">Μέρος Ε</p>
-          <h2>Τηλεπικοινωνίες</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-12" data-available="false"><header><div><h3>12 · Σήματα, μετάδοση και πολυπλεξία</h3><p>Εύρος ζώνης, θόρυβος, εξασθένηση, διαμόρφωση και βασικές τεχνικές πολυπλεξίας.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" data-module-id="MOD-13" data-available="false"><header><div><h3>13 · Τηλεφωνία, VoIP και δίκτυα πρόσβασης</h3><p>PSTN, VoIP, SIP, DSL, οπτική πρόσβαση και βασική ποιότητα υπηρεσίας.</p></div><span class="status">Προσεχώς</span></header></article>
-          </div>
-        </section>
-
-        <section id="security">
-          <p class="eyebrow">Μέρος ΣΤ</p>
-          <h2>Ασφάλεια και επίλυση προβλημάτων</h2>
-          <div class="module-list">
-            <article class="module-card" data-module-id="MOD-14" data-available="false"><header><div><h3>14 · Ασφάλεια δικτύων</h3><p>Απειλές, έλεγχος πρόσβασης, firewalls, VPN, hardening και ασφαλείς πρακτικές.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" id="troubleshooting" data-module-id="MOD-15" data-available="false"><header><div><h3>15 · Μεθοδολογία troubleshooting</h3><p>Συλλογή στοιχείων, υπόθεση, έλεγχος, αποκατάσταση και τεκμηρίωση.</p></div><span class="status">Προσεχώς</span></header></article>
-            <article class="module-card" data-module-id="MOD-16" data-available="false"><header><div><h3>16 · Επαναληπτικές εξετάσεις και πρακτικά σενάρια</h3><p>Συνδυαστικά tests, εργαστηριακά σενάρια και τελικός έλεγχος ετοιμότητας.</p></div><span class="status">Προσεχώς</span></header></article>
-          </div>
-        </section>
+      <article class="lesson curriculum-domains" data-curriculum-domains>
+        <p class="curriculum-message" role="status">Φόρτωση curriculum…</p>
       </article>
     </div>
   </main>

@@ -3,6 +3,8 @@
 
   const PROGRESS_STORAGE_KEY = 'nt-certification-progress-v2';
   const LEGACY_PROGRESS_STORAGE_KEY = 'nt-certification-progress-v1';
+  const FLASHCARD_STORAGE_KEY = 'ntt-flashcard-confidence-v1';
+  const FLASHCARD_CLEAR_EVENT = 'ntt:flashcard-confidence-cleared';
   const SETTINGS_KEY = 'nt-certification-interface-v2';
   const PASSING_QUIZ_SCORE = 80;
   const DEFAULT_BUILD_INFO = Object.freeze({
@@ -99,34 +101,308 @@
     }
   };
 
+  const clearSavedLearningData = () => {
+    safeRemoveStorage(PROGRESS_STORAGE_KEY);
+    safeRemoveStorage(LEGACY_PROGRESS_STORAGE_KEY);
+    safeRemoveStorage(FLASHCARD_STORAGE_KEY);
+
+    if (
+      typeof document.dispatchEvent === 'function'
+      && typeof Event === 'function'
+    ) {
+      document.dispatchEvent(new Event(FLASHCARD_CLEAR_EVENT));
+    }
+  };
+
   const readCurriculum = () => {
     const source = window.NTT_CURRICULUM;
-    if (!isRecord(source) || !Array.isArray(source.modules)) {
-      return { version: 0, modules: [] };
+    if (
+      !isRecord(source)
+      || !Array.isArray(source.domains)
+      || !Array.isArray(source.modules)
+    ) {
+      return { version: 0, domains: [], modules: [] };
     }
 
-    const seen = new Set();
-    const modules = source.modules.filter((module) => {
+    const moduleIds = new Set();
+    const moduleOrders = new Set();
+    let modulesAreValid = true;
+    const modules = [];
+    source.modules.forEach((module) => {
       if (
         !isRecord(module)
         || typeof module.id !== 'string'
-        || !/^MOD-\d{2}$/.test(module.id)
-        || seen.has(module.id)
+        || !/^MOD-(?:0[1-9]|1\d|2[0-4])$/.test(module.id)
+        || moduleIds.has(module.id)
+        || !Number.isInteger(module.order)
+        || moduleOrders.has(module.order)
+        || typeof module.title_el !== 'string'
+        || !module.title_el.trim()
+        || typeof module.domain_id !== 'string'
+        || !/^DOMAIN-(?:0[1-9]|10)$/.test(module.domain_id)
         || typeof module.available !== 'boolean'
+        || typeof module.status !== 'string'
+        || !module.status.trim()
+        || (
+          module.lesson_html !== null
+          && (
+            typeof module.lesson_html !== 'string'
+            || !module.lesson_html.trim()
+          )
+        )
       ) {
-        return false;
+        modulesAreValid = false;
+        return;
       }
-      seen.add(module.id);
-      return true;
+
+      moduleIds.add(module.id);
+      moduleOrders.add(module.order);
+      modules.push({
+        ...module,
+        title_el: module.title_el.trim(),
+        status: module.status.trim(),
+        lesson_html: typeof module.lesson_html === 'string'
+          ? module.lesson_html.trim()
+          : null
+      });
     });
+
+    const domainIds = new Set();
+    const domainOrders = new Set();
+    let domainsAreValid = true;
+    const domains = [];
+    source.domains.forEach((domain) => {
+      const uniqueModuleIds = Array.isArray(domain?.module_ids)
+        ? new Set(domain.module_ids)
+        : null;
+      if (
+        !isRecord(domain)
+        || typeof domain.id !== 'string'
+        || !/^DOMAIN-(?:0[1-9]|10)$/.test(domain.id)
+        || domainIds.has(domain.id)
+        || !Number.isInteger(domain.order)
+        || domainOrders.has(domain.order)
+        || typeof domain.title !== 'string'
+        || !domain.title.trim()
+        || typeof domain.guiding_question !== 'string'
+        || !domain.guiding_question.trim()
+        || !Array.isArray(domain.module_ids)
+        || domain.module_ids.length === 0
+        || domain.module_ids.some(
+          (moduleId) => (
+            typeof moduleId !== 'string'
+            || !/^MOD-(?:0[1-9]|1\d|2[0-4])$/.test(moduleId)
+          )
+        )
+        || uniqueModuleIds.size !== domain.module_ids.length
+      ) {
+        domainsAreValid = false;
+        return;
+      }
+
+      domainIds.add(domain.id);
+      domainOrders.add(domain.order);
+      domains.push({
+        ...domain,
+        title: domain.title.trim(),
+        guiding_question: domain.guiding_question.trim(),
+        module_ids: [...domain.module_ids]
+      });
+    });
+
+    const owners = new Map();
+    domains.forEach((domain) => {
+      domain.module_ids.forEach((moduleId) => {
+        owners.set(moduleId, [...(owners.get(moduleId) || []), domain.id]);
+      });
+    });
+    const hierarchyIsValid = (
+      modulesAreValid
+      && domainsAreValid
+      && modules.length > 0
+      && domains.length > 0
+      && modules.every((module) => {
+        const moduleOwners = owners.get(module.id) || [];
+        return (
+          moduleOwners.length === 1
+          && moduleOwners[0] === module.domain_id
+        );
+      })
+      && [...owners].every(
+        ([moduleId, moduleOwners]) => (
+          moduleIds.has(moduleId)
+          && moduleOwners.length === 1
+        )
+      )
+    );
+
+    modules.sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
+    domains.sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
 
     return {
       version: Number.isInteger(source.version) ? source.version : 0,
+      domains: hierarchyIsValid ? domains : [],
       modules
     };
   };
 
   const curriculum = readCurriculum();
+
+  const formatOrder = (value) => String(value).padStart(2, '0');
+
+  const safeLessonHref = (value) => {
+    if (typeof value !== 'string' || !value.endsWith('.html')) return null;
+    if (
+      value.startsWith('/')
+      || value.includes('\\')
+      || value.split('/').includes('..')
+      || /^[A-Za-z][A-Za-z\d+.-]*:/.test(value)
+    ) {
+      return null;
+    }
+    return value;
+  };
+
+  const createStatusMessage = (text) => {
+    const message = document.createElement('p');
+    message.className = 'curriculum-message';
+    message.setAttribute('role', 'status');
+    message.textContent = text;
+    return message;
+  };
+
+  const createModuleCard = (module) => {
+    const card = document.createElement('article');
+    card.className = 'module-card';
+    card.dataset.moduleId = module.id;
+    card.dataset.available = String(module.available);
+    card.dataset.status = module.status;
+
+    const header = document.createElement('header');
+    const titleWrapper = document.createElement('div');
+    titleWrapper.className = 'module-card__title';
+    const title = document.createElement('h3');
+    title.textContent = `${formatOrder(module.order)} · ${module.title_el}`;
+    titleWrapper.appendChild(title);
+
+    const status = document.createElement('span');
+    status.className = `status${module.available ? ' ready' : ''}`;
+    status.textContent = module.available
+      ? module.status === 'needs_verification'
+        ? 'Διαθέσιμο · προς επαλήθευση'
+        : 'Διαθέσιμο'
+      : module.status === 'planned'
+        ? 'Προγραμματισμένο'
+        : 'Μη διαθέσιμο';
+    header.append(titleWrapper, status);
+    card.appendChild(header);
+
+    const lessonHref = module.available
+      ? safeLessonHref(module.lesson_html)
+      : null;
+    if (lessonHref) {
+      const lessonLink = document.createElement('a');
+      lessonLink.className = 'text-link module-card__link';
+      lessonLink.href = lessonHref;
+      lessonLink.textContent = 'Άνοιξε το μάθημα →';
+      lessonLink.setAttribute(
+        'aria-label',
+        `Άνοιξε το μάθημα: ${module.title_el}`
+      );
+      card.appendChild(lessonLink);
+    }
+
+    return card;
+  };
+
+  const setupCurriculumViews = () => {
+    const navigation = document.querySelector('[data-domain-navigation]');
+    const curriculumHost = document.querySelector('[data-curriculum-domains]');
+    const homeHost = document.querySelector('[data-home-domains]');
+    if (!navigation && !curriculumHost && !homeHost) return;
+
+    if (curriculum.domains.length === 0) {
+      const message = 'Ο χάρτης ύλης δεν είναι προσωρινά διαθέσιμος.';
+      navigation?.replaceChildren(createStatusMessage(message));
+      curriculumHost?.replaceChildren(createStatusMessage(message));
+      homeHost?.replaceChildren(createStatusMessage(message));
+      return;
+    }
+
+    const modulesById = new Map(
+      curriculum.modules.map((module) => [module.id, module])
+    );
+
+    if (navigation) {
+      const fragment = document.createDocumentFragment();
+      curriculum.domains.forEach((domain) => {
+        const link = document.createElement('a');
+        link.href = `#${domain.id.toLowerCase()}`;
+        link.textContent = `${formatOrder(domain.order)} · ${domain.title}`;
+        fragment.appendChild(link);
+      });
+      navigation.replaceChildren(fragment);
+    }
+
+    if (curriculumHost) {
+      const fragment = document.createDocumentFragment();
+      curriculum.domains.forEach((domain) => {
+        const section = document.createElement('section');
+        const headingId = `${domain.id.toLowerCase()}-title`;
+        section.id = domain.id.toLowerCase();
+        section.className = 'curriculum-domain';
+        section.dataset.domainSection = '';
+        section.dataset.domainId = domain.id;
+        section.setAttribute('aria-labelledby', headingId);
+
+        const eyebrow = document.createElement('p');
+        eyebrow.className = 'eyebrow';
+        eyebrow.textContent = `Τομέας ${formatOrder(domain.order)}`;
+
+        const heading = document.createElement('h2');
+        heading.id = headingId;
+        heading.textContent = domain.title;
+
+        const guidingQuestion = document.createElement('p');
+        guidingQuestion.className = 'domain-guiding-question';
+        const label = document.createElement('strong');
+        label.textContent = 'Καθοδηγητική ερώτηση: ';
+        guidingQuestion.append(label, domain.guiding_question);
+
+        const moduleList = document.createElement('div');
+        moduleList.className = 'module-list';
+        const domainModules = domain.module_ids
+          .map((moduleId) => modulesById.get(moduleId))
+          .filter(Boolean)
+          .sort(
+            (left, right) => left.order - right.order || left.id.localeCompare(right.id)
+          );
+        domainModules.forEach((module) => {
+          moduleList.appendChild(createModuleCard(module));
+        });
+
+        section.append(eyebrow, heading, guidingQuestion, moduleList);
+        fragment.appendChild(section);
+      });
+      curriculumHost.replaceChildren(fragment);
+    }
+
+    if (homeHost) {
+      const fragment = document.createDocumentFragment();
+      curriculum.domains.forEach((domain) => {
+        const link = document.createElement('a');
+        link.href = `curriculum.html#${domain.id.toLowerCase()}`;
+        const order = document.createElement('span');
+        order.className = 'topic-grid__order';
+        order.textContent = `Τομέας ${formatOrder(domain.order)}`;
+        const title = document.createElement('strong');
+        title.textContent = domain.title;
+        link.append(order, title);
+        fragment.appendChild(link);
+      });
+      homeHost.replaceChildren(fragment);
+    }
+  };
 
   const readSettings = () => {
     const stored = safeReadStorage(SETTINGS_KEY).value;
@@ -371,16 +647,15 @@
 
     clearProgressButton?.addEventListener('click', () => {
       const confirmed = window.confirm(
-        'Να διαγραφεί όλη η αποθηκευμένη πρόοδος και τα αποτελέσματα quiz;'
+        'Να διαγραφούν η αποθηκευμένη πρόοδος, τα αποτελέσματα quiz και οι αξιολογήσεις flashcards;'
       );
       if (!confirmed) return;
 
-      safeRemoveStorage(PROGRESS_STORAGE_KEY);
-      safeRemoveStorage(LEGACY_PROGRESS_STORAGE_KEY);
+      clearSavedLearningData();
       syncProgressControls();
       document.querySelectorAll('[data-quiz]').forEach(resetQuizFeedback);
       updateProgressUI();
-      window.alert('Η αποθηκευμένη πρόοδος διαγράφηκε.');
+      window.alert('Η αποθηκευμένη πρόοδος και οι αξιολογήσεις flashcards διαγράφηκαν.');
     });
   };
 
@@ -505,12 +780,15 @@
       readProgress,
       writeProgress,
       modulePercent,
-      calculatePercent
+      calculatePercent,
+      clearSavedLearningData,
+      readCurriculum: () => curriculum
     });
   }
 
   applySettings(readSettings());
   updateBuildVersion();
+  setupCurriculumViews();
   setupSettingsDialog();
   setupNavigation();
   setupProgressControls();

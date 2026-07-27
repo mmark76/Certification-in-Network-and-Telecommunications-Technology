@@ -27,39 +27,104 @@ def _browser_payload(data: Any) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("curriculum root must be a mapping")
     version = data.get("version")
+    domains = data.get("domains")
     modules = data.get("modules")
     if type(version) is not int:
         raise ValueError("curriculum version must be an integer")
+    if not isinstance(domains, list):
+        raise ValueError("curriculum domains must be a list")
     if not isinstance(modules, list):
         raise ValueError("curriculum modules must be a list")
 
-    projection: list[dict[str, Any]] = []
+    domain_projection: list[dict[str, Any]] = []
+    for index, domain in enumerate(domains, start=1):
+        if not isinstance(domain, dict):
+            raise ValueError(f"domain entry {index} must be a mapping")
+        domain_id = domain.get("id")
+        order = domain.get("order")
+        title = domain.get("title")
+        guiding_question = domain.get("guiding_question")
+        module_ids = domain.get("module_ids")
+        if not isinstance(domain_id, str) or not domain_id:
+            raise ValueError(f"domain entry {index} has an invalid id")
+        if type(order) is not int:
+            raise ValueError(f"{domain_id}: order must be an integer")
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError(f"{domain_id}: title must be a non-empty string")
+        if not isinstance(guiding_question, str) or not guiding_question.strip():
+            raise ValueError(
+                f"{domain_id}: guiding_question must be a non-empty string"
+            )
+        if (
+            not isinstance(module_ids, list)
+            or not module_ids
+            or any(
+                not isinstance(module_id, str) or not module_id
+                for module_id in module_ids
+            )
+        ):
+            raise ValueError(
+                f"{domain_id}: module_ids must be a non-empty list of IDs"
+            )
+        domain_projection.append(
+            {
+                "id": domain_id,
+                "order": order,
+                "title": title,
+                "guiding_question": guiding_question,
+                "module_ids": list(module_ids),
+            }
+        )
+
+    module_projection: list[dict[str, Any]] = []
     for index, module in enumerate(modules, start=1):
         if not isinstance(module, dict):
             raise ValueError(f"module entry {index} must be a mapping")
         module_id = module.get("id")
         order = module.get("order")
         title_el = module.get("title_el")
+        domain_id = module.get("domain_id")
         available = module.get("available")
+        status = module.get("status")
+        lesson = module.get("lesson")
         if not isinstance(module_id, str) or not module_id:
             raise ValueError(f"module entry {index} has an invalid id")
         if type(order) is not int:
             raise ValueError(f"{module_id}: order must be an integer")
-        if not isinstance(title_el, str) or not title_el:
+        if not isinstance(title_el, str) or not title_el.strip():
             raise ValueError(f"{module_id}: title_el must be a non-empty string")
+        if not isinstance(domain_id, str) or not domain_id:
+            raise ValueError(f"{module_id}: domain_id must be a non-empty string")
         if type(available) is not bool:
             raise ValueError(f"{module_id}: available must be true or false")
-        projection.append(
+        if not isinstance(status, str) or not status:
+            raise ValueError(f"{module_id}: status must be a non-empty string")
+        if not isinstance(lesson, dict):
+            raise ValueError(f"{module_id}: lesson must be a mapping")
+        lesson_html = lesson.get("html")
+        if lesson_html is not None and (
+            not isinstance(lesson_html, str) or not lesson_html
+        ):
+            raise ValueError(f"{module_id}: lesson.html must be a string or null")
+        module_projection.append(
             {
                 "id": module_id,
                 "order": order,
                 "title_el": title_el,
+                "domain_id": domain_id,
                 "available": available,
+                "status": status,
+                "lesson_html": lesson_html,
             }
         )
 
-    projection.sort(key=lambda item: (item["order"], item["id"]))
-    return {"version": version, "modules": projection}
+    domain_projection.sort(key=lambda item: (item["order"], item["id"]))
+    module_projection.sort(key=lambda item: (item["order"], item["id"]))
+    return {
+        "version": version,
+        "domains": domain_projection,
+        "modules": module_projection,
+    }
 
 
 def render_curriculum_data(data: Any) -> str:

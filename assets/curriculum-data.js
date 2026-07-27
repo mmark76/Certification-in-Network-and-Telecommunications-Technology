@@ -3,102 +3,328 @@
  */
 window.NTT_CURRICULUM = {
   "version": 1,
+  "domains": [
+    {
+      "id": "DOMAIN-01",
+      "order": 1,
+      "title": "Ψηφιακή πληροφορία και λογική",
+      "guiding_question": "Πώς αναπαριστά ο υπολογιστής την πληροφορία;",
+      "module_ids": [
+        "MOD-01"
+      ]
+    },
+    {
+      "id": "DOMAIN-02",
+      "order": 2,
+      "title": "Αρχιτεκτονική και υλικό υπολογιστών",
+      "guiding_question": "Πώς λειτουργεί και από τι αποτελείται ένας υπολογιστής;",
+      "module_ids": [
+        "MOD-02",
+        "MOD-17",
+        "MOD-18"
+      ]
+    },
+    {
+      "id": "DOMAIN-03",
+      "order": 3,
+      "title": "Λειτουργικά συστήματα και διαχείριση",
+      "guiding_question": "Πώς διαχειρίζεται το λειτουργικό το υλικό, τα αρχεία και τους χρήστες;",
+      "module_ids": [
+        "MOD-03",
+        "MOD-23"
+      ]
+    },
+    {
+      "id": "DOMAIN-04",
+      "order": 4,
+      "title": "Αλγόριθμοι και προγραμματισμός",
+      "guiding_question": "Πώς περιγράφουμε και υλοποιούμε μία υπολογιστική λύση;",
+      "module_ids": [
+        "MOD-19",
+        "MOD-20"
+      ]
+    },
+    {
+      "id": "DOMAIN-05",
+      "order": 5,
+      "title": "Εφαρμογές και πληροφοριακά συστήματα",
+      "guiding_question": "Πώς οργανώνεται και χρησιμοποιείται η πληροφορία στην πράξη;",
+      "module_ids": [
+        "MOD-21",
+        "MOD-22"
+      ]
+    },
+    {
+      "id": "DOMAIN-06",
+      "order": 6,
+      "title": "Θεμέλια δικτύων",
+      "guiding_question": "Πώς επικοινωνούν δύο συσκευές στο ίδιο ή σε διαφορετικά δίκτυα;",
+      "module_ids": [
+        "MOD-04",
+        "MOD-05"
+      ]
+    },
+    {
+      "id": "DOMAIN-07",
+      "order": 7,
+      "title": "IP, μεταγωγή και δρομολόγηση",
+      "guiding_question": "Πώς βρίσκει ένα πακέτο τον προορισμό του;",
+      "module_ids": [
+        "MOD-06",
+        "MOD-07",
+        "MOD-08"
+      ]
+    },
+    {
+      "id": "DOMAIN-08",
+      "order": 8,
+      "title": "Υπηρεσίες και διαχείριση δικτύου",
+      "guiding_question": "Ποιες υπηρεσίες κάνουν ένα δίκτυο λειτουργικό και διαχειρίσιμο;",
+      "module_ids": [
+        "MOD-09",
+        "MOD-11"
+      ]
+    },
+    {
+      "id": "DOMAIN-09",
+      "order": 9,
+      "title": "Μετάδοση και τηλεπικοινωνίες",
+      "guiding_question": "Πώς μεταφέρεται φυσικά ένα σήμα και πώς λειτουργούν τα τηλεπικοινωνιακά δίκτυα;",
+      "module_ids": [
+        "MOD-10",
+        "MOD-12",
+        "MOD-13",
+        "MOD-24"
+      ]
+    },
+    {
+      "id": "DOMAIN-10",
+      "order": 10,
+      "title": "Ασφάλεια και αντιμετώπιση προβλημάτων",
+      "guiding_question": "Πώς προστατεύουμε, ελέγχουμε και αποκαθιστούμε ένα σύστημα;",
+      "module_ids": [
+        "MOD-14",
+        "MOD-15",
+        "MOD-16"
+      ]
+    }
+  ],
   "modules": [
     {
       "id": "MOD-01",
       "order": 1,
       "title_el": "Ψηφιακή λογική και συστήματα αρίθμησης",
-      "available": true
+      "domain_id": "DOMAIN-01",
+      "available": true,
+      "status": "needs_verification",
+      "lesson_html": "lesson-digital-logic.html"
     },
     {
       "id": "MOD-02",
       "order": 2,
       "title_el": "Αρχιτεκτονική και υλικό Η/Υ",
-      "available": false
+      "domain_id": "DOMAIN-02",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-03",
       "order": 3,
       "title_el": "Λειτουργικά συστήματα και τεχνική υποστήριξη",
-      "available": false
+      "domain_id": "DOMAIN-03",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-04",
       "order": 4,
       "title_el": "Μοντέλα OSI και TCP/IP",
-      "available": false
+      "domain_id": "DOMAIN-06",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-05",
       "order": 5,
       "title_el": "Ethernet, καλωδίωση και δικτυακός εξοπλισμός",
-      "available": false
+      "domain_id": "DOMAIN-06",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-06",
       "order": 6,
       "title_el": "IPv4 και subnetting",
-      "available": false
+      "domain_id": "DOMAIN-07",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-07",
       "order": 7,
       "title_el": "IPv6",
-      "available": false
+      "domain_id": "DOMAIN-07",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-08",
       "order": 8,
       "title_el": "Switching, VLAN και routing",
-      "available": false
+      "domain_id": "DOMAIN-07",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-09",
       "order": 9,
       "title_el": "Υπηρεσίες δικτύου",
-      "available": false
+      "domain_id": "DOMAIN-08",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-10",
       "order": 10,
       "title_el": "Ασύρματα δίκτυα",
-      "available": false
+      "domain_id": "DOMAIN-09",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-11",
       "order": 11,
       "title_el": "Διαχείριση και παρακολούθηση δικτύου",
-      "available": false
+      "domain_id": "DOMAIN-08",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-12",
       "order": 12,
       "title_el": "Σήματα, μετάδοση και πολυπλεξία",
-      "available": false
+      "domain_id": "DOMAIN-09",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-13",
       "order": 13,
       "title_el": "Τηλεφωνία, VoIP και δίκτυα πρόσβασης",
-      "available": false
+      "domain_id": "DOMAIN-09",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-14",
       "order": 14,
       "title_el": "Ασφάλεια δικτύων",
-      "available": false
+      "domain_id": "DOMAIN-10",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-15",
       "order": 15,
       "title_el": "Μεθοδολογία troubleshooting",
-      "available": false
+      "domain_id": "DOMAIN-10",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     },
     {
       "id": "MOD-16",
       "order": 16,
       "title_el": "Επαναληπτικές εξετάσεις και πρακτικά σενάρια",
-      "available": false
+      "domain_id": "DOMAIN-10",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-17",
+      "order": 17,
+      "title_el": "Μνήμες, αποθήκευση και περιφερειακές συσκευές",
+      "domain_id": "DOMAIN-02",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-18",
+      "order": 18,
+      "title_el": "Ψηφιακά ηλεκτρονικά και ενσωματωμένα συστήματα",
+      "domain_id": "DOMAIN-02",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-19",
+      "order": 19,
+      "title_el": "Αλγόριθμοι και δομές δεδομένων",
+      "domain_id": "DOMAIN-04",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-20",
+      "order": 20,
+      "title_el": "Γλώσσες προγραμματισμού, Pascal και Assembly",
+      "domain_id": "DOMAIN-04",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-21",
+      "order": 21,
+      "title_el": "Εφαρμογές γραφείου και λογιστικά φύλλα",
+      "domain_id": "DOMAIN-05",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-22",
+      "order": 22,
+      "title_el": "Δεδομένα και πληροφοριακά συστήματα",
+      "domain_id": "DOMAIN-05",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-23",
+      "order": 23,
+      "title_el": "Διαχείριση συστημάτων, χρηστών και αντιγράφων ασφαλείας",
+      "domain_id": "DOMAIN-03",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
+    },
+    {
+      "id": "MOD-24",
+      "order": 24,
+      "title_el": "Κινητές επικοινωνίες και κυψελωτά δίκτυα",
+      "domain_id": "DOMAIN-09",
+      "available": false,
+      "status": "planned",
+      "lesson_html": null
     }
   ]
 };
