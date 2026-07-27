@@ -23,6 +23,8 @@
 - Κωδικοί εμφάνισης modules: `NN.NN`, όπου το πρώτο ζεύγος είναι η σειρά του
   domain και το δεύτερο η θέση του module μέσα στο `domain.module_ids`.
   Ενδεικτικά, `MOD-17` → `02.02` και `MOD-24` → `09.04`.
+- Μελλοντικά κεφάλαια: learner-facing `NN.NN.NN` και αντίστοιχο μόνιμο
+  τεχνικό ID `CH-NN-NN-NN`.
 - Ερωτήσεις quiz: θεματικό prefix και τριψήφιος αριθμός, π.χ. `IP-001`.
 - Flashcards: ξεχωριστό registry με το ίδιο σχήμα ID, π.χ. `IP-101`.
 - Εργαστήρια: `LAB-<PREFIX>-NNN`, π.χ. `LAB-GEN-001`.
@@ -31,6 +33,10 @@
 - Το `data/curriculum.yml` είναι η μοναδική πηγή αλήθειας για τα 10 domains,
   τη σειρά και ιδιοκτησία των 24 modules, τους κωδικούς εμφάνισης, τη
   διαθεσιμότητα, την κατάσταση και τις συσχετίσεις των artifacts.
+- Το `data/theory-coverage.yml` είναι η μοναδική πηγή αλήθειας για τις
+  ταυτότητες ερωτήσεων `A-NNN` / `B-NNN`, τα μελλοντικά κεφάλαια και τις
+  αντιστοιχίσεις τους σε domain, module και σελίδες PDF viewer με αρίθμηση
+  από το 1.
 - Το `assets/curriculum-data.js` είναι παραγόμενο αρχείο. Δεν τροποποιείται
   χειροκίνητα. Μετά από αλλαγή του curriculum εκτέλεσε:
 
@@ -48,11 +54,22 @@ curriculum.
 ανάκλησης και δεν παρουσιάζονται ως τίτλοι του PDF.
 
 Η ιεραρχία εμφάνισης είναι επίσης ορισμός της εφαρμογής και όχι αρίθμηση του
-PDF. Ένας κωδικός όπως `02.02` δεν παραπέμπει στην ερώτηση 2.2. Μελλοντικά
-κεφάλαια θεωρίας θα μπορούσαν να επεκτείνουν τη μορφή σε `NN.NN.NN`, για
-παράδειγμα `09.04.01`, αλλά schema κεφαλαίων δεν υλοποιείται ακόμη. Τα
-τεχνικά IDs `MOD-NN` εξακολουθούν να χρησιμοποιούνται σε progress storage,
+PDF. Ένας κωδικός όπως `02.02` δεν παραπέμπει στην ερώτηση 2.2. Ο planning
+χάρτης επεκτείνει τη μορφή σε `NN.NN.NN`, για παράδειγμα `09.04.01`, με
+τεχνικό ID `CH-09-04-01`. Δεν δημιουργεί chapter pages ή ολοκληρωμένη θεωρία.
+Τα τεχνικά IDs `MOD-NN` εξακολουθούν να χρησιμοποιούνται σε progress storage,
 registries, ownership relations και traceability.
+
+Μετά από αλλαγή του theory coverage map εκτέλεσε:
+
+```text
+python scripts/validate_theory_coverage.py
+python -B scripts/test_theory_coverage.py
+python scripts/generate_theory_coverage_report.py
+```
+
+Το `docs/THEORY_COVERAGE_MAP.md` είναι παραγόμενο αρχείο και δεν τροποποιείται
+χειροκίνητα.
 
 Μόνο το `MOD-01` διαθέτει σήμερα πλήρη διαδραστική στοίβα, αλλά παραμένει
 `needs_verification`. Τα `MOD-02` έως `MOD-24` είναι `planned` placeholders:
@@ -88,10 +105,13 @@ Done της ενότητας και να περνούν όλοι οι αυτομ
 
 ```text
 python scripts/validate_curriculum.py
+python scripts/validate_theory_coverage.py
 python -B scripts/test_curriculum_display_codes.py
+python -B scripts/test_theory_coverage.py
 python scripts/check_html_ids.py
 python scripts/check_internal_links.py
 python scripts/generate_curriculum_data.py --check
+python scripts/generate_theory_coverage_report.py --check
 node --check assets/app.js
 node --check assets/flashcards.js
 node --check assets/curriculum-data.js
