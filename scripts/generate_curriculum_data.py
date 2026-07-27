@@ -82,6 +82,7 @@ def _browser_payload(data: Any) -> dict[str, Any]:
             raise ValueError(f"module entry {index} must be a mapping")
         module_id = module.get("id")
         order = module.get("order")
+        display_code = module.get("display_code")
         title_el = module.get("title_el")
         domain_id = module.get("domain_id")
         available = module.get("available")
@@ -91,6 +92,10 @@ def _browser_payload(data: Any) -> dict[str, Any]:
             raise ValueError(f"module entry {index} has an invalid id")
         if type(order) is not int:
             raise ValueError(f"{module_id}: order must be an integer")
+        if not isinstance(display_code, str) or not display_code:
+            raise ValueError(
+                f"{module_id}: display_code must be a non-empty string"
+            )
         if not isinstance(title_el, str) or not title_el.strip():
             raise ValueError(f"{module_id}: title_el must be a non-empty string")
         if not isinstance(domain_id, str) or not domain_id:
@@ -110,6 +115,7 @@ def _browser_payload(data: Any) -> dict[str, Any]:
             {
                 "id": module_id,
                 "order": order,
+                "display_code": display_code,
                 "title_el": title_el,
                 "domain_id": domain_id,
                 "available": available,

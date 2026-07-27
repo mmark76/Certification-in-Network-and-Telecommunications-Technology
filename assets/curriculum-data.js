@@ -113,6 +113,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-01",
       "order": 1,
+      "display_code": "01.01",
       "title_el": "Ψηφιακή λογική και συστήματα αρίθμησης",
       "domain_id": "DOMAIN-01",
       "available": true,
@@ -122,6 +123,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-02",
       "order": 2,
+      "display_code": "02.01",
       "title_el": "Αρχιτεκτονική και υλικό Η/Υ",
       "domain_id": "DOMAIN-02",
       "available": false,
@@ -131,6 +133,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-03",
       "order": 3,
+      "display_code": "03.01",
       "title_el": "Λειτουργικά συστήματα και τεχνική υποστήριξη",
       "domain_id": "DOMAIN-03",
       "available": false,
@@ -140,6 +143,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-04",
       "order": 4,
+      "display_code": "06.01",
       "title_el": "Μοντέλα OSI και TCP/IP",
       "domain_id": "DOMAIN-06",
       "available": false,
@@ -149,6 +153,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-05",
       "order": 5,
+      "display_code": "06.02",
       "title_el": "Ethernet, καλωδίωση και δικτυακός εξοπλισμός",
       "domain_id": "DOMAIN-06",
       "available": false,
@@ -158,6 +163,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-06",
       "order": 6,
+      "display_code": "07.01",
       "title_el": "IPv4 και subnetting",
       "domain_id": "DOMAIN-07",
       "available": false,
@@ -167,6 +173,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-07",
       "order": 7,
+      "display_code": "07.02",
       "title_el": "IPv6",
       "domain_id": "DOMAIN-07",
       "available": false,
@@ -176,6 +183,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-08",
       "order": 8,
+      "display_code": "07.03",
       "title_el": "Switching, VLAN και routing",
       "domain_id": "DOMAIN-07",
       "available": false,
@@ -185,6 +193,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-09",
       "order": 9,
+      "display_code": "08.01",
       "title_el": "Υπηρεσίες δικτύου",
       "domain_id": "DOMAIN-08",
       "available": false,
@@ -194,6 +203,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-10",
       "order": 10,
+      "display_code": "09.01",
       "title_el": "Ασύρματα δίκτυα",
       "domain_id": "DOMAIN-09",
       "available": false,
@@ -203,6 +213,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-11",
       "order": 11,
+      "display_code": "08.02",
       "title_el": "Διαχείριση και παρακολούθηση δικτύου",
       "domain_id": "DOMAIN-08",
       "available": false,
@@ -212,6 +223,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-12",
       "order": 12,
+      "display_code": "09.02",
       "title_el": "Σήματα, μετάδοση και πολυπλεξία",
       "domain_id": "DOMAIN-09",
       "available": false,
@@ -221,6 +233,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-13",
       "order": 13,
+      "display_code": "09.03",
       "title_el": "Τηλεφωνία, VoIP και δίκτυα πρόσβασης",
       "domain_id": "DOMAIN-09",
       "available": false,
@@ -230,6 +243,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-14",
       "order": 14,
+      "display_code": "10.01",
       "title_el": "Ασφάλεια δικτύων",
       "domain_id": "DOMAIN-10",
       "available": false,
@@ -239,6 +253,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-15",
       "order": 15,
+      "display_code": "10.02",
       "title_el": "Μεθοδολογία troubleshooting",
       "domain_id": "DOMAIN-10",
       "available": false,
@@ -248,6 +263,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-16",
       "order": 16,
+      "display_code": "10.03",
       "title_el": "Επαναληπτικές εξετάσεις και πρακτικά σενάρια",
       "domain_id": "DOMAIN-10",
       "available": false,
@@ -257,6 +273,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-17",
       "order": 17,
+      "display_code": "02.02",
       "title_el": "Μνήμες, αποθήκευση και περιφερειακές συσκευές",
       "domain_id": "DOMAIN-02",
       "available": false,
@@ -266,6 +283,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-18",
       "order": 18,
+      "display_code": "02.03",
       "title_el": "Ψηφιακά ηλεκτρονικά και ενσωματωμένα συστήματα",
       "domain_id": "DOMAIN-02",
       "available": false,
@@ -275,6 +293,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-19",
       "order": 19,
+      "display_code": "04.01",
       "title_el": "Αλγόριθμοι και δομές δεδομένων",
       "domain_id": "DOMAIN-04",
       "available": false,
@@ -284,6 +303,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-20",
       "order": 20,
+      "display_code": "04.02",
       "title_el": "Γλώσσες προγραμματισμού, Pascal και Assembly",
       "domain_id": "DOMAIN-04",
       "available": false,
@@ -293,6 +313,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-21",
       "order": 21,
+      "display_code": "05.01",
       "title_el": "Εφαρμογές γραφείου και λογιστικά φύλλα",
       "domain_id": "DOMAIN-05",
       "available": false,
@@ -302,6 +323,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-22",
       "order": 22,
+      "display_code": "05.02",
       "title_el": "Δεδομένα και πληροφοριακά συστήματα",
       "domain_id": "DOMAIN-05",
       "available": false,
@@ -311,6 +333,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-23",
       "order": 23,
+      "display_code": "03.02",
       "title_el": "Διαχείριση συστημάτων, χρηστών και αντιγράφων ασφαλείας",
       "domain_id": "DOMAIN-03",
       "available": false,
@@ -320,6 +343,7 @@ window.NTT_CURRICULUM = {
     {
       "id": "MOD-24",
       "order": 24,
+      "display_code": "09.04",
       "title_el": "Κινητές επικοινωνίες και κυψελωτά δίκτυα",
       "domain_id": "DOMAIN-09",
       "available": false,
