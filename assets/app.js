@@ -42,6 +42,7 @@
     'labCompleted',
     'reviewCompleted'
   ]);
+  const DISPLAY_CODE_PATTERN = /^(?:0[1-9]|10)\.(?:0[1-9]|[1-9]\d)$/;
 
   const isRecord = (value) => (
     value !== null
@@ -114,8 +115,7 @@
     }
   };
 
-  const readCurriculum = () => {
-    const source = window.NTT_CURRICULUM;
+  const readCurriculum = (source = window.NTT_CURRICULUM) => {
     if (
       !isRecord(source)
       || !Array.isArray(source.domains)
@@ -126,6 +126,7 @@
 
     const moduleIds = new Set();
     const moduleOrders = new Set();
+    const displayCodes = new Set();
     let modulesAreValid = true;
     const modules = [];
     source.modules.forEach((module) => {
@@ -136,6 +137,9 @@
         || moduleIds.has(module.id)
         || !Number.isInteger(module.order)
         || moduleOrders.has(module.order)
+        || typeof module.display_code !== 'string'
+        || !DISPLAY_CODE_PATTERN.test(module.display_code)
+        || displayCodes.has(module.display_code)
         || typeof module.title_el !== 'string'
         || !module.title_el.trim()
         || typeof module.domain_id !== 'string'
@@ -157,6 +161,7 @@
 
       moduleIds.add(module.id);
       moduleOrders.add(module.order);
+      displayCodes.add(module.display_code);
       modules.push({
         ...module,
         title_el: module.title_el.trim(),
@@ -211,6 +216,9 @@
     });
 
     const owners = new Map();
+    const domainsById = new Map(
+      domains.map((domain) => [domain.id, domain])
+    );
     domains.forEach((domain) => {
       domain.module_ids.forEach((moduleId) => {
         owners.set(moduleId, [...(owners.get(moduleId) || []), domain.id]);
@@ -223,9 +231,16 @@
       && domains.length > 0
       && modules.every((module) => {
         const moduleOwners = owners.get(module.id) || [];
+        const owner = domainsById.get(module.domain_id);
+        const modulePosition = owner?.module_ids.indexOf(module.id) ?? -1;
+        const expectedDisplayCode = owner && modulePosition >= 0
+          ? `${String(owner.order).padStart(2, '0')}.${String(modulePosition + 1).padStart(2, '0')}`
+          : null;
         return (
           moduleOwners.length === 1
           && moduleOwners[0] === module.domain_id
+          && module.display_code === expectedDisplayCode
+          && module.domain_id === `DOMAIN-${module.display_code.slice(0, 2)}`
         );
       })
       && [...owners].every(
@@ -282,7 +297,7 @@
     const titleWrapper = document.createElement('div');
     titleWrapper.className = 'module-card__title';
     const title = document.createElement('h3');
-    title.textContent = `${formatOrder(module.order)} · ${module.title_el}`;
+    title.textContent = `${module.display_code} · ${module.title_el}`;
     titleWrapper.appendChild(title);
 
     const status = document.createElement('span');
@@ -373,10 +388,7 @@
         moduleList.className = 'module-list';
         const domainModules = domain.module_ids
           .map((moduleId) => modulesById.get(moduleId))
-          .filter(Boolean)
-          .sort(
-            (left, right) => left.order - right.order || left.id.localeCompare(right.id)
-          );
+          .filter(Boolean);
         domainModules.forEach((module) => {
           moduleList.appendChild(createModuleCard(module));
         });
@@ -782,7 +794,7 @@
       modulePercent,
       calculatePercent,
       clearSavedLearningData,
-      readCurriculum: () => curriculum
+      readCurriculum
     });
   }
 
