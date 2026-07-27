@@ -24,8 +24,17 @@ jobs:
       - name: Validate canonical curriculum
         run: python scripts/validate_curriculum.py
 
+      - name: Validate canonical theory coverage
+        run: python scripts/validate_theory_coverage.py
+
       - name: Test hierarchical module display codes
         run: python -B scripts/test_curriculum_display_codes.py
+
+      - name: Test theory coverage regressions
+        run: python -B scripts/test_theory_coverage.py
+
+      - name: Check generated theory coverage report
+        run: python scripts/generate_theory_coverage_report.py --check
 
       - name: Check HTML IDs
         run: python scripts/check_html_ids.py
